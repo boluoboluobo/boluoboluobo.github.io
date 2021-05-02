@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Kotlin笔记01 | 哈土奇的博客</title>
+  <meta name="author" content="哈土奇" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="" />
+  
+  <meta name="description" content="​    写过Android的童鞋，应该都听说过kotlin，谷歌也是极力推荐使用kotlin来写Android。kotlin有着很多的优点，比如：代码精简，空指针异常判断，协程的优势等等。我是看了郭霖大佬《第一行代码Android》第三版之后，当初笔记是写在代码里的，现在把代码重新梳理一遍，写到博客里，顺道照着书再复习一遍Android和kotlin。虽然很多公司仍然用的java写的Androi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin笔记01">
+<meta property="og:url" content="http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/index.html">
+<meta property="og:site_name" content="哈土奇的博客">
+<meta property="og:description" content="​    写过Android的童鞋，应该都听说过kotlin，谷歌也是极力推荐使用kotlin来写Android。kotlin有着很多的优点，比如：代码精简，空指针异常判断，协程的优势等等。我是看了郭霖大佬《第一行代码Android》第三版之后，当初笔记是写在代码里的，现在把代码重新梳理一遍，写到博客里，顺道照着书再复习一遍Android和kotlin。虽然很多公司仍然用的java写的Androi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/kotlin.webp">
+<meta property="article:published_time" content="2021-05-02T05:23:01.000Z">
+<meta property="article:modified_time" content="2021-05-02T23:24:41.266Z">
+<meta property="article:author" content="哈土奇">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/kotlin.webp">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">哈土奇的博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>哈土奇的博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+    <article>
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <header class="kratos-entry-header">
+                <h1 class="kratos-entry-title text-center">Kotlin笔记01</h1>
+                
+                <ul class="kratos-post-meta text-center">
+                    <li><i class="fa fa-calendar"></i> 2021-05-02</li>
+                    <li><i class="fa fa-user"></i> 作者 哈土奇</li>
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~4.32K
+                        
+                        字
+                    </li>
+                    
+                </ul>
+            </header>
+            <div class="kratos-post-content">
+                <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                    本文最后编辑于 <time datetime="1619997881266"></time> 前，其中的内容可能需要更新。
+                </div>
+                
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Kotlin简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AAHelloKotlin"><span class="toc-number">2.</span> <span class="toc-text">第一个HelloKotlin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">变量和函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6"><span class="toc-number">3.3.</span> <span class="toc-text">逻辑控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#when%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.2.</span> <span class="toc-text">when语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.3.</span> <span class="toc-text">循环语句</span></a></li></ol></li></ol></li></ol>
+                    </div>
+                
+                <hr />
+                <p>​    写过Android的童鞋，应该都听说过kotlin，谷歌也是极力推荐使用kotlin来写Android。kotlin有着很多的优点，比如：代码精简，空指针异常判断，协程的优势等等。我是看了郭霖大佬《第一行代码Android》第三版之后，当初笔记是写在代码里的，现在把代码重新梳理一遍，写到博客里，顺道照着书再复习一遍Android和kotlin。虽然很多公司仍然用的java写的Android，但是技多不压身嘛嘻嘻。这个笔记只是记录kotlin相关的学习。</p>
+<h1 id="Kotlin简介"><a href="#Kotlin简介" class="headerlink" title="Kotlin简介"></a>Kotlin简介</h1><ol>
+<li><p>kotlin是jetBrains公司开发与设计的，因此现在IntelliJ IDEA本身就加入了kotlin支持。</p>
+</li>
+<li><p>kotlin和java是可以共存的，像Android当中，可以同时拥有.kt文件也可以有.java文件，为什么呢？</p>
+<ul>
+<li><p>首先先搞明白java是 编译型语言 还是 解释型语言。虽然java是先编译后运行，但是他并不是编译型语言。因为java编译之后生成的是class文件，class文件则是放入java虚拟机识别，虚拟机担任的是解释器的角色，class文件解释成二进制数据让计算机执行</p>
+</li>
+<li><p>java虚拟机只是与class文件打交道，它不关心class文件是哪里来的，因此java与kotlin共存的原理也就了解了，不论是java还是kotlin他们编译生成的文件都是class文件。 </p>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="第一个HelloKotlin"><a href="#第一个HelloKotlin" class="headerlink" title="第一个HelloKotlin"></a>第一个HelloKotlin</h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    println(<span class="string">&quot;Hello Kotlin&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先安装IDEA，这个直接官网下载就可以了。打开IDEA ，File-&gt;new Project，选择Kotlin，然后next，写项目名称，然后finish就可以啦。在项目目录下，src右击-&gt; New -&gt; Kotlin file/Class，填写文件名字，类型选择File即可。然后输入以上代码，第一个Hello Kotlin就ok了</p>
+<h1 id="变量和函数"><a href="#变量和函数" class="headerlink" title="变量和函数"></a>变量和函数</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>kotlin的变量和java有很大的不同，java中定义变量需要具体声明变量类型，而kotlin只有两种val和var。因为kotlin拥有很优秀的类型推导机制。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Kotlin</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//val -&gt; java中的final变量，不可变量</span></span><br><span class="line"><span class="comment">//var -&gt; java中的非final变量，可变量</span></span><br><span class="line"><span class="comment">//永远优先使用val，val无法满足需求的时候再改var</span></span><br><span class="line"><span class="keyword">val</span> a = <span class="number">10</span>  <span class="comment">//相当于java的 final int a = 10;</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">11</span>  <span class="comment">//相当于java的 int a = 10;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意： kotlin代码是不用写分号的，其实写了也没关系，编译器直接无视掉了</p>
+<p>kotlin的类型推导也不总是正常工作的，比如某个变量需要延迟赋值的话仍然需要显示声明变量类型才可以</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lateinit</span> <span class="keyword">var</span> a : String</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意：永远优先使用val，val无法满足需求的时候再改var。</p>
+<p>在java中除非主动设定final，否则这个变量一直是可变的。当项目变得复杂的时候，永远不知道这个变量什么时候被谁改掉了，容易导致各种问题，kotlin强制要求必须让开发者主动声明变量是否可变。</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">methodName</span><span class="params">(a : <span class="type">Int</span>, b : <span class="type">Int</span>)</span></span> : <span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>语法规则： fun 方法名(参数) : 返回值类型{}</p>
+<p>参数格式：参数名:参数类型</p>
+<p>无返回值就不写返回值类型，不用写return。</p>
+<p>语法糖：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//语法糖，当函数中只有一行代码时，可以省去return，用=代替，返回值类型也可省去，kotlin推到机制即可推导出类型</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum2</span><span class="params">(p1 : <span class="type">Int</span>,p2:<span class="type">Int</span>)</span></span>= max(p1,p2)</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum3</span><span class="params">(p1:<span class="type">Int</span>,p2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span> (p1 &gt; p2) p1 <span class="keyword">else</span> p2</span><br></pre></td></tr></table></figure>
+
+<p>这也是我比较喜欢kotlin的一方面，可以少写很多东西(oﾟ▽ﾟ)o  ，越往后学，就会发现很多看起来很复杂的代码，改到kotlin当中，轻轻松松没几行就完成了。</p>
+<h2 id="逻辑控制"><a href="#逻辑控制" class="headerlink" title="逻辑控制"></a>逻辑控制</h2><h3 id="if条件语句"><a href="#if条件语句" class="headerlink" title="if条件语句"></a>if条件语句</h3><p>kotlin的条件语句有两种实现方式 if 和 when</p>
+<p>kotlin的if和java的基本没区别</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        value = num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        value = num2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Kotlin的if语句相比java还有一个额外的功能，他是可以有返回值的</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>if语句将每个条件的最后一行代码作为返回值，并将返回值赋值给了value变量。最终将value变量返回。当然以上代码还可以更加精简。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>继续简化</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span>(num1 &gt; num2) num1 <span class="keyword">else</span> num2</span><br></pre></td></tr></table></figure>
+
+<p>是不是觉得kotlin的简化爽的一批。。。</p>
+<h3 id="when语句"><a href="#when语句" class="headerlink" title="when语句"></a>when语句</h3><p>会java的同学，应该了解switch语句吧，非常不好用，只能传整型变量最为条件，一个一个case比对，还必须每个case写break，十分不爽。那么看了kotlin的when语句解决了以上问题</p>
+<p>写个例子：输入学生姓名，返回对应的成绩分数</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore</span><span class="params">(name:<span class="type">String</span>)</span></span>=<span class="keyword">if</span> (name == <span class="string">&quot;Tom&quot;</span>)&#123;</span><br><span class="line">    <span class="number">86</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">&quot;Jim&quot;</span>)&#123;</span><br><span class="line">    <span class="number">77</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">&quot;Jack&quot;</span>)&#123;</span><br><span class="line">    <span class="number">95</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面使用了if判断学生姓名，返回分数，用了很多if，else，这个时候就可以考虑使用when了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore</span><span class="params">(name : <span class="type">String</span>)</span></span>=<span class="keyword">when</span>(name)&#123;</span><br><span class="line">    <span class="string">&quot;Tom&quot;</span> -&gt; <span class="number">86</span>,</span><br><span class="line">    <span class="string">&quot;Jim&quot;</span> -&gt; <span class="number">77</span>,</span><br><span class="line">    <span class="string">&quot;Jack&quot;</span> -&gt; <span class="number">95</span>,</span><br><span class="line">    <span class="keyword">else</span> -&gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>清清爽爽，而且when语句和if一样也是可以有返回值的，因此也可以用语法糖。</p>
+<p>when语句可以使用任意类型的参数，包括类型匹配</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//when的类型匹配</span></span><br><span class="line"><span class="comment">//is关键字是匹配核心，相当于java中的Instanceof</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">checkNumber</span><span class="params">(num:<span class="type">Number</span>)</span></span>=<span class="keyword">when</span>(num)&#123;</span><br><span class="line">    <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; println(<span class="string">&quot;is Int&quot;</span>)</span><br><span class="line">    <span class="keyword">is</span> <span class="built_in">Double</span> -&gt; println(<span class="string">&quot;is Double&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span> -&gt; println(<span class="string">&quot;number not support&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//when的不带参数用法</span></span><br><span class="line"><span class="comment">//判断字符串或对象是否相等可以用 ==，不像java需要用equals(),===可以用来匹配是否是同一个对象</span></span><br><span class="line"><span class="comment">//比如需要这种只要以Tom开头的人，都取86分，就需要when的不带参数用法</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore3</span><span class="params">(name:<span class="type">String</span>)</span></span>=<span class="keyword">when</span>&#123;</span><br><span class="line">    name == <span class="string">&quot;Jim&quot;</span> -&gt; <span class="number">77</span></span><br><span class="line">    name.startsWith(<span class="string">&quot;Tom&quot;</span>) -&gt; <span class="number">86</span></span><br><span class="line">    name == <span class="string">&quot;Jack&quot;</span> -&gt; <span class="number">95</span></span><br><span class="line">    <span class="keyword">else</span> -&gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kotlin的while和java的while没有任何区别</span></span><br><span class="line"><span class="comment">//for-i用法被舍弃，for-each用法被加强变为for-in循环</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">forin</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//..是创建两端闭区间的关键字，创建一个[0,10]的区间</span></span><br><span class="line">    <span class="keyword">val</span> range = <span class="number">0.</span><span class="number">.10</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> range)&#123;</span><br><span class="line">        <span class="comment">//println(i)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//until创建一个左闭右开的区间 [0,10)</span></span><br><span class="line">    <span class="keyword">val</span> range2 = <span class="number">0</span> until <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//默认情况下是区间内递增1，相当于for-i中的i++</span></span><br><span class="line">    <span class="comment">//step关键字设定递增数量，step 2相当于 i = i + 2</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">0</span> until <span class="number">10</span> step <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="comment">//println(i)</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建降序区间</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">10</span> downTo <span class="number">1</span>)&#123;</span><br><span class="line">        println(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Kotlin的强转是 as\</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+            </div>
+            
+                <div class="kratos-copyright text-center clearfix">
+                    <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+                </div>
+            
+            <footer class="kratos-entry-footer clearfix">
+                
+                    <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                    
+                    
+                        <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                        <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/";
+            const title         = "「Kotlin笔记01」";
+            const excerpt       = `​    写过Android的童鞋，应该都听说过kotlin，谷歌也是极力推荐使用kotlin来写Android。kotlin有着很多的优点，比如：代码精简，空指针异常判断，协程的优势等等。我是看了郭霖大佬《第一行代码Android》...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                    
+                    </div>
+                
+                <div class="footer-tag clearfix">
+                    <div class="pull-left">
+                    <i class="fa fa-tags"></i>
+                        
+                    </div>
+                    <div class="pull-date">
+                    <span>最后编辑：2021-05-03</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+            <nav class="navigation post-navigation clearfix" role="navigation">
+                
+                
+                <div class="nav-next clearfix">
+                    <a title=" Kotlin笔记02" href="/2021/05/02/Kotlin笔记02/">下一篇 &gt;</a>
+                </div>
+                
+            </nav>
+        
+        
+    </article>
+</section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.jpg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center"></p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">Kotlin简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AAHelloKotlin"><span class="toc-number">2.</span> <span class="toc-text">第一个HelloKotlin</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%98%E9%87%8F%E5%92%8C%E5%87%BD%E6%95%B0"><span class="toc-number">3.</span> <span class="toc-text">变量和函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%98%E9%87%8F"><span class="toc-number">3.1.</span> <span class="toc-text">变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0"><span class="toc-number">3.2.</span> <span class="toc-text">函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%BB%E8%BE%91%E6%8E%A7%E5%88%B6"><span class="toc-number">3.3.</span> <span class="toc-text">逻辑控制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#if%E6%9D%A1%E4%BB%B6%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.1.</span> <span class="toc-text">if条件语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#when%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.2.</span> <span class="toc-text">when语句</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5"><span class="toc-number">3.3.3.</span> <span class="toc-text">循环语句</span></a></li></ol></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/02/Kotlin%E7%AC%94%E8%AE%B002/"><i class="fa  fa-book"></i> Kotlin笔记02</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/"><i class="fa  fa-book"></i> Kotlin笔记01</a>
+            
+          
+        
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 哈土奇的博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 哈土奇.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="2243888575"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+</html>
