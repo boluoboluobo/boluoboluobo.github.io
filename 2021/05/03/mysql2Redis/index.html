@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>Mysql数据转移Redis | 哈土奇的博客</title>
+  <meta name="author" content="哈土奇" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="mysql, redis" />
+  
+  <meta name="description" content="​    最近毕业设计上想加上一个redis，就必须要把MySQL里面的数据转移到redis当中。那么问题来了，关系型数据库的数据怎么转移到非关系型数据库中呢？然后百度MySQL数据迁移redis，然后果不其然，各个博客保持了高度统一，看那么几篇博客，几乎都是转载的，有原创的也很少。当然我也只是个小白，摸索了很久才成功了。 ​    如果百度过了的同学对events_all_time这个表很熟悉吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mysql数据转移Redis">
+<meta property="og:url" content="http://example.com/2021/05/03/mysql2Redis/index.html">
+<meta property="og:site_name" content="哈土奇的博客">
+<meta property="og:description" content="​    最近毕业设计上想加上一个redis，就必须要把MySQL里面的数据转移到redis当中。那么问题来了，关系型数据库的数据怎么转移到非关系型数据库中呢？然后百度MySQL数据迁移redis，然后果不其然，各个博客保持了高度统一，看那么几篇博客，几乎都是转载的，有原创的也很少。当然我也只是个小白，摸索了很久才成功了。 ​    如果百度过了的同学对events_all_time这个表很熟悉吧">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-05-03T05:58:57.000Z">
+<meta property="article:modified_time" content="2021-05-03T06:03:49.071Z">
+<meta property="article:author" content="哈土奇">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">哈土奇的博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>哈土奇的博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+    <article>
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <header class="kratos-entry-header">
+                <h1 class="kratos-entry-title text-center">Mysql数据转移Redis</h1>
+                
+                <ul class="kratos-post-meta text-center">
+                    <li><i class="fa fa-calendar"></i> 2021-05-03</li>
+                    <li><i class="fa fa-user"></i> 作者 哈土奇</li>
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~3.23K
+                        
+                        字
+                    </li>
+                    
+                </ul>
+            </header>
+            <div class="kratos-post-content">
+                <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                    本文最后编辑于 <time datetime="1620021829071"></time> 前，其中的内容可能需要更新。
+                </div>
+                
+                <hr />
+                <p>​    最近毕业设计上想加上一个redis，就必须要把MySQL里面的数据转移到redis当中。那么问题来了，关系型数据库的数据怎么转移到非关系型数据库中呢？然后百度MySQL数据迁移redis，然后果不其然，各个博客保持了高度统一，看那么几篇博客，几乎都是转载的，有原创的也很少。当然我也只是个小白，摸索了很久才成功了。</p>
+<p>​    如果百度过了的同学对events_all_time这个表很熟悉吧，哈哈。我也不多说了，原文写的没问题，也不是说没问题，是思路没问题，语法也没问题，但是实际操作后会报错，这个报错原因也不知道为啥。我在Stack Overflow上面看到的解决方法不是用的redisprotocol。对于我这个小白来说，文章里面有的地方没有解释。看起来有点费劲，搞不明白为啥这么写。<strong>然后我这篇就是先解释下redisprotocol，再说下mysql转redis命令的方法，最后说下mysql里面多条数据以什么格式，怎么存到redis。</strong>（这里附一下那个不知道被转了多少遍的events_all_time 2333）</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> events_all_time (</span><br><span class="line">  id <span class="type">int</span>(<span class="number">11</span>) unsigned <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  action <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  count <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (id),</span><br><span class="line">  <span class="keyword">UNIQUE</span> KEY uniq_action (action)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>百度上的mysql迁移redis的方法，看不懂的同学，结合官网的解释<a target="_blank" rel="noopener" href="https://redis.io/topics/mass-insert%EF%BC%8C%E9%A3%9F%E7%94%A8%E6%9B%B4%E4%BD%B3%E5%93%A6%E3%80%82">https://redis.io/topics/mass-insert，食用更佳哦。</a></p>
+<p>​    用redis普通的客户端插入大量数据并不好，所以官方推荐的方法是生成一个符合redis协议的text文件，用redis统一去调用。text文件可以写redis命令，也可以写redis协议。协议格式如下</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*<span class="tag">&lt;<span class="name">args</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line">$<span class="tag">&lt;<span class="name">len</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">arg0</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">arg1</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">argN</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>​    <cr>对应的 ‘\r’ (ASCII码13),<lf>对应的 ‘\n’ (ASCII码10)。然后那个<em>和$符号的意义就是。</em>号后面加数字，表示整个命令总共有多少个参数，包括命令本身。$后面加数字，表示对应的参数，有多少字节。</lf></cr></p>
+<p>​    举个栗子  <strong>SET key1 value1</strong></p>
+<p><strong>转化为redis的协议就是  *3\r\n$3\r\nSET\r\n$4\r\nkey1\r\n$6\r\nvalue1\r\n</strong></p>
+<p>*<strong>3–&gt;有set,key1,value1三个</strong></p>
+<p><strong>$3–&gt;后面SET有三个字节</strong></p>
+<p><strong>$4–&gt;后面key1有4个字节</strong></p>
+<p><strong>$6–&gt;后面value1有6个字节</strong></p>
+<p>是不是很简单^_^!!!!!</p>
+<p>然后看看那个不知道被转了多少遍的events_to_redis.sql。明白了redis protocol之后再看这个代码，一目了然。作者的意图就是把数据库里面查询出的值，拼接成相应的命令。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> CONCAT(</span><br><span class="line">  &quot;*4\r\n&quot;,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(redis_cmd), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  redis_cmd, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(redis_key), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  redis_key, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(hkey), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  hkey, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(hval), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  hval, <span class="string">&#x27;\r&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">&#x27;HSET&#x27;</span> <span class="keyword">as</span> redis_cmd,</span><br><span class="line">  <span class="string">&#x27;events_all_time&#x27;</span> <span class="keyword">AS</span> redis_key,</span><br><span class="line">  action <span class="keyword">AS</span> hkey,</span><br><span class="line">  count <span class="keyword">AS</span> hval</span><br><span class="line">  <span class="keyword">FROM</span> events_all_time</span><br><span class="line">) <span class="keyword">AS</span> t</span><br></pre></td></tr></table></figure>
+
+<p>最终用</p>
+<p><strong>mysql -h ‘ip地址’ -u’用户名’ -p’密码’ ‘database’ –skip-column-names –raw &lt; events_to_redis.sql | redis-cli –pipe</strong></p>
+<p>这条命令意思就是 mysql登录后，用‘database’这个数据库， –skip-column-names(使mysql输出不包含列名) –raw（使mysql不转换字段值中的换行符），然后就是运行events_to_redis.sql，用管道传入redis-cli当中运行即可。</p>
+<p><strong>这里有一个问题，就是按照 *3\r\n$3\r\nSET\r\n$4\r\nkey1\r\n$6\r\nvalue1\r\n这样的方式是不行的。总是报错</strong> </p>
+<p><strong>ERR Protocol error: expected ‘$’, got ‘ ‘</strong></p>
+<p><strong>具体原因我并不太清楚，如果有同学解决了，希望可以评论说一下，让我这个小白也学习一下。</strong></p>
+<p><strong>解决方案</strong></p>
+<p>我最后的解决方案其实就是在前面了解了的基础上，把sql语句修改了，让mysql最终输出的格式是普通的 SET key value的格式，然后运行即可。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  CONCAT(</span><br><span class="line">    redis_cmd,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    redis_key,</span><br><span class="line">    idval,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    ACTION,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    actionval,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    COUNT,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    countval,<span class="string">&#x27; &#x27;</span></span><br><span class="line">  ) </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> </span><br><span class="line">    <span class="string">&#x27;HSET&#x27;</span> <span class="keyword">AS</span> redis_cmd,</span><br><span class="line">    <span class="string">&#x27;events_all_time&#x27;</span> <span class="keyword">AS</span> redis_key,</span><br><span class="line">    id <span class="keyword">AS</span> idval,</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span> <span class="keyword">AS</span> ACTION,</span><br><span class="line">    ACTION <span class="keyword">AS</span> actionval,</span><br><span class="line">    <span class="string">&#x27;count&#x27;</span> <span class="keyword">AS</span> COUNT,</span><br><span class="line">    COUNT <span class="keyword">AS</span> countval</span><br><span class="line">  <span class="keyword">FROM</span></span><br><span class="line">    events_all_time) <span class="keyword">AS</span> t</span><br></pre></td></tr></table></figure>
+
+<p>总而言之，不管你用的是mysql，java，python，C/C++，甚至是记事本。只要输出的格式是redis protocol或redis命令，传入redis-cli当中就可以完成这个任务。</p>
+<p><strong>mysql多条数据存入redis</strong></p>
+<p>然后对于mysql 的多条数据，我使用的是redis的hmset命令。</p>
+<p>HMSET key field value [field value ..]</p>
+<p>key就是表名称+id，这样查询的时候进行简单处理即可得到对应数据表一条的数据。hmset 表名+id 列名 值 列名 值 …</p>
+<p>其实用HSET也是可以的，key就是表名称+id，然后一条数据，可以用String存上，同样简单处理也可得到数据。</p>
+
+            </div>
+            
+                <div class="kratos-copyright text-center clearfix">
+                    <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+                </div>
+            
+            <footer class="kratos-entry-footer clearfix">
+                
+                    <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                    
+                        <a class="donate" href="javascript:;"><i class="fa fa-bitcoin"></i> 打赏</a>
+                    
+                    
+                        <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                        <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/05/03/mysql2Redis/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/05/03/mysql2Redis/";
+            const title         = "「Mysql数据转移Redis」";
+            const excerpt       = `​    最近毕业设计上想加上一个redis，就必须要把MySQL里面的数据转移到redis当中。那么问题来了，关系型数据库的数据怎么转移到非关系型数据库中呢？然后百度MySQL数据迁移redis，然后果不其然，各个博客保持了高度统一...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                    
+                    </div>
+                
+                <div class="footer-tag clearfix">
+                    <div class="pull-left">
+                    <i class="fa fa-tags"></i>
+                        <a class="tag-none-link" href="/tags/mysql/" rel="tag">mysql</a>, <a class="tag-none-link" href="/tags/redis/" rel="tag">redis</a>
+                    </div>
+                    <div class="pull-date">
+                    <span>最后编辑：2021-05-03</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+            <nav class="navigation post-navigation clearfix" role="navigation">
+                
+                <div class="nav-previous clearfix">
+                    <a title=" pip安装报错 HTTPSConnectionPool：Read timed out." href="/2021/05/03/pythonQs/">&lt; 上一篇</a>
+                </div>
+                
+                
+                <div class="nav-next clearfix">
+                    <a title=" BFS广度优先遍历寻找最短路径(超详细实现过程)" href="/2021/05/03/bfs/">下一篇 &gt;</a>
+                </div>
+                
+            </nav>
+        
+        
+    </article>
+</section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.jpg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">上上下下，左右左右，BABA！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.7em;">java</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a> <a href="/tags/python/" style="font-size: 0.6em;">python</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" style="font-size: 0.7em;">寻路算法</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.7em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/AStar/"><i class="fa  fa-book"></i> A*寻路算法，启发式搜索（超详细实现）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/bfs/"><i class="fa  fa-book"></i> BFS广度优先遍历寻找最短路径(超详细实现过程)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/mysql2Redis/"><i class="fa  fa-book"></i> Mysql数据转移Redis</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/pythonQs/"><i class="fa  fa-book"></i> pip安装报错 HTTPSConnectionPool：Read timed out.</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/"><i class="fa  fa-book"></i> scheme打开手机内APP</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 哈土奇的博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 哈土奇.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="2243888575"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/layui-src@2.5.5/dist/layui.all.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+</html>

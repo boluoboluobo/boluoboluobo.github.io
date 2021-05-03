@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>BFS广度优先遍历寻找最短路径(超详细实现过程) | 哈土奇的博客</title>
+  <meta name="author" content="哈土奇" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="bfs, java, 寻路算法, 算法" />
+  
+  <meta name="description" content="广度优先遍历寻找最短路径&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;最近一直想搞A算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷达一样，一层一层进行寻找目标点。当找到目标点后进行回溯。从而找到最佳路径。也就是说每走一步都要找到到达该点的最短的路径，最终得到到达所有点的最短路径。 废话不多说上代">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BFS广度优先遍历寻找最短路径(超详细实现过程)">
+<meta property="og:url" content="http://example.com/2021/05/03/bfs/index.html">
+<meta property="og:site_name" content="哈土奇的博客">
+<meta property="og:description" content="广度优先遍历寻找最短路径&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;最近一直想搞A算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷达一样，一层一层进行寻找目标点。当找到目标点后进行回溯。从而找到最佳路径。也就是说每走一步都要找到到达该点的最短的路径，最终得到到达所有点的最短路径。 废话不多说上代">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/null">
+<meta property="article:published_time" content="2021-05-03T06:05:19.000Z">
+<meta property="article:modified_time" content="2021-05-03T06:20:54.853Z">
+<meta property="article:author" content="哈土奇">
+<meta property="article:tag" content="bfs">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="寻路算法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">作者博客</a></li>
+                                                    
+                                                
+                                                    
+                                                        <li><a href="/">项目链接</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">哈土奇的博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>哈土奇的博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+    <article>
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <header class="kratos-entry-header">
+                <h1 class="kratos-entry-title text-center">BFS广度优先遍历寻找最短路径(超详细实现过程)</h1>
+                
+                <ul class="kratos-post-meta text-center">
+                    <li><i class="fa fa-calendar"></i> 2021-05-03</li>
+                    <li><i class="fa fa-user"></i> 作者 哈土奇</li>
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~7.77K
+                        
+                        字
+                    </li>
+                    
+                </ul>
+            </header>
+            <div class="kratos-post-content">
+                <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                    本文最后编辑于 <time datetime="1620022854853"></time> 前，其中的内容可能需要更新。
+                </div>
+                
+                <hr />
+                <h1 id="广度优先遍历寻找最短路径"><a href="#广度优先遍历寻找最短路径" class="headerlink" title="广度优先遍历寻找最短路径"></a>广度优先遍历寻找最短路径</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;最近一直想搞A<em>算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A</em>有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷达一样，一层一层进行寻找目标点。当找到目标点后进行回溯。从而找到最佳路径。也就是说每走一步都要找到到达该点的最短的路径，最终得到到达所有点的最短路径。</p>
+<p>废话不多说上代码。具体解释在代码后面</p>
+<p>Point.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> y;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setX</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setY</span><span class="params">(<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Point</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>MyMap.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyMap</span> </span>&#123;</span><br><span class="line">	<span class="comment">//记录上一个父亲位置</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> preX;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> preY;</span><br><span class="line">	<span class="comment">//记录权值</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> price;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MyMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		preX = <span class="number">0</span>;</span><br><span class="line">		preY = <span class="number">0</span>;</span><br><span class="line">		price = <span class="number">0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPreX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> preX;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPreX</span><span class="params">(<span class="keyword">int</span> preX)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.preX = preX;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPreY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> preY;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPreY</span><span class="params">(<span class="keyword">int</span> preY)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.preY = preY;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> price;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setPrice</span><span class="params">(<span class="keyword">int</span> price)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.price = price;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>test.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.LinkedList;</span><br><span class="line"><span class="keyword">import</span> java.util.Queue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line">	<span class="keyword">static</span>  <span class="keyword">char</span>[][] M = &#123;</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;E&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27;#&#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;,</span><br><span class="line">			&#123;<span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>,<span class="string">&#x27; &#x27;</span>&#125;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] dx = &#123; -<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>,-<span class="number">1</span>,-<span class="number">1</span> &#125;;  <span class="comment">//x方向</span></span><br><span class="line">	<span class="keyword">static</span> <span class="keyword">int</span>[] dy = &#123; -<span class="number">1</span>,-<span class="number">1</span>,-<span class="number">1</span>,<span class="number">0</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">1</span>,<span class="number">0</span>&#125;;<span class="comment">//y方向</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Point start = <span class="keyword">null</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> Point end = <span class="keyword">null</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//获取起始点和结束点</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">10</span>;j++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(M[i][j] == <span class="string">&#x27;S&#x27;</span>) &#123;</span><br><span class="line">					start = <span class="keyword">new</span> Point(j,i);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">if</span>(M[i][j] == <span class="string">&#x27;E&#x27;</span>) &#123;</span><br><span class="line">					end = <span class="keyword">new</span> Point(j,i);</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//开始遍历</span></span><br><span class="line">		bfs();</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//从结束点开始打印出路径</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">10</span>;i++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">0</span>;j &lt; <span class="number">10</span>;j++) &#123;</span><br><span class="line">				System.out.print(M[i][j]);</span><br><span class="line">			&#125;</span><br><span class="line">			System.out.println();</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">/////////////广度优先部分,主要寻路在这里//////////</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//队列进行记录待遍历的点</span></span><br><span class="line">		Queue&lt;Point&gt; queue = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">		<span class="comment">//将起始点加入队列</span></span><br><span class="line">		queue.add(start);</span><br><span class="line">		<span class="comment">//设置与地图等大的MyMap</span></span><br><span class="line">		MyMap[][] my = <span class="keyword">new</span> MyMap[<span class="number">10</span>][<span class="number">10</span>];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> m = <span class="number">0</span>;m &lt; <span class="number">10</span>;m++) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> n = <span class="number">0</span>;n &lt; <span class="number">10</span>;n++) &#123;</span><br><span class="line">				my[m][n] = <span class="keyword">new</span> MyMap();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">//开始遍历</span></span><br><span class="line">		<span class="keyword">while</span>(queue.size() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="comment">//队列头进行遍历</span></span><br><span class="line">			Point p = queue.poll();</span><br><span class="line">			<span class="comment">//8个方向</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; <span class="number">8</span>;i++) &#123;</span><br><span class="line">				<span class="keyword">int</span> nx = p.getX() + dx[i];</span><br><span class="line">				<span class="keyword">int</span> ny = p.getY() + dy[i];</span><br><span class="line">				</span><br><span class="line">				<span class="keyword">if</span>(nx &gt;= <span class="number">0</span> &amp;&amp; nx &lt; <span class="number">10</span> &amp;&amp; ny &gt;= <span class="number">0</span> &amp;&amp; ny &lt; <span class="number">10</span> &amp;&amp; M[ny][nx] != <span class="string">&#x27;#&#x27;</span>) &#123;</span><br><span class="line">					<span class="comment">//第一次访问</span></span><br><span class="line">					<span class="keyword">if</span>(my[ny][nx].getPrice() == <span class="number">0</span>) &#123;</span><br><span class="line">						queue.add(<span class="keyword">new</span> Point(nx,ny));</span><br><span class="line">						<span class="keyword">if</span>((dx[i] == -<span class="number">1</span> &amp;&amp; dy[i] == -<span class="number">1</span>) || (dx[i] == -<span class="number">1</span> &amp;&amp; dy[i] == <span class="number">1</span>) || (dx[i] == <span class="number">1</span> &amp;&amp; dy[i] == -<span class="number">1</span>) || (dx[i] == <span class="number">1</span> &amp;&amp; dy[i] == <span class="number">1</span>)) &#123;</span><br><span class="line">							my[ny][nx].setPrice(my[p.getY()][p.getX()].getPrice() + <span class="number">14</span>);</span><br><span class="line">						&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">							my[ny][nx].setPrice(my[p.getY()][p.getX()].getPrice() + <span class="number">10</span>);</span><br><span class="line">						&#125;</span><br><span class="line">						my[ny][nx].setPreX(p.getX());</span><br><span class="line">						my[ny][nx].setPreY(p.getY());</span><br><span class="line">						</span><br><span class="line">					&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">						<span class="comment">//二次访问不用加入队列，</span></span><br><span class="line">						<span class="keyword">if</span>((dx[i] == -<span class="number">1</span> &amp;&amp; dy[i] == -<span class="number">1</span>) || (dx[i] == -<span class="number">1</span> &amp;&amp; dy[i] == <span class="number">1</span>) || (dx[i] == <span class="number">1</span> &amp;&amp; dy[i] == -<span class="number">1</span>) || (dx[i] == <span class="number">1</span> &amp;&amp; dy[i] == <span class="number">1</span>)) &#123;</span><br><span class="line">							<span class="keyword">if</span>(my[p.getY()][p.getX()].getPrice() + <span class="number">14</span> &lt;= my[ny][nx].getPrice()) &#123;</span><br><span class="line">								my[ny][nx].setPrice(my[p.getY()][p.getX()].getPrice() + <span class="number">14</span>);</span><br><span class="line">								my[ny][nx].setPreX(p.getX());</span><br><span class="line">								my[ny][nx].setPreY(p.getY());</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;<span class="keyword">else</span> &#123;</span><br><span class="line">							<span class="keyword">if</span>(my[p.getY()][p.getX()].getPrice() + <span class="number">10</span> &lt; my[ny][nx].getPrice()) &#123;</span><br><span class="line">								my[ny][nx].setPrice(my[p.getY()][p.getX()].getPrice() + <span class="number">10</span>);</span><br><span class="line">								my[ny][nx].setPreX(p.getX());</span><br><span class="line">								my[ny][nx].setPreY(p.getY());</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">					</span><br><span class="line">					</span><br><span class="line">				&#125;</span><br><span class="line">				</span><br><span class="line">			&#125;</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//////////////////以下部分只是打印不重要//////////////////</span></span><br><span class="line">			<span class="comment">//到达目的地后</span></span><br><span class="line">			<span class="keyword">if</span>(p.getX() == end.getX() &amp;&amp; p.getY() == end.getY()) &#123;</span><br><span class="line">				<span class="keyword">int</span> x = p.getX();</span><br><span class="line">				<span class="keyword">int</span> y = p.getY();</span><br><span class="line">				<span class="keyword">int</span> tmpx = <span class="number">0</span>;</span><br><span class="line">				<span class="keyword">int</span> tmpy = <span class="number">0</span>;</span><br><span class="line">				<span class="comment">//打印</span></span><br><span class="line">				<span class="keyword">while</span>(x != start.getX() || y != start.getY()) &#123;</span><br><span class="line">					tmpx = my[y][x].getPreX();</span><br><span class="line">					tmpy = my[y][x].getPreY();</span><br><span class="line">					x = tmpx;</span><br><span class="line">					y = tmpy;</span><br><span class="line">					<span class="keyword">if</span>(M[y][x] != <span class="string">&#x27;S&#x27;</span>) &#123;</span><br><span class="line">						M[y][x] = <span class="string">&#x27;*&#x27;</span>;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果</p>
+<p><img src="/2021/05/03/bfs/pic1.jpg"></p>
+<p>类的解释：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;Point.java里面写的就是一个点的类里面就是装的x，y没啥说的。MyMap.java写的类就是记录前一个点的位置prex 和prey其实这两个参数用一个Point来记就好了。还有一个最重要的就是那个price，记录到达当前点所需要的消耗。也就是路径长度。然后就是test.java了。test当中就是bfs函数最重要了。</p>
+<p>大体遍历的思路：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;将开始节点加入队列，然后在循环中先读出队列头，即出队列，读出的头就是当前节点，围绕该节点遍历周围的所有节点，分为：左上，上，右上，右，右下，下，左下，左共8个方向。然后将周围的节点依次加入到队列中，并且设置该节点的权值和前一节点坐标。不断循环重复以上操作，逐层遍历直到找到目的节点，或者队列为空，若队列为空都没有找到目标节点那么就是该节点不可达。</p>
+<p><img src="/2021/05/03/bfs/Pic2.jpg"></p>
+<p>程序的超详细实现过程：</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;首先为了方便起见设置一个char类型的二维数组当做地图，大小是10*10的。然后遍历找到起始点和结束点的位置坐标，Point类型的start和end。还有dx和dy两个数组。里面存的是遍历的顺序，也就是坐标的偏移量，两个数组每个都是8个元素，因为是8个方向的嘛。然后直接进重点bfs()函数，先建立一个queue队列，将开始节点加入队列，设置与地图等大的MyMap类的一个数组，并初始化。</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;开始遍历，一个while循环，循环条件是queue大小要大于0，循环体中则是读出队列头，出队列，一个for循环用来遍历该点周围8个方向的点，当然要有约束条件周围的点不能超过10*10的范围同时不能为墙壁，判断墙壁用的是之前char数组的地图，而遍历记录price和前一个点的坐标的是那个MyMap数组。queue出来的点为当前点，遍历的是周围点，周围的点因为是8个方向，当扩大的时候必然会存在重复遍历的问题，不能单纯的用一个布尔来标记是否重复遍历，因为如果遍历到就进行标记的话，得到的路径不一定是最短的。因此我用的是一个price来记录到达该点的路径长度，判断是否遍历过了也很简单，如果price为0的话那么说就是第一次遍历，若不为0那就说明不是第一次遍历。两种情况分开讨论。（1）第一次遍历到该点：因为是第一次遍历到，所以要先将其加入到队列中，然后将设置消耗price，就是获取当前点（队列里出来的点）的price加上两点间路径长度，两点间路径长度：斜对角是14，上下左右相邻是10。为什么这么设，其实就是勾股定理的出来乘以10，也可以不这么设定只要相邻的距离相加大于斜对角距离就可以，满足三角形两边之和大于第三边就可以。然后设置前一点坐标为当前点。（2）第二次遍历到该点：因为不是第一次了，所以这里就不用再将其加入队列中，这里要做的就是判断应不应该与这个点连线，怎么说呢，因为他已经有price记录了，说明他已经有主子了，那么此时就要判断他指向的主子称不称职。那他的price与自己的price加上距离进行比较，如果他的price较小说明主子很称职，也就是路径较短，如果自己的price加距离要小于他自己的price说明他当前的主子不称职，就改变他的前一点的标记，改成当前点的坐标，并改变price值。如此一来可以保证到达每个点都是最小权值，按照点记录的前一点坐标进行回溯即可得到到达点的最短路径。</p>
+<p><img src="/2021/05/03/bfs/Pic3.jpg"></p>
+<p>发现节点重复后判断消耗，发现有更好的路径则改记录坐标和消耗值</p>
+<p><img src="/2021/05/03/bfs/Pic4.jpg"></p>
+<p>然后找到路径直接回溯，更改地图，将走过的节点改为‘<em>’符号，最后整体打印地图。即为最短路径。这个算法寻路效率与A</em>算法相比还是比较低。不过还是挺好理解的。</p>
+
+            </div>
+            
+                <div class="kratos-copyright text-center clearfix">
+                    <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+                </div>
+            
+            <footer class="kratos-entry-footer clearfix">
+                
+                    <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                    
+                        <a class="donate" href="javascript:;"><i class="fa fa-bitcoin"></i> 打赏</a>
+                    
+                    
+                        <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                        <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "http://example.com/2021/05/03/bfs/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "http://example.com/2021/05/03/bfs/";
+            const title         = "「BFS广度优先遍历寻找最短路径(超详细实现过程)」";
+            const excerpt       = `广度优先遍历寻找最短路径&nbsp;&nbsp;&nbsp;&nbsp;最近一直想搞A算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                    
+                    </div>
+                
+                <div class="footer-tag clearfix">
+                    <div class="pull-left">
+                    <i class="fa fa-tags"></i>
+                        <a class="tag-none-link" href="/tags/bfs/" rel="tag">bfs</a>, <a class="tag-none-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-none-link" href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" rel="tag">寻路算法</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
+                    </div>
+                    <div class="pull-date">
+                    <span>最后编辑：2021-05-03</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+            <nav class="navigation post-navigation clearfix" role="navigation">
+                
+                <div class="nav-previous clearfix">
+                    <a title=" Mysql数据转移Redis" href="/2021/05/03/mysql2Redis/">&lt; 上一篇</a>
+                </div>
+                
+                
+                <div class="nav-next clearfix">
+                    <a title=" A*寻路算法，启发式搜索（超详细实现）" href="/2021/05/03/AStar/">下一篇 &gt;</a>
+                </div>
+                
+            </nav>
+        
+        
+    </article>
+</section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.jpg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">上上下下，左右左右，BABA！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.7em;">java</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a> <a href="/tags/python/" style="font-size: 0.6em;">python</a> <a href="/tags/redis/" style="font-size: 0.6em;">redis</a> <a href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" style="font-size: 0.7em;">寻路算法</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 0.7em;">算法</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/AStar/"><i class="fa  fa-book"></i> A*寻路算法，启发式搜索（超详细实现）</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/bfs/"><i class="fa  fa-book"></i> BFS广度优先遍历寻找最短路径(超详细实现过程)</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/mysql2Redis/"><i class="fa  fa-book"></i> Mysql数据转移Redis</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/pythonQs/"><i class="fa  fa-book"></i> pip安装报错 HTTPSConnectionPool：Read timed out.</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/"><i class="fa  fa-book"></i> scheme打开手机内APP</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 哈土奇的博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 哈土奇.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="2243888575"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/layui-src@2.5.5/dist/layui.all.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+</html>
