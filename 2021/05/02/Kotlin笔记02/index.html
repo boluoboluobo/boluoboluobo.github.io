@@ -13,17 +13,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="" />
+    <meta name="keywords" content="Kotlin" />
   
-  <meta property="og:type" content="article">
+  <meta name="description" content="​    Kotlin也是面向对象的语言，下面就聊聊Kotlin的面向对象编程 类与对象首先右击包名，New -&gt; Kotlin File&#x2F;Class，选择class，命名类名为Person，一个类就创建好了。 然后添加关键字 name,age。还有方法eat 1234567class Person&amp;#123;    var name &#x3D; &quot;&quot;    var age &#x3D;">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Kotlin笔记02">
 <meta property="og:url" content="http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B002/index.html">
 <meta property="og:site_name" content="哈土奇的博客">
+<meta property="og:description" content="​    Kotlin也是面向对象的语言，下面就聊聊Kotlin的面向对象编程 类与对象首先右击包名，New -&gt; Kotlin File&#x2F;Class，选择class，命名类名为Person，一个类就创建好了。 然后添加关键字 name,age。还有方法eat 1234567class Person&amp;#123;    var name &#x3D; &quot;&quot;    var age &#x3D;">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/null">
 <meta property="article:published_time" content="2021-05-02T08:19:06.000Z">
-<meta property="article:modified_time" content="2021-05-02T09:34:51.555Z">
+<meta property="article:modified_time" content="2021-05-03T02:00:40.642Z">
 <meta property="article:author" content="哈土奇">
+<meta property="article:tag" content="Kotlin">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://example.com/null">
 <meta name="twitter:site" content="@null">
@@ -143,7 +146,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            0
+                            ~3.31K
                         
                         字
                     </li>
@@ -152,11 +155,102 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1619948091555"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1620007240642"></time> 前，其中的内容可能需要更新。
                 </div>
                 
-                <hr />
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">类与对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">继承和构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-number">2.1.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">主构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A1%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">次构造函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java%E5%92%8Ckotlin-%E4%BF%AE%E9%A5%B0%E7%AC%A6%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-number">4.</span> <span class="toc-text">java和kotlin 修饰符的异同</span></a></li></ol>
+                    </div>
                 
+                <hr />
+                <p>​    Kotlin也是面向对象的语言，下面就聊聊Kotlin的面向对象编程</p>
+<h1 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h1><p>首先右击包名，New -&gt; Kotlin File/Class，选择class，命名类名为Person，一个类就创建好了。</p>
+<p>然后添加关键字 name,age。还有方法eat</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> name = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">var</span> age = <span class="number">0</span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">eat</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(name + <span class="string">&quot; is eating. He is &quot;</span> + age + <span class="string">&quot; years old.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>kotlin实例化</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> p = Person()</span><br></pre></td></tr></table></figure>
+
+<p>kotlin的实例化是不需要写new的，因为当调用某个类的构造函数时，你的意图只能是对这个类进行实例化。</p>
+<p>然后就可以使用这个对象啦</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> p = Person()</span><br><span class="line">    p.name = <span class="string">&quot;Jack&quot;</span></span><br><span class="line">    p.age = <span class="number">19</span></span><br><span class="line">    p.eat()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="继承和构造函数"><a href="#继承和构造函数" class="headerlink" title="继承和构造函数"></a>继承和构造函数</h1><p>现在可以创建一个Student类，去继承Person。</p>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>首先需要把Person类改成可以被继承。</p>
+<p>为什么要改为可以被继承？</p>
+<p>在kotlin中任何一个非抽象类默认都是不可以被继承的，相当于java中给类添加了final关键字。这么做的原因和val的设计概念是一样的，由于无法预知子类会如何实现，可能会导致很多未知风险，因此默认是禁止被继承的。</p>
+<p>改成可以被继承也很简单，在class前面加上open即可</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后就是继承了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span> : <span class="type">Person</span></span>()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>冒号就是继承，后面跟的是父类的构造函数。实现接口也是用的冒号，多个接口则是逗号隔开。</p>
+<h2 id="主构造函数"><a href="#主构造函数" class="headerlink" title="主构造函数"></a>主构造函数</h2><p>每个类默认都会有一个主构造函数，当然也可以显式地写指明参数。主构造函数的特点是没有函数体，直接定义在类名后面即可</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(<span class="keyword">val</span> sno:String,<span class="keyword">val</span> grade:<span class="built_in">Int</span>):Person()&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将学号和年级这两个字段放在柱构造函数中，表明在实例化的时候必须传入参数。</p>
+<p>那么问题来了，如果需要在主构造函数中写一些逻辑怎么办呢？不慌，kotlin提供了一个init结构体。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(<span class="keyword">val</span> sno:String,<span class="keyword">val</span> grade:<span class="built_in">Int</span>):Person()&#123;</span><br><span class="line">    <span class="keyword">init</span>&#123;</span><br><span class="line">        <span class="comment">//这里kotlin还有一个简单的写法&quot;sno $sno&quot;</span></span><br><span class="line">        println(<span class="string">&quot;sno &quot;</span> + sno)  </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>那么为什么后面Person也有括号呢，这个涉及到了java的继承特性，<strong>子类中的构造函数必须调用父类的构造函数</strong>。这个规定kotlin也必须遵守。<strong>子类的主构造函数调用父类的哪个构造函数，在继承的时候通过括号来指定。</strong></p>
+<p>那么现在改一下Person类</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">open</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span></span>(<span class="keyword">val</span> name:String,<span class="keyword">val</span> age:<span class="built_in">Int</span>)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这时候Student类会报错，因为找不到了Person()无参数的构造函数，因此需要改成</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(<span class="keyword">val</span> sno:String,<span class="keyword">val</span> grade:<span class="built_in">Int</span>, name:String, age:<span class="built_in">Int</span>):Person(name,age)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：在Student类的主构造函数中增加name和age这两个字段的时候，不能声明成val，因为在主构造函数中声明成val或var的参数将自动成为该类的字段，这将导致和父类同名的name和age字段造成冲突</strong></p>
+<h2 id="次构造函数"><a href="#次构造函数" class="headerlink" title="次构造函数"></a>次构造函数</h2><p>几乎用不到，任何一个类只能有一个主构造函数，但可以有多个次构造函数。次构造函数也可以用于实例化一个类，只不过他是有函数体的。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(<span class="keyword">val</span> sno:String,<span class="keyword">val</span> grade:<span class="built_in">Int</span>, name:String, age:<span class="built_in">Int</span>):Person(name,age)&#123;</span><br><span class="line">    <span class="keyword">constructor</span>(name:String,age:<span class="built_in">Int</span>):<span class="keyword">this</span>(<span class="string">&quot;&quot;</span>,<span class="number">0</span>,name,age)&#123;</span><br><span class="line">        </span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">constructor</span>():<span class="keyword">this</span>(<span class="string">&quot;&quot;</span>,<span class="number">0</span>)&#123;</span><br><span class="line">     </span><br><span class="line"> &#125;   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>次构造函数是通过constructor来定义的，这里定义了两个次构造函数，第一个接受了name和age，调用了主构造函数。第二个没有参数，调用的第一个次构造函数。这样之后，就可以这样实例化了</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stu1 = Student()</span><br><span class="line"><span class="keyword">var</span> stu2 = Student(<span class="string">&quot;Jack&quot;</span>,<span class="number">19</span>)</span><br><span class="line"><span class="keyword">var</span> stu3 = Student(<span class="string">&quot;a123&quot;</span>,<span class="number">5</span>,<span class="string">&quot;Jack&quot;</span>,<span class="number">19</span>)</span><br></pre></td></tr></table></figure>
+
+<p>十分少见的情况，没有主构造函数，但是有次构造函数</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span>:<span class="type">Person&#123;</span></span></span><br><span class="line">    <span class="keyword">constructor</span>(name:String,age:<span class="built_in">Int</span>):<span class="keyword">super</span>(name,age)&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><p>接口的定义和java没啥区别</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口定义同java差不多，kotlin允许对接口定义默认实现。jdk1.8之后也支持该功能</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Study</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">readBooks</span><span class="params">()</span></span></span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">doHomework</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(<span class="string">&quot;do homework default implemenatation.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接口的使用</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Student</span></span>(name:String,age:<span class="built_in">Int</span>):Person(name,age),Study&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">readBooks</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(name + <span class="string">&quot; is reading.&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">doHomework</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(name + <span class="string">&quot;is doing HomeWork&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>kotlin中继承和实现都是用的冒号，多实现用逗号隔开，接口是不需要加括号的，因为他没有构造函数可调用。</p>
+<h1 id="java和kotlin-修饰符的异同"><a href="#java和kotlin-修饰符的异同" class="headerlink" title="java和kotlin 修饰符的异同"></a>java和kotlin 修饰符的异同</h1><p>java:      private public protected default</p>
+<p>kotlin:   private public protected internal</p>
+<hr>
+<table>
+<thead>
+<tr>
+<th>修饰符</th>
+<th>异同</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>private</td>
+<td>两种语言是一样的，只对当前类内部可见</td>
+</tr>
+<tr>
+<td>public</td>
+<td>Kotlin中默认是public，java则是default</td>
+</tr>
+<tr>
+<td>protected</td>
+<td>java中是当前类，子类，同一包路径下的类可见<br>Kotlin则是只对当前类，子类可见</td>
+</tr>
+<tr>
+<td>internal</td>
+<td>kotlin抛弃了java中的default(同一包路径下的类可见)，用的internal只对同一模块中的类可见</td>
+</tr>
+</tbody></table>
+<style>
+    table th:first-of-type{
+        width:150px;
+    }
+</style>
+
+
             </div>
             
                 <div class="kratos-copyright text-center clearfix">
@@ -223,7 +317,9 @@
             const twitterBase   = "https://twitter.com/intent/tweet?";
             const hostUrl       = "http://example.com/2021/05/02/Kotlin%E7%AC%94%E8%AE%B002/";
             const title         = "「Kotlin笔记02」";
-            const excerpt       = ``;
+            const excerpt       = `​    Kotlin也是面向对象的语言，下面就聊聊Kotlin的面向对象编程
+类与对象首先右击包名，New -&gt; Kotlin File/Class，选择class，命名类名为Person，一个类就创建好了。
+然后添加关键字 ...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -242,10 +338,10 @@
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        
+                        <a class="tag-none-link" href="/tags/Kotlin/" rel="tag">Kotlin</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-05-02</span>
+                    <span>最后编辑：2021-05-03</span>
                     </div>
                 </div>
             </footer>
@@ -254,7 +350,7 @@
             <nav class="navigation post-navigation clearfix" role="navigation">
                 
                 <div class="nav-previous clearfix">
-                    <a title=" Kotlin笔记01" href="/2021/05/02/Kotlin笔记01/">&lt; 上一篇</a>
+                    <a title=" Kotlin笔记01(变量，函数，逻辑控制)" href="/2021/05/02/Kotlin笔记01/">&lt; 上一篇</a>
                 </div>
                 
                 
@@ -279,11 +375,23 @@
         </div>
     </div>
     <div class="textwidget">
-        <p class="text-center"></p>
+        <p class="text-center">上上下下，左右左右，BABA！</p>
     </div>
 </aside>
             
                     <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1"><span class="toc-number">1.</span> <span class="toc-text">类与对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF%E5%92%8C%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.</span> <span class="toc-text">继承和构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%A7%E6%89%BF"><span class="toc-number">2.1.</span> <span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BB%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.2.</span> <span class="toc-text">主构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AC%A1%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0"><span class="toc-number">2.3.</span> <span class="toc-text">次构造函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%8E%A5%E5%8F%A3"><span class="toc-number">3.</span> <span class="toc-text">接口</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#java%E5%92%8Ckotlin-%E4%BF%AE%E9%A5%B0%E7%AC%A6%E7%9A%84%E5%BC%82%E5%90%8C"><span class="toc-number">4.</span> <span class="toc-text">java和kotlin 修饰符的异同</span></a></li></ol>
+    </div>
+</aside>
                 
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
@@ -294,6 +402,13 @@
 
             
                 
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/Kotlin/" style="font-size: 0.6em;">Kotlin</a>
+      </div>
+  </aside>
+
             
                 
   <aside id="krw-posts" class="widget widget-kratos-posts">
@@ -310,7 +425,7 @@
         
           
           
-            <a class="list-group-item" href="/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/"><i class="fa  fa-book"></i> Kotlin笔记01</a>
+            <a class="list-group-item" href="/2021/05/02/Kotlin%E7%AC%94%E8%AE%B001/"><i class="fa  fa-book"></i> Kotlin笔记01(变量，函数，逻辑控制)</a>
             
           
         
