@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>Kotlin笔记05 | 菠萝菠萝卜的博客</title>
+  <title>Kotlin笔记05(空指针检查，小技巧) | 菠萝菠萝卜的博客</title>
   <meta name="author" content="菠萝菠萝卜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -15,16 +15,16 @@
   
     <meta name="keywords" content="Kotlin" />
   
-  <meta name="description" content="上上下下，左右左右，BABA！">
+  <meta name="description" content="空指针检查Android系统中，最常见的崩溃问题就是空指针异常，相信其他的系统或者程序，也会常常备受空指针问题的影响。这类问题只能由程序员自己主动通过逻辑判断来避免。可是，很难做到完全考虑到所有潜在的空指针异常。 Kotlin的做法则是将空指针异常检查提前到了编译期，在程序员写程序的时候，时刻能够检测出潜在的空指针问题，及时进行处理。 举例： java代码 1234public void doSt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin笔记05">
+<meta property="og:title" content="Kotlin笔记05(空指针检查，小技巧)">
 <meta property="og:url" content="https://boluoboluobo.github.io/2021/05/03/Kotlin%E7%AC%94%E8%AE%B005/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
-<meta property="og:description" content="上上下下，左右左右，BABA！">
+<meta property="og:description" content="空指针检查Android系统中，最常见的崩溃问题就是空指针异常，相信其他的系统或者程序，也会常常备受空指针问题的影响。这类问题只能由程序员自己主动通过逻辑判断来避免。可是，很难做到完全考虑到所有潜在的空指针异常。 Kotlin的做法则是将空指针异常检查提前到了编译期，在程序员写程序的时候，时刻能够检测出潜在的空指针问题，及时进行处理。 举例： java代码 1234public void doSt">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo.github.io/2021/05/03/Kotlin%E7%AC%94%E8%AE%B005/kotlin.webp">
 <meta property="article:published_time" content="2021-05-03T05:45:17.000Z">
-<meta property="article:modified_time" content="2021-05-03T05:50:23.471Z">
+<meta property="article:modified_time" content="2021-05-04T15:31:49.247Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="Kotlin">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
     <article>
         <div class="kratos-hentry kratos-post-inner clearfix">
             <header class="kratos-entry-header">
-                <h1 class="kratos-entry-title text-center">Kotlin笔记05</h1>
+                <h1 class="kratos-entry-title text-center">Kotlin笔记05(空指针检查，小技巧)</h1>
                 
                 <ul class="kratos-post-meta text-center">
                     <li><i class="fa fa-calendar"></i> 2021-05-03</li>
@@ -142,12 +142,12 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            0
+                            ~2.74K
                         
                         字
                     </li>
                     
-                        <li id="/2021/05/03/Kotlin%E7%AC%94%E8%AE%B005/" class="leancloud_visitors" data-flag-title="Kotlin笔记05">
+                        <li id="/2021/05/03/Kotlin%E7%AC%94%E8%AE%B005/" class="leancloud_visitors" data-flag-title="Kotlin笔记05(空指针检查，小技巧)">
                             <i class="fa fa-eye"></i>
                             <span class="leancloud-visitors-count"> </span> 次阅读
                         </li>
@@ -157,11 +157,79 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1620021023471"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1620142309247"></time> 前，其中的内容可能需要更新。
                 </div>
                 
-                <hr />
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">空指针检查</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">可空类型系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">?.操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-1"><span class="toc-number">1.3.</span> <span class="toc-text">?:操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-2"><span class="toc-number">1.4.</span> <span class="toc-text">!!.操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">let函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="toc-number">2.</span> <span class="toc-text">Kotlin的小技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%86%85%E5%B5%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">字符串内嵌表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-number">2.2.</span> <span class="toc-text">函数的参数默认值</span></a></li></ol></li></ol>
+                    </div>
                 
+                <hr />
+                <h1 id="空指针检查"><a href="#空指针检查" class="headerlink" title="空指针检查"></a>空指针检查</h1><p>Android系统中，最常见的崩溃问题就是空指针异常，相信其他的系统或者程序，也会常常备受空指针问题的影响。这类问题只能由程序员自己主动通过逻辑判断来避免。可是，很难做到完全考虑到所有潜在的空指针异常。</p>
+<p>Kotlin的做法则是将空指针异常检查提前到了编译期，在程序员写程序的时候，时刻能够检测出潜在的空指针问题，及时进行处理。</p>
+<p>举例：</p>
+<p>java代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doStudy</span><span class="params">(Study study)</span></span>&#123;</span><br><span class="line">    study.doHomework();</span><br><span class="line">    study.readBooks();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码java编译肯定没问题，但是他安全么？不一定。如果这个方法当中传入是一个null，将会导致空指针异常。</p>
+<p>修改一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doStudy</span><span class="params">(Study study)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(study != <span class="keyword">null</span>)&#123;</span><br><span class="line">        study.doHomework();</span><br><span class="line">        study.readBooks();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样才会安全。</p>
+<p>转到kotlin：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy</span><span class="params">(study:<span class="type">Study</span>)</span></span>&#123;</span><br><span class="line">    study.doHomework()</span><br><span class="line">    study.readBooks()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于kotlin来说，这是没有问题的，没有空指针的风险。因为，在kotlin当中，默认所有参数和变量都不能为空，所以这里传进来的study一定不为空。可以放心的调用它，一旦传入null，在编译的时候直接报错。</p>
+<h2 id="可空类型系统"><a href="#可空类型系统" class="headerlink" title="可空类型系统"></a>可空类型系统</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy</span><span class="params">(study:<span class="type">Study</span>?)</span></span>&#123;</span><br><span class="line">    <span class="comment">//此时study可以为空，但是为空调用会导致空异常,因此加个判断即可</span></span><br><span class="line">    <span class="keyword">if</span>(study != <span class="literal">null</span>)&#123;</span><br><span class="line">        study.doHomework()</span><br><span class="line">        study.readBooks()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于业务逻辑需要参数为null的话，kotlin提供的方法是，在参数类名后面加？号，但是函数里参数也是会被检测的，必须要有空的判断。</p>
+<h2 id="操作符"><a href="#操作符" class="headerlink" title="?.操作符"></a>?.操作符</h2><p>?.操作符：当对象不为空时正常调用，当为空时什么都不做。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//上面的代码可以由?.操作符简化为</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy</span><span class="params">(study:<span class="type">Study</span>?)</span></span>&#123;</span><br><span class="line">    study?.doHomework()</span><br><span class="line">    study?.readBooks()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作符-1"><a href="#操作符-1" class="headerlink" title="?:操作符"></a>?:操作符</h2><p>?:操作符：左右两边都接收一个表达式，如果左边结果不为空就返回左边结果，否则返回右边表达式结果</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> a = <span class="literal">null</span></span><br><span class="line"><span class="keyword">val</span> b = <span class="number">1</span></span><br><span class="line"><span class="keyword">val</span> c = <span class="keyword">if</span> (a != <span class="literal">null</span>)&#123;</span><br><span class="line">    a</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相当于：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> c = a ?: b</span><br></pre></td></tr></table></figure>
+
+<h2 id="操作符-2"><a href="#操作符-2" class="headerlink" title="!!.操作符"></a>!!.操作符</h2><p>!!.操作符：非空断言工具，告知kotlin这里的对象不会为空，不用它做非空检查。出错可以抛异常。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy</span><span class="params">(study:<span class="type">Study</span>?)</span></span>&#123;</span><br><span class="line">    study!!.doHomework()</span><br><span class="line">    study!!.readBooks()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个就和java的那个版本一样了，不安全了，照样运行报错了。</p>
+<h2 id="let函数"><a href="#let函数" class="headerlink" title="let函数"></a>let函数</h2><p>obj对象调用let函数，obj本身会作为参数传递到Lambda表达式中，当列表只有一个参数时用it。</p>
+<p>用法：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">obj.let&#123; obj2 -&gt;</span><br><span class="line">    <span class="comment">//编写具体业务逻辑</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>例子：</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy</span><span class="params">(study:<span class="type">Study</span>?)</span></span>&#123;</span><br><span class="line">    study?.let &#123;</span><br><span class="line">        it.doHomework()</span><br><span class="line">        it.readBooks()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>let通常是和?.操作符结合，之前的study?.doHomework(),study?.readBooks()两个，相当于每次调用方法都需要对study做了if判空处理，相当麻烦。可以先study?. 如果study不为空就运行let，如果为空就什么都不做。此时let里面的lambda表达式当中的it肯定就不是空的了，因此let当中运行是安全的。</p>
+<p>let的另一个优势：</p>
+<p>let函数时可以处理全局变量的判空问题，而if语句是无法做到的</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> studyy : Study? = <span class="literal">null</span>;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy5</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (studyy != <span class="literal">null</span>)&#123;</span><br><span class="line">        studyy.doHomework()</span><br><span class="line">        studyy.readBooks()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//会报错。因为studyy是全局变量，随时可能被其他线程修改，不能保证没有空指针风险</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//而let则没问题</span></span><br><span class="line"><span class="keyword">var</span> studyy : Study? = <span class="literal">null</span>;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">doStudy5</span><span class="params">()</span></span>&#123;</span><br><span class="line">    studyy?.let &#123;</span><br><span class="line">        it.readBooks()</span><br><span class="line">        it.doHomework()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="Kotlin的小技巧"><a href="#Kotlin的小技巧" class="headerlink" title="Kotlin的小技巧"></a>Kotlin的小技巧</h1><h2 id="字符串内嵌表达式"><a href="#字符串内嵌表达式" class="headerlink" title="字符串内嵌表达式"></a>字符串内嵌表达式</h2><p>Kotlin一开始就支持了字符串内嵌表达式，我们不再需要像java那样傻傻的拼接字符串了。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;hello, <span class="subst">$&#123;obj.name&#125;</span>. nice to meet you&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>当表达式中仅有一个变量的时候，大括号可以省略</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;hello, <span class="variable">$name</span>. nice to meet you&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>kotlin的这种方式，不论是易读性易写性方面都比java更胜一筹</p>
+<h2 id="函数的参数默认值"><a href="#函数的参数默认值" class="headerlink" title="函数的参数默认值"></a>函数的参数默认值</h2><p>简单来说就是，kotlin允许我们在定义函数的时候给任意参数设定一个默认值，这样当调用这个函数的时候不强求传此参数。</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printParams</span><span class="params">(num:<span class="type">Int</span>, str:<span class="type">String</span> = <span class="string">&quot;hello&quot;</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>调用的时候可以</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printParams(<span class="number">123</span>)</span><br></pre></td></tr></table></figure>
+
+<p>当然默认值也可以给第一个参数</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">printParams</span><span class="params">(num:<span class="type">Int</span> = <span class="number">0</span>, str:<span class="type">String</span>)</span></span></span><br></pre></td></tr></table></figure>
+
+<p>那么填一个参数，就默认到num参数上了。问题不大，kotlin提供了键值对的方式来传参</p>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">printParams(str = <span class="string">&quot;Hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+
             </div>
             
                 <div class="kratos-copyright text-center clearfix">
@@ -229,8 +297,9 @@
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
             const hostUrl       = "https://boluoboluobo.github.io/2021/05/03/Kotlin%E7%AC%94%E8%AE%B005/";
-            const title         = "「Kotlin笔记05」";
-            const excerpt       = ``;
+            const title         = "「Kotlin笔记05(空指针检查，小技巧)」";
+            const excerpt       = `空指针检查Android系统中，最常见的崩溃问题就是空指针异常，相信其他的系统或者程序，也会常常备受空指针问题的影响。这类问题只能由程序员自己主动通过逻辑判断来避免。可是，很难做到完全考虑到所有潜在的空指针异常。
+Kotlin的做法则...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -252,7 +321,7 @@
                         <a class="tag-none-link" href="/tags/Kotlin/" rel="tag">Kotlin</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-05-03</span>
+                    <span>最后编辑：2021-05-04</span>
                     </div>
                 </div>
             </footer>
@@ -321,10 +390,22 @@
             
                     <div class="sticky-area">
                 
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A9%BA%E6%8C%87%E9%92%88%E6%A3%80%E6%9F%A5"><span class="toc-number">1.</span> <span class="toc-text">空指针检查</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%AF%E7%A9%BA%E7%B1%BB%E5%9E%8B%E7%B3%BB%E7%BB%9F"><span class="toc-number">1.1.</span> <span class="toc-text">可空类型系统</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="toc-number">1.2.</span> <span class="toc-text">?.操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-1"><span class="toc-number">1.3.</span> <span class="toc-text">?:操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E7%AC%A6-2"><span class="toc-number">1.4.</span> <span class="toc-text">!!.操作符</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#let%E5%87%BD%E6%95%B0"><span class="toc-number">1.5.</span> <span class="toc-text">let函数</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Kotlin%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7"><span class="toc-number">2.</span> <span class="toc-text">Kotlin的小技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%86%85%E5%B5%8C%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="toc-number">2.1.</span> <span class="toc-text">字符串内嵌表达式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%BD%E6%95%B0%E7%9A%84%E5%8F%82%E6%95%B0%E9%BB%98%E8%AE%A4%E5%80%BC"><span class="toc-number">2.2.</span> <span class="toc-text">函数的参数默认值</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">2</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/mysql/">mysql</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">2</span></li></ul>
   </aside>
 
 
@@ -344,6 +425,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/05/04/Kotlin%E7%AC%94%E8%AE%B006/"><i class="fa  fa-book"></i> Kotlin笔记06(标准函数和静态方法)</a>
+            
+          
         
           
           
@@ -370,11 +457,7 @@
           
         
           
-          
-            <a class="list-group-item" href="/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/"><i class="fa  fa-book"></i> scheme打开手机内APP</a>
             
-          
-        
           
             
           
