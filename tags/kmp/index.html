@@ -18,7 +18,7 @@
   <meta name="description" content="上上下下，左右左右，BABA！">
 <meta property="og:type" content="website">
 <meta property="og:title" content="菠萝菠萝卜的博客">
-<meta property="og:url" content="https://boluoboluobo.github.io/tags/java/index.html">
+<meta property="og:url" content="https://boluoboluobo.github.io/tags/kmp/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
 <meta property="og:description" content="上上下下，左右左右，BABA！">
 <meta property="og:locale" content="zh_CN">
@@ -134,7 +134,7 @@
                 <div class="kratos-entry-border-new clearfix">
                     
                     <div class="kratos-entry-thumb-new">
-                        <a href="/2021/05/03/AStar/">
+                        <a href="/2021/05/05/Kmp%E7%AE%97%E6%B3%95/">
                             
                                 <img class="kratos-entry-thumb-new-img">
                             
@@ -143,12 +143,12 @@
                     <div class="kratos-post-inner-new">
                         <header class="kratos-entry-header-new">
                                 <a class="label-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-                            <h2 class="kratos-entry-title-new"><a href="/2021/05/03/AStar/">A*寻路算法，启发式搜索（超详细实现）</a>
+                            <h2 class="kratos-entry-title-new"><a href="/2021/05/05/Kmp%E7%AE%97%E6%B3%95/">Kmp算法</a>
                         </header>
                         <div class="kratos-entry-content-new">
                             <p>
                                 
-                                    A*寻路算法&nbsp;&nbsp;&nbsp;&nbsp;关于A算法网上优秀的文章有很多，本篇只是参考了那些文章，我自己实现了A算法后，对A的个人理解，在此记录下A的实现过程，同时防止时间久了自己忘了，随时可以回来看。如有不对的地方...
+                                    kmp算法本身匹配的方法理解感觉不太难，最大的难点可能就是next数组的计算，不容易理解。匹配的原理就是，提前算出子串的一个next数组，这个next数组记录了子串中到当前位置的字符串的最长前后缀（前后部分的相同部分的最长长度），利用...
                                 
                             </p>
                         </div>
@@ -157,18 +157,18 @@
                         <span class="pull-left">
                             <a>
                                 <i class="fa fa-calendar"></i>
-                                2021-05-03
+                                2021-05-05
                             </a>
                             <a>
                                 
                                     <i class="fa fa-tags"></i>
-                                    <a class="tag-none-link" href="/tags/A/" rel="tag">A*</a>, <a class="tag-none-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-none-link" href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" rel="tag">寻路算法</a>
+                                    <a class="tag-none-link" href="/tags/C-C/" rel="tag">C/C++</a>, <a class="tag-none-link" href="/tags/kmp/" rel="tag">kmp</a>, <a class="tag-none-link" href="/tags/kotlin/" rel="tag">kotlin</a>
                                 
                             </a>
                             
                                 <!-- 当前仅支持valine/waline自带的统计功能 -->
                                 
-                                    <a id="/2021/05/03/AStar/" class="leancloud_visitors" data-flag-title="A*寻路算法，启发式搜索（超详细实现）">
+                                    <a id="/2021/05/05/Kmp%E7%AE%97%E6%B3%95/" class="leancloud_visitors" data-flag-title="Kmp算法">
                                         <i class="fa fa-eye"></i>
                                         <span class="leancloud-visitors-count"> </span> 次阅读
                                     </a>
@@ -180,66 +180,7 @@
                             
                         </span>
                         <span class="pull-right">
-                            <a class="read-more" href="/2021/05/03/AStar/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
-                        </span>
-                    </footer>
-                </div>
-            </article>
-        
-    
-        
-        
-            <article class="kratos-hentry clearfix">
-                <div class="kratos-entry-border-new clearfix">
-                    
-                    <div class="kratos-entry-thumb-new">
-                        <a href="/2021/05/03/bfs/">
-                            
-                                <img class="kratos-entry-thumb-new-img">
-                            
-                        </a>
-                    </div>
-                    <div class="kratos-post-inner-new">
-                        <header class="kratos-entry-header-new">
-                                <a class="label-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a>
-                            <h2 class="kratos-entry-title-new"><a href="/2021/05/03/bfs/">BFS广度优先遍历寻找最短路径(超详细实现过程)</a>
-                        </header>
-                        <div class="kratos-entry-content-new">
-                            <p>
-                                
-                                    广度优先遍历寻找最短路径&nbsp;&nbsp;&nbsp;&nbsp;最近一直想搞A算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷...
-                                
-                            </p>
-                        </div>
-                    </div>
-                    <footer class="kratos-post-meta-new">
-                        <span class="pull-left">
-                            <a>
-                                <i class="fa fa-calendar"></i>
-                                2021-05-03
-                            </a>
-                            <a>
-                                
-                                    <i class="fa fa-tags"></i>
-                                    <a class="tag-none-link" href="/tags/bfs/" rel="tag">bfs</a>, <a class="tag-none-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-none-link" href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" rel="tag">寻路算法</a>
-                                
-                            </a>
-                            
-                                <!-- 当前仅支持valine/waline自带的统计功能 -->
-                                
-                                    <a id="/2021/05/03/bfs/" class="leancloud_visitors" data-flag-title="BFS广度优先遍历寻找最短路径(超详细实现过程)">
-                                        <i class="fa fa-eye"></i>
-                                        <span class="leancloud-visitors-count"> </span> 次阅读
-                                    </a>
-                                
-                            
-                            
-                                <!-- 当前仅支持waline自带的统计功能 -->
-                                
-                            
-                        </span>
-                        <span class="pull-right">
-                            <a class="read-more" href="/2021/05/03/bfs/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
+                            <a class="read-more" href="/2021/05/05/Kmp%E7%AE%97%E6%B3%95/" title="阅读全文">阅读全文<i class="fa fa-chevron-circle-right"></i></a>
                         </span>
                     </footer>
                 </div>
@@ -264,7 +205,7 @@
                 appKey: 'HA3J9tdvziBrLcSml8Kai0qH',
                 visitor: true,
                 enableQQ: false,
-                path: '/tags/java/index.html',
+                path: '/tags/kmp/index.html',
 				avatar: ''
             });
         }
