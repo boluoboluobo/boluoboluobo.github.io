@@ -24,12 +24,12 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo.github.io/null">
 <meta property="article:published_time" content="2021-05-03T06:05:19.000Z">
-<meta property="article:modified_time" content="2021-05-03T06:20:54.853Z">
+<meta property="article:modified_time" content="2021-05-05T00:56:10.058Z">
 <meta property="article:author" content="菠萝菠萝卜">
-<meta property="article:tag" content="bfs">
 <meta property="article:tag" content="算法">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="寻路算法">
+<meta property="article:tag" content="bfs">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://boluoboluobo.github.io/null">
 <meta name="twitter:site" content="@null">
@@ -160,13 +160,17 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1620022854853"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1620176170058"></time> 前，其中的内容可能需要更新。
                 </div>
+                
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86%E5%AF%BB%E6%89%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="toc-number">1.</span> <span class="toc-text">广度优先遍历寻找最短路径</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E4%BD%93%E9%81%8D%E5%8E%86%E7%9A%84%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">大体遍历的思路：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%B6%85%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">程序的超详细实现过程：</span></a></li></ol></li></ol>
+                    </div>
                 
                 <hr />
                 <h1 id="广度优先遍历寻找最短路径"><a href="#广度优先遍历寻找最短路径" class="headerlink" title="广度优先遍历寻找最短路径"></a>广度优先遍历寻找最短路径</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;最近一直想搞A<em>算法，发现有部分没理解清楚。于是找到了广度优先遍历寻路算法学习了下，想看看可不可以对写A</em>有什么帮助。广度优先遍历寻路算法本身并不难，概括来说就是像雷达一样，一层一层进行寻找目标点。当找到目标点后进行回溯。从而找到最佳路径。也就是说每走一步都要找到到达该点的最短的路径，最终得到到达所有点的最短路径。</p>
 <p>废话不多说上代码。具体解释在代码后面</p>
-<p>Point.java</p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p>Point.java</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Point</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> x;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> y;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getX</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setX</span><span class="params">(<span class="keyword">int</span> x)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setY</span><span class="params">(<span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Point</span><span class="params">(<span class="keyword">int</span> x, <span class="keyword">int</span> y)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">super</span>();</span><br><span class="line">		<span class="keyword">this</span>.x = x;</span><br><span class="line">		<span class="keyword">this</span>.y = y;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>MyMap.java</p>
@@ -179,15 +183,13 @@
 <p><img src="/2021/05/03/bfs/pic1.jpg"></p>
 <p>类的解释：</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;Point.java里面写的就是一个点的类里面就是装的x，y没啥说的。MyMap.java写的类就是记录前一个点的位置prex 和prey其实这两个参数用一个Point来记就好了。还有一个最重要的就是那个price，记录到达当前点所需要的消耗。也就是路径长度。然后就是test.java了。test当中就是bfs函数最重要了。</p>
-<p>大体遍历的思路：</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;将开始节点加入队列，然后在循环中先读出队列头，即出队列，读出的头就是当前节点，围绕该节点遍历周围的所有节点，分为：左上，上，右上，右，右下，下，左下，左共8个方向。然后将周围的节点依次加入到队列中，并且设置该节点的权值和前一节点坐标。不断循环重复以上操作，逐层遍历直到找到目的节点，或者队列为空，若队列为空都没有找到目标节点那么就是该节点不可达。</p>
-<p><img src="/2021/05/03/bfs/Pic2.jpg"></p>
-<p>程序的超详细实现过程：</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;首先为了方便起见设置一个char类型的二维数组当做地图，大小是10*10的。然后遍历找到起始点和结束点的位置坐标，Point类型的start和end。还有dx和dy两个数组。里面存的是遍历的顺序，也就是坐标的偏移量，两个数组每个都是8个元素，因为是8个方向的嘛。然后直接进重点bfs()函数，先建立一个queue队列，将开始节点加入队列，设置与地图等大的MyMap类的一个数组，并初始化。</p>
+<h1 id="大体遍历的思路："><a href="#大体遍历的思路：" class="headerlink" title="大体遍历的思路："></a>大体遍历的思路：</h1><p>&nbsp;&nbsp;&nbsp;&nbsp;将开始节点加入队列，然后在循环中先读出队列头，即出队列，读出的头就是当前节点，围绕该节点遍历周围的所有节点，分为：左上，上，右上，右，右下，下，左下，左共8个方向。然后将周围的节点依次加入到队列中，并且设置该节点的权值和前一节点坐标。不断循环重复以上操作，逐层遍历直到找到目的节点，或者队列为空，若队列为空都没有找到目标节点那么就是该节点不可达。</p>
+<p><img src="/2021/05/03/bfs/pic2.jpg"></p>
+<h2 id="程序的超详细实现过程："><a href="#程序的超详细实现过程：" class="headerlink" title="程序的超详细实现过程："></a>程序的超详细实现过程：</h2><p>&nbsp;&nbsp;&nbsp;&nbsp;首先为了方便起见设置一个char类型的二维数组当做地图，大小是10*10的。然后遍历找到起始点和结束点的位置坐标，Point类型的start和end。还有dx和dy两个数组。里面存的是遍历的顺序，也就是坐标的偏移量，两个数组每个都是8个元素，因为是8个方向的嘛。然后直接进重点bfs()函数，先建立一个queue队列，将开始节点加入队列，设置与地图等大的MyMap类的一个数组，并初始化。</p>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;开始遍历，一个while循环，循环条件是queue大小要大于0，循环体中则是读出队列头，出队列，一个for循环用来遍历该点周围8个方向的点，当然要有约束条件周围的点不能超过10*10的范围同时不能为墙壁，判断墙壁用的是之前char数组的地图，而遍历记录price和前一个点的坐标的是那个MyMap数组。queue出来的点为当前点，遍历的是周围点，周围的点因为是8个方向，当扩大的时候必然会存在重复遍历的问题，不能单纯的用一个布尔来标记是否重复遍历，因为如果遍历到就进行标记的话，得到的路径不一定是最短的。因此我用的是一个price来记录到达该点的路径长度，判断是否遍历过了也很简单，如果price为0的话那么说就是第一次遍历，若不为0那就说明不是第一次遍历。两种情况分开讨论。（1）第一次遍历到该点：因为是第一次遍历到，所以要先将其加入到队列中，然后将设置消耗price，就是获取当前点（队列里出来的点）的price加上两点间路径长度，两点间路径长度：斜对角是14，上下左右相邻是10。为什么这么设，其实就是勾股定理的出来乘以10，也可以不这么设定只要相邻的距离相加大于斜对角距离就可以，满足三角形两边之和大于第三边就可以。然后设置前一点坐标为当前点。（2）第二次遍历到该点：因为不是第一次了，所以这里就不用再将其加入队列中，这里要做的就是判断应不应该与这个点连线，怎么说呢，因为他已经有price记录了，说明他已经有主子了，那么此时就要判断他指向的主子称不称职。那他的price与自己的price加上距离进行比较，如果他的price较小说明主子很称职，也就是路径较短，如果自己的price加距离要小于他自己的price说明他当前的主子不称职，就改变他的前一点的标记，改成当前点的坐标，并改变price值。如此一来可以保证到达每个点都是最小权值，按照点记录的前一点坐标进行回溯即可得到到达点的最短路径。</p>
-<p><img src="/2021/05/03/bfs/Pic3.jpg"></p>
+<p><img src="/2021/05/03/bfs/pic3.jpg"></p>
 <p>发现节点重复后判断消耗，发现有更好的路径则改记录坐标和消耗值</p>
-<p><img src="/2021/05/03/bfs/Pic4.jpg"></p>
+<p><img src="/2021/05/03/bfs/pic4.jpg"></p>
 <p>然后找到路径直接回溯，更改地图，将走过的节点改为‘<em>’符号，最后整体打印地图。即为最短路径。这个算法寻路效率与A</em>算法相比还是比较低。不过还是挺好理解的。</p>
 
             </div>
@@ -280,7 +282,7 @@
                         <a class="tag-none-link" href="/tags/bfs/" rel="tag">bfs</a>, <a class="tag-none-link" href="/tags/java/" rel="tag">java</a>, <a class="tag-none-link" href="/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/" rel="tag">寻路算法</a>, <a class="tag-none-link" href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">算法</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-05-03</span>
+                    <span>最后编辑：2021-05-05</span>
                     </div>
                 </div>
             </footer>
@@ -348,6 +350,18 @@
 </aside>
             
                     <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E9%81%8D%E5%8E%86%E5%AF%BB%E6%89%BE%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="toc-number">1.</span> <span class="toc-text">广度优先遍历寻找最短路径</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%A4%A7%E4%BD%93%E9%81%8D%E5%8E%86%E7%9A%84%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">大体遍历的思路：</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A8%8B%E5%BA%8F%E7%9A%84%E8%B6%85%E8%AF%A6%E7%BB%86%E5%AE%9E%E7%8E%B0%E8%BF%87%E7%A8%8B%EF%BC%9A"><span class="toc-number">3.1.</span> <span class="toc-text">程序的超详细实现过程：</span></a></li></ol></li></ol>
+    </div>
+</aside>
                 
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
