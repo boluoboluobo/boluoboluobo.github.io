@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/null">
 <meta property="article:published_time" content="2021-09-22T12:03:16.000Z">
-<meta property="article:modified_time" content="2021-09-23T01:54:37.022Z">
+<meta property="article:modified_time" content="2021-09-23T09:27:09.608Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="DeepLearning">
@@ -144,7 +144,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~1.56K
+                            ~2.32K
                         
                         字
                     </li>
@@ -159,7 +159,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1632362077022"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1632389229608"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -197,11 +197,9 @@
 <td>1</td>
 </tr>
 </tbody></table>
-<p>通过感知机来表示与门，也就是说需要找到(w1,w2,θ) 相应的权重和偏置，满足条件。如：(0.5,0.5,0.7)满足条件，当然(0.5,0.5,0.8)也可以</p>
+<p>通过感知机来表示与门，也就是说需要找到(w1,w2,θ) 相应的权重和偏置，满足条件。如：(0.5,0.5,0.7)满足条件，即 （0.5 * x1 + 0.5 * x2 &lt;= 0.7 时为0， &gt; 0.7时为1）当然(0.5,0.5,0.8)也可以</p>
 <p>python实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">AND</span>(<span class="params">x1,x2</span>):</span></span><br><span class="line">    w = np.array([<span class="number">0.5</span>,<span class="number">0.5</span>,-<span class="number">0.7</span>])</span><br><span class="line">    x = np.array([x1,x2,<span class="number">1</span>])</span><br><span class="line">    temp = np.<span class="built_in">sum</span>(w*x)</span><br><span class="line">    <span class="keyword">if</span> temp &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">AND</span>(<span class="params">x1,x2</span>):</span></span><br><span class="line">    w = np.array([<span class="number">0.5</span>,<span class="number">0.5</span>,-<span class="number">0.7</span>])</span><br><span class="line">    x = np.array([x1,x2,<span class="number">1</span>])</span><br><span class="line">    temp = np.<span class="built_in">sum</span>(w*x)</span><br><span class="line">    <span class="keyword">if</span> temp &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"><span class="comment"># x设定为[x1,x2,1]后面加个1，完全是图省事，不加一的话，w也得去掉-0.7. 那么temp = np.sum(w * x) - 0.7。</span></span><br><span class="line"><span class="comment"># 如果有人问为什么是-0.7的话，就是上面的公式把θ换到左边去即可(0.5 * x1 + 0.5 * x2 - 0.7 &lt;= 0 or &gt; 0)</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="与非门"><a href="#与非门" class="headerlink" title="与非门"></a>与非门</h3><table>
 <thead>
@@ -278,6 +276,67 @@
 <p>python实现</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="comment">#或门</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">OR</span>(<span class="params">x1,x2</span>):</span></span><br><span class="line">    w = np.array([<span class="number">1.0</span>,<span class="number">1.0</span>,-<span class="number">0.5</span>])</span><br><span class="line">    x = np.array([x1,x2,<span class="number">1</span>])</span><br><span class="line">    temp = np.<span class="built_in">sum</span>(w*x)</span><br><span class="line">    <span class="keyword">if</span> temp &lt;= <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
+<p><strong>通过这些代码，就能发现，与门，与非门，或门都是具有相同构造的感知机，他们的区别就在于权重参数的值</strong></p>
+<h2 id="多层感知机"><a href="#多层感知机" class="headerlink" title="多层感知机"></a>多层感知机</h2><h3 id="异或门"><a href="#异或门" class="headerlink" title="异或门"></a>异或门</h3><p>异或门：仅当x1，x2当中的一方为1时才会输出1</p>
+<table>
+<thead>
+<tr>
+<th>X1</th>
+<th>X2</th>
+<th>s1</th>
+<th>s2</th>
+<th>Y</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p>对于前面的与门，与非门，或门用一层感知机即可实现</p>
+<p><img src="/2021/09/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/%E6%84%9F%E7%9F%A5%E6%9C%BA%E5%8F%AF%E8%A7%86%E5%8C%96.jpg"></p>
+<p>或门感知机可视化。可以发现，与门，与非门，或门都可以用一条线来划分开来。那么异或门</p>
+<p><img src="/2021/09/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/%E6%84%9F%E7%9F%A5%E6%9C%BA%E5%8F%AF%E8%A7%86%E5%8C%96(%E5%BC%82%E6%88%96%E9%97%A8).jpg"></p>
+<p>无法用一个感知机划分开。单层感知机无法分离非线性空间。</p>
+<p>解决方法： 感知机可以叠加，多层感知机即可完成。</p>
+<p><img src="/2021/09/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/2%E5%B1%82%E6%84%9F%E7%9F%A5%E6%9C%BA.jpg"></p>
+<p>上面x1,x2到s1是做的与非门，到s2是做的或门，s1,s2到y做的是与门。</p>
+<p>python实现：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">XOR</span>(<span class="params">x1,x2</span>):</span></span><br><span class="line">    s1 = NAND(x1,x2)</span><br><span class="line">    s2 = OR(x1,x2)</span><br><span class="line">    y = AND(s1,s2)</span><br><span class="line">    <span class="keyword">return</span> y</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>感知机总共由3层构成，有权重的层只有2层（0层<del>1层，1层</del>2层），因此称为”2层感知机”。</p>
+<p>具体过程：</p>
+<ol>
+<li><p>第0层的两个神经元接收输入信号，并将信号发送至第1层神经元</p>
+</li>
+<li><p>第1层的神经元将信号发送至第2层神经元，第2层神经元输出y</p>
+</li>
+</ol>
+<p>单层感知机无法表示的东西，通过增加一层就可以解决。</p>
 
             </div>
             
@@ -385,6 +444,10 @@ x1,x2是输入信号，w1,w2是权重...`;
                 </div>
                 
                 
+                <div class="nav-next clearfix">
+                    <a title=" 深度学习入门笔记02" href="/2021/09/23/深度学习入门笔记02/">下一篇 &gt;</a>
+                </div>
+                
             </nav>
         
         
@@ -440,7 +503,7 @@ x1,x2是输入信号，w1,w2是权重...`;
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -449,7 +512,7 @@ x1,x2是输入信号，w1,w2是权重...`;
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.6em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.6em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.6em;">numpy</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a> <a href="/tags/python/" style="font-size: 0.73em;">python</a>
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.67em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.6em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.67em;">numpy</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a> <a href="/tags/python/" style="font-size: 0.73em;">python</a>
       </div>
   </aside>
 
@@ -460,6 +523,12 @@ x1,x2是输入信号，w1,w2是权重...`;
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/09/23/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B002/"><i class="fa  fa-book"></i> 深度学习入门笔记02</a>
+            
+          
         
           
           
@@ -486,11 +555,7 @@ x1,x2是输入信号，w1,w2是权重...`;
           
         
           
-          
-            <a class="list-group-item" href="/2021/05/09/Kotlin%E7%AC%94%E8%AE%B008/"><i class="fa  fa-book"></i> Kolin笔记08(高阶函数，内联函数)</a>
             
-          
-        
           
             
           
