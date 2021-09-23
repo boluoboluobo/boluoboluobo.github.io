@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/09/18/tensorflow%E7%AC%94%E8%AE%B003/tensorflow.jpg">
 <meta property="article:published_time" content="2021-09-18T03:23:53.000Z">
-<meta property="article:modified_time" content="2021-09-23T16:12:17.204Z">
+<meta property="article:modified_time" content="2021-09-23T16:23:40.413Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="TensorFlow">
@@ -145,7 +145,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            520
+                            910
                         
                         字
                     </li>
@@ -160,7 +160,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1632413537204"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1632414220413"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
@@ -183,6 +183,13 @@
 <p>配置显示使用设备</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#设定配置</span></span><br><span class="line">tf.ConfigProto()</span><br><span class="line"><span class="comment">#参数：</span></span><br><span class="line">log_device_placement = <span class="literal">True</span>  <span class="comment">#显示使用设备</span></span><br><span class="line">allow_soft_placement = <span class="literal">True</span> <span class="comment">#TensorFlow自动设定当前使用设备，若手动设定GPU来算，但是不支持，会自动调到CPU</span></span><br></pre></td></tr></table></figure>
 
+<p>使用配置：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line"> </span><br><span class="line"><span class="keyword">with</span> tf.device(<span class="string">&#x27;/gpu:0&#x27;</span>):</span><br><span class="line">    v1 = tf.constant([<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>], shape=[<span class="number">3</span>], name=<span class="string">&#x27;v1&#x27;</span>)</span><br><span class="line">    v2 = tf.constant([<span class="number">1.0</span>, <span class="number">2.0</span>, <span class="number">3.0</span>], shape=[<span class="number">3</span>], name=<span class="string">&#x27;v2&#x27;</span>)</span><br><span class="line">    sumV12 = v1 + v2</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">with</span> tf.Session(config=tf.ConfigProto(allow_soft_placement=<span class="literal">True</span>,log_device_placement=<span class="literal">True</span>)) <span class="keyword">as</span> sess:</span><br><span class="line">        <span class="built_in">print</span>(sess.run(sumV12))</span><br></pre></td></tr></table></figure>
+
+<p>使用CPU0运行</p>
+<p><img src="/2021/09/18/tensorflow%E7%AC%94%E8%AE%B003/CPU%E4%BD%BF%E7%94%A8.jpg"></p>
+<p>使用GPU0运行</p>
+<p><img src="/2021/09/18/tensorflow%E7%AC%94%E8%AE%B003/GPU%E8%BF%90%E8%A1%8C.jpg"></p>
 
             </div>
             
