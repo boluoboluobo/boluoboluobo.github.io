@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://boluoboluobo-github-io.vercel.app/2021/09/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/</loc>
+    <loc>https://boluoboluobo-github-io.vercel.app/2021/09/24/hexo%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F%E6%98%BE%E7%A4%BA%E9%97%AE%E9%A2%98/</loc>
     
     <lastmod>2021-09-24</lastmod>
     
@@ -10,6 +10,13 @@
   
   <url>
     <loc>https://boluoboluobo-github-io.vercel.app/2021/09/23/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B003/</loc>
+    
+    <lastmod>2021-09-24</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://boluoboluobo-github-io.vercel.app/2021/09/22/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/</loc>
     
     <lastmod>2021-09-24</lastmod>
     
@@ -263,14 +270,7 @@
   </url>
   
   <url>
-    <loc>https://boluoboluobo-github-io.vercel.app/tags/mysql/</loc>
-    <lastmod>2021-09-24</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://boluoboluobo-github-io.vercel.app/tags/redis/</loc>
+    <loc>https://boluoboluobo-github-io.vercel.app/tags/hexo%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2021-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -291,7 +291,14 @@
   </url>
   
   <url>
-    <loc>https://boluoboluobo-github-io.vercel.app/tags/TensorFlow/</loc>
+    <loc>https://boluoboluobo-github-io.vercel.app/tags/mysql/</loc>
+    <lastmod>2021-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boluoboluobo-github-io.vercel.app/tags/redis/</loc>
     <lastmod>2021-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -306,6 +313,13 @@
   
   <url>
     <loc>https://boluoboluobo-github-io.vercel.app/tags/android/</loc>
+    <lastmod>2021-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boluoboluobo-github-io.vercel.app/tags/TensorFlow/</loc>
     <lastmod>2021-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -356,7 +370,7 @@
   </url>
   
   <url>
-    <loc>https://boluoboluobo-github-io.vercel.app/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>https://boluoboluobo-github-io.vercel.app/categories/hexo%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2021-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -364,6 +378,13 @@
   
   <url>
     <loc>https://boluoboluobo-github-io.vercel.app/categories/python/</loc>
+    <lastmod>2021-09-24</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://boluoboluobo-github-io.vercel.app/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2021-09-24</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
