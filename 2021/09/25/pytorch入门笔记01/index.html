@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/09/25/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/pytorch.jpg">
 <meta property="article:published_time" content="2021-09-25T09:56:25.000Z">
-<meta property="article:modified_time" content="2021-09-30T13:16:06.597Z">
+<meta property="article:modified_time" content="2021-10-04T02:53:41.154Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="pytorch">
@@ -147,7 +147,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~3.87K
+                            ~3.93K
                         
                         字
                     </li>
@@ -162,7 +162,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1633007766597"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1633316021154"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -244,10 +244,13 @@
 
 <p>out:</p>
 <p>tensor([1])<br>1</p>
-<p><strong>pytorch从numpy中读出数据</strong></p>
+<p><strong>numpy转pytorch</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> cv2 <span class="keyword">as</span> cv</span><br><span class="line">src = cv.imread(<span class="string">&#x27;../pic2.jpg&#x27;</span>)</span><br><span class="line">cv.imshow(<span class="string">&quot;hello&quot;</span>,src)</span><br><span class="line">matrix = np.array(src)</span><br><span class="line">panda_tensor = torch.from_numpy(matrix)</span><br><span class="line"><span class="built_in">print</span>(panda_tensor.size())</span><br><span class="line"></span><br><span class="line">cv.waitKey(<span class="number">0</span>)</span><br><span class="line">cv.destroyAllWindows()</span><br></pre></td></tr></table></figure>
 
 <p>主要是torch.from_numpy()</p>
+<p><strong>pytorch转numpy</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tensor = torch_data.numpy()</span><br><span class="line"><span class="comment"># torch_data是一个tensor</span></span><br></pre></td></tr></table></figure>
+
 
             </div>
             
@@ -342,7 +345,7 @@
                         <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-09-30</span>
+                    <span>最后编辑：2021-10-04</span>
                     </div>
                 </div>
             </footer>
@@ -414,7 +417,7 @@
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -423,7 +426,7 @@
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.75em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.65em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.7em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.65em;">java</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.75em;">numpy</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a>
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.8em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.73em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.8em;">numpy</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a>
       </div>
   </aside>
 
@@ -434,6 +437,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/10/07/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B007/"><i class="fa  fa-book"></i> 深度学习入门笔记07</a>
+            
+          
         
           
           
@@ -460,11 +469,7 @@
           
         
           
-          
-            <a class="list-group-item" href="/2021/09/25/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/"><i class="fa  fa-book"></i> pytorch入门笔记01</a>
             
-          
-        
           
             
           
