@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/10/07/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B007/sdxx.webp">
 <meta property="article:published_time" content="2021-10-07T11:59:12.000Z">
-<meta property="article:modified_time" content="2021-10-07T12:47:48.562Z">
+<meta property="article:modified_time" content="2021-10-07T12:50:42.830Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="DeepLearning">
@@ -275,7 +275,7 @@ mjx-container[display="true"] + br {
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1633610868562"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1633611042830"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
@@ -320,7 +320,7 @@ mjx-container[display="true"] + br {
 <h3 id="池化层的特征"><a href="#池化层的特征" class="headerlink" title="池化层的特征"></a>池化层的特征</h3><p><strong>没有要学习的参数：</strong>池化只是目标区域中最大值（或平均值）。</p>
 <p><strong>通道数不会变化：</strong>经过池化运算，输入输出的通道数不会变化。</p>
 <p><strong>微小位置变化具有鲁棒性：</strong>输入数据发生微小偏差时，仍会返回相同结果。</p>
-<h2 id="卷积层实现"><a href="#卷积层实现" class="headerlink" title="卷积层实现"></a>卷积层实现</h2><p><a href="%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B007/util.py">util工具包</a></p>
+<h2 id="卷积层实现"><a href="#卷积层实现" class="headerlink" title="卷积层实现"></a>卷积层实现</h2><p><a href="util.py">util工具包</a></p>
 <p>python实现</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> common.util <span class="keyword">import</span> im2col</span><br><span class="line"><span class="keyword">from</span> common.util <span class="keyword">import</span> col2im</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Convolution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self,W,b,stride=<span class="number">1</span>,pad = <span class="number">0</span></span>):</span></span><br><span class="line">        self.W = W</span><br><span class="line">        self.b = b</span><br><span class="line">        self.stride = stride</span><br><span class="line">        self.pad = pad</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 中间数据（backward时使用）</span></span><br><span class="line">        self.x = <span class="literal">None</span></span><br><span class="line">        self.col = <span class="literal">None</span></span><br><span class="line">        self.col_W = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">        <span class="comment"># 权重和偏置参数的梯度</span></span><br><span class="line">        self.dW = <span class="literal">None</span></span><br><span class="line">        self.db = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self,x</span>):</span></span><br><span class="line">        FN,C,FH,FW = self.W.shape</span><br><span class="line">        self.x = x</span><br><span class="line">        N,C,H,W = x.shape</span><br><span class="line">        out_h = <span class="built_in">int</span>(<span class="number">1</span> + (H + <span class="number">2</span>*self.pad - FH) / self.stride)</span><br><span class="line">        out_w = <span class="built_in">int</span>(<span class="number">1</span> + (W + <span class="number">2</span>*self.pad - FW) / self.stride)</span><br><span class="line"></span><br><span class="line">        self.col = im2col(x,FH,FW,self.stride,self.pad)</span><br><span class="line">        self.col_W = self.W.reshape(FN,-<span class="number">1</span>).T <span class="comment"># 滤波器展开</span></span><br><span class="line">        out = np.dot(self.col,self.col_W) + self.b</span><br><span class="line"></span><br><span class="line">        out = out.reshape(N,out_h,out_w,-<span class="number">1</span>).transpose(<span class="number">0</span>,<span class="number">3</span>,<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">backforward</span>(<span class="params">self, dout</span>):</span></span><br><span class="line">        FN, C, FH, FW = self.W.shape</span><br><span class="line">        dout = dout.transpose(<span class="number">0</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>).reshape(-<span class="number">1</span>, FN)</span><br><span class="line"></span><br><span class="line">        self.db = np.<span class="built_in">sum</span>(dout, axis=<span class="number">0</span>)</span><br><span class="line">        self.dW = np.dot(self.col.T, dout)</span><br><span class="line">        self.dW = self.dW.transpose(<span class="number">1</span>, <span class="number">0</span>).reshape(FN, C, FH, FW)</span><br><span class="line"></span><br><span class="line">        dcol = np.dot(dout, self.col_W.T)</span><br><span class="line">        dx = col2im(dcol, self.x.shape, FH, FW, self.stride, self.pad)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> dx</span><br></pre></td></tr></table></figure>
 
@@ -438,6 +438,10 @@ mjx-container[display="true"] + br {
                 </div>
                 
                 
+                <div class="nav-next clearfix">
+                    <a title=" kaggle注册以及下载" href="/2021/10/08/kaggle注册以及下载/">下一篇 &gt;</a>
+                </div>
+                
             </nav>
         
         
@@ -514,7 +518,7 @@ mjx-container[display="true"] + br {
   <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
     <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
       <div class="tag-clouds">
-        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.8em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.73em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.8em;">numpy</a> <a href="/tags/pip/" style="font-size: 0.6em;">pip</a>
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/DeepLearning/" style="font-size: 0.8em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.73em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kaggle/" style="font-size: 0.6em;">kaggle</a> <a href="/tags/kmp/" style="font-size: 0.6em;">kmp</a> <a href="/tags/kotlin/" style="font-size: 0.6em;">kotlin</a> <a href="/tags/mysql/" style="font-size: 0.6em;">mysql</a> <a href="/tags/numpy/" style="font-size: 0.8em;">numpy</a>
       </div>
   </aside>
 
@@ -525,6 +529,12 @@ mjx-container[display="true"] + br {
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/10/08/kaggle%E6%B3%A8%E5%86%8C%E4%BB%A5%E5%8F%8A%E4%B8%8B%E8%BD%BD/"><i class="fa  fa-book"></i> kaggle注册以及下载</a>
+            
+          
         
           
           
@@ -551,11 +561,7 @@ mjx-container[display="true"] + br {
           
         
           
-          
-            <a class="list-group-item" href="/2021/09/28/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B004/"><i class="fa  fa-book"></i> 深度学习入门笔记04</a>
             
-          
-        
           
             
           
