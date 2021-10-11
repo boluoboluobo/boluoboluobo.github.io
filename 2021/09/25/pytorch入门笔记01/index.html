@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/09/25/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B001/pytorch.jpg">
 <meta property="article:published_time" content="2021-09-25T09:56:25.000Z">
-<meta property="article:modified_time" content="2021-10-10T07:36:48.492Z">
+<meta property="article:modified_time" content="2021-10-11T04:49:03.075Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="pytorch">
@@ -147,7 +147,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~4.85K
+                            ~5.81K
                         
                         字
                     </li>
@@ -162,7 +162,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1633851408492"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1633927743075"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
@@ -196,7 +196,9 @@
 
 <p>out:</p>
 <p>CPU cost: 7.888931035995483<br>GPU cost: 0.1765275001525879</p>
-<h1 id="常见的方法"><a href="#常见的方法" class="headerlink" title="常见的方法"></a>常见的方法</h1><h2 id="生成空矩阵"><a href="#生成空矩阵" class="headerlink" title="生成空矩阵"></a>生成空矩阵</h2><p>没有初始化</p>
+<h1 id="常见的方法"><a href="#常见的方法" class="headerlink" title="常见的方法"></a>常见的方法</h1><h2 id="判断GPU是否可用"><a href="#判断GPU是否可用" class="headerlink" title="判断GPU是否可用"></a>判断GPU是否可用</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> torch.cuda.is_available():</span><br><span class="line">    tensor = tensor.to(<span class="string">&#x27;cuda&#x27;</span>)</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;device tensor is stored on: <span class="subst">&#123;tensor.device&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成空矩阵"><a href="#生成空矩阵" class="headerlink" title="生成空矩阵"></a>生成空矩阵</h2><p>没有初始化</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="comment"># 构造一个5 x 3的矩阵,没有初始化</span></span><br><span class="line">x = torch.empty(<span class="number">5</span>,<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure>
 
 <p>out:</p>
@@ -224,10 +226,23 @@
 
 <p>out:</p>
 <p>tensor([[2., 2., 2.],<br>        [2., 2., 2.],<br>        [2., 2., 2.],<br>        [2., 2., 2.],<br>        [2., 2., 2.]])</p>
-<h2 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">b = torch.rand(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment">#乘法</span></span><br><span class="line"><span class="built_in">print</span>(a * b)</span><br><span class="line"><span class="built_in">print</span>(a.mul(b))</span><br><span class="line"><span class="comment">#自身乘法，相当于a = a * b</span></span><br><span class="line"><span class="built_in">print</span>(a.mul_(b))</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
+<h2 id="numpy一样标准的索引和切片"><a href="#numpy一样标准的索引和切片" class="headerlink" title="numpy一样标准的索引和切片"></a>numpy一样标准的索引和切片</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">tensor = torch.ones(<span class="number">4</span>,<span class="number">4</span>)</span><br><span class="line">tensor[:,<span class="number">1</span>] = <span class="number">0</span></span><br><span class="line"><span class="built_in">print</span>(tensor)</span><br></pre></td></tr></table></figure>
 
+<p>out:</p>
+<p>tensor([[1., 0., 1., 1.],<br>        [1., 0., 1., 1.],<br>        [1., 0., 1., 1.],<br>        [1., 0., 1., 1.]])</p>
+<h2 id="乘法"><a href="#乘法" class="headerlink" title="乘法"></a>乘法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">a = torch.rand(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">b = torch.rand(<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line"><span class="comment">#乘法 对应位置相乘</span></span><br><span class="line"><span class="built_in">print</span>(a * b)</span><br><span class="line"><span class="built_in">print</span>(a.mul(b))</span><br><span class="line"><span class="comment">#自身乘法，相当于a = a * b</span></span><br><span class="line"><span class="built_in">print</span>(a.mul_(b))</span><br><span class="line"><span class="built_in">print</span>(a)</span><br></pre></td></tr></table></figure>
 
+<p>矩阵乘法计算，行乘列求和的那种</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mul = tensor.matmul(tensor.t())</span><br><span class="line">mul2 = tensor @ tensor.t()</span><br><span class="line"><span class="built_in">print</span>(mul)</span><br><span class="line"><span class="built_in">print</span>(mul2)</span><br></pre></td></tr></table></figure>
 
+<p>out:</p>
+<p>tensor([[3., 3., 3., 3.],<br>        [3., 3., 3., 3.],<br>        [3., 3., 3., 3.],<br>        [3., 3., 3., 3.]])<br>tensor([[3., 3., 3., 3.],<br>        [3., 3., 3., 3.],<br>        [3., 3., 3., 3.],<br>        [3., 3., 3., 3.]])</p>
+<h2 id="连接张量"><a href="#连接张量" class="headerlink" title="连接张量"></a>连接张量</h2><p>连接张量可以使用torch.cat。 将给定维数的张量顺序连接起来，也可以用torch.stack，另一种张量连接，略有不同</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">t1 = torch.cat([tensor,tensor],dim=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(t1)</span><br></pre></td></tr></table></figure>
+
+<p>out:</p>
+<p>tensor(</p>
+<p>​      [[1., 0., 1., 1., 1., 0., 1., 1.],<br>​        [1., 0., 1., 1., 1., 0., 1., 1.],<br>​        [1., 0., 1., 1., 1., 0., 1., 1.],<br>​        [1., 0., 1., 1., 1., 0., 1., 1.]])</p>
 <h2 id="改变tensor的形状"><a href="#改变tensor的形状" class="headerlink" title="改变tensor的形状"></a>改变tensor的形状</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#改变tensor大小或形状 torch.view</span></span><br><span class="line">x7 = torch.randn(<span class="number">4</span>,<span class="number">4</span>)</span><br><span class="line">y = x7.view(<span class="number">16</span>)</span><br><span class="line">z = x7.view(-<span class="number">1</span>,<span class="number">8</span>) <span class="comment">#尺寸设为-1，表示自己算这个大小</span></span><br><span class="line"><span class="built_in">print</span>(x7.size(),y.size(),z.size())</span><br></pre></td></tr></table></figure>
 
 <p>out:</p>
@@ -339,7 +354,7 @@
                         <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-10-10</span>
+                    <span>最后编辑：2021-10-11</span>
                     </div>
                 </div>
             </footer>
