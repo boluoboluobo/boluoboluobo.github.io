@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/10/11/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B003/pytorch.jpg">
 <meta property="article:published_time" content="2021-10-11T13:44:01.000Z">
-<meta property="article:modified_time" content="2021-10-11T14:42:45.347Z">
+<meta property="article:modified_time" content="2021-10-12T02:22:03.064Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="pytorch">
@@ -147,7 +147,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~3.67K
+                            ~4.13K
                         
                         字
                     </li>
@@ -162,8 +162,12 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1633963365347"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1634005323064"></time> 前，其中的内容可能需要更新。
                 </div>
+                
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.</span> <span class="toc-text">定义网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">损失函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.3.</span> <span class="toc-text">反向传播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%9D%83%E9%87%8D"><span class="toc-number">1.4.</span> <span class="toc-text">更新权重</span></a></li></ol></li></ol>
+                    </div>
                 
                 <hr />
                 <h1 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h1><p>神经网络可以通过使用torch.nn包进行构建</p>
@@ -222,6 +226,15 @@
 
 <p>out:</p>
 <p>conv1.bias.grad before backward<br>None<br>conv1.bias.grad after backward<br>tensor([ 8.4313e-05,  5.5547e-03,  1.2019e-02,  4.9749e-03, -9.5904e-05,<br>         2.6212e-03])</p>
+<h2 id="更新权重"><a href="#更新权重" class="headerlink" title="更新权重"></a>更新权重</h2><p>最简单的在训练中更新规则是随机梯度下降（SGD）：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weight = weight - learning_rate * gradient</span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过简单的python代码实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">learning_rate = <span class="number">0.01</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> net.parameters():</span><br><span class="line">    f.data.sub_(f.grad.data * learning_rate)</span><br></pre></td></tr></table></figure>
+
+<p>然而，由于你使用的神经网络，你想使用各种不同的更新规则例如，SGD， Nesterov-SGD,Adam,RMSProp等等。我们构建了一个小包：torch.optim用来实现所有的这些方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建优化器</span></span><br><span class="line">optimizer = optim.SGD(net.parameters(), lr=<span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 放在训练循环中</span></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = net(<span class="built_in">input</span>)</span><br><span class="line">loss = criterion(output, target)</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+
 
             </div>
             
@@ -314,7 +327,7 @@
                         <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-10-11</span>
+                    <span>最后编辑：2021-10-12</span>
                     </div>
                 </div>
             </footer>
@@ -326,6 +339,10 @@
                     <a title=" kaggle注册以及下载" href="/2021/10/08/kaggle注册以及下载/">&lt; 上一篇</a>
                 </div>
                 
+                
+                <div class="nav-next clearfix">
+                    <a title=" pytorch入门笔记04" href="/2021/10/12/pytorch入门笔记04/">下一篇 &gt;</a>
+                </div>
                 
             </nav>
         
@@ -379,10 +396,22 @@
             
                     <div class="sticky-area">
                 
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="toc-number">1.</span> <span class="toc-text">神经网络</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9A%E4%B9%89%E7%BD%91%E7%BB%9C"><span class="toc-number">1.1.</span> <span class="toc-text">定义网络</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8D%9F%E5%A4%B1%E5%87%BD%E6%95%B0"><span class="toc-number">1.2.</span> <span class="toc-text">损失函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%8D%E5%90%91%E4%BC%A0%E6%92%AD"><span class="toc-number">1.3.</span> <span class="toc-text">反向传播</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E6%9D%83%E9%87%8D"><span class="toc-number">1.4.</span> <span class="toc-text">更新权重</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -402,6 +431,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/10/12/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B004/"><i class="fa  fa-book"></i> pytorch入门笔记04</a>
+            
+          
         
           
           
@@ -428,11 +463,7 @@
           
         
           
-          
-            <a class="list-group-item" href="/2021/09/29/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B002/"><i class="fa  fa-book"></i> pytorch笔记02</a>
             
-          
-        
           
             
           

@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/2021/09/29/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B002/pytorch.jpg">
 <meta property="article:published_time" content="2021-09-29T05:14:47.000Z">
-<meta property="article:modified_time" content="2021-10-11T13:42:47.868Z">
+<meta property="article:modified_time" content="2021-10-12T01:35:15.116Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="pytorch">
@@ -147,7 +147,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.86K
+                            ~2.88K
                         
                         字
                     </li>
@@ -162,7 +162,7 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1633959767868"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1634002515116"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
@@ -195,7 +195,8 @@
 <h1 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h1><p>使用pytorch中的utils.data</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line"><span class="comment"># 新版的TensorDataset(*Tensor) 当中是可以填写多个Tensor的</span></span><br><span class="line"><span class="comment"># 旧版的TensorDataset(data_tensor=, target_tensor= )</span></span><br><span class="line"><span class="comment"># 其中填写的是数据和标签，相当于是打包起来</span></span><br><span class="line">torch_dataset = Data.TensorDataset(x_train,t_train)</span><br><span class="line"><span class="comment"># dataloader，负责的是按批加载pytorch张量</span></span><br><span class="line"><span class="comment"># 就是和深度学习入门那本书里讲的minibatch是一样的，参数就是填dataset数据集，batchsize每个批次是多少个，shuffle是否打乱</span></span><br><span class="line">loader = Data.DataLoader(dataset=torch_dataset,</span><br><span class="line">                         batch_size=batch_size,</span><br><span class="line">                         shuffle=<span class="literal">True</span></span><br><span class="line">                         )</span><br><span class="line"><span class="comment"># 每次获得的批次使用</span></span><br><span class="line"><span class="keyword">for</span> step, (batch_x,batch_y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(loader):</span><br><span class="line">    <span class="comment"># 设定自动微分</span></span><br><span class="line">    batch_x.requires_grad = <span class="literal">True</span></span><br><span class="line">    <span class="comment"># 转到GPU中计算</span></span><br><span class="line">    batch_y.cuda()</span><br><span class="line">    batch_x.cuda()</span><br><span class="line">    <span class="comment"># 获得预测值</span></span><br><span class="line">    prediction = network(batch_x)</span><br><span class="line">    <span class="comment"># 交叉熵</span></span><br><span class="line">    loss = F.cross_entropy(prediction,batch_y.long())</span><br><span class="line">    <span class="comment"># 反向传播 optimizer为梯度下降</span></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    optimizer.step()</span><br><span class="line">    train_loss_list.append(loss.item())</span><br></pre></td></tr></table></figure>
 
-<h1 id="pytorch的使用"><a href="#pytorch的使用" class="headerlink" title="pytorch的使用"></a>pytorch的使用</h1><p>让我们看一下单词训练。 比如， 我们从torchvision中加载一个预训练resnet18模型。我们创建一个随机tensor数据去代表一个有3通道，高和宽都是64的图像，它对应的label初始化为一些随机数。</p>
+<h1 id="pytorch的使用"><a href="#pytorch的使用" class="headerlink" title="pytorch的使用"></a>pytorch的使用</h1><p>个人翻译pytorch官网60min教程</p>
+<p>让我们看一下单词训练。 比如， 我们从torchvision中加载一个预训练resnet18模型。我们创建一个随机tensor数据去代表一个有3通道，高和宽都是64的图像，它对应的label初始化为一些随机数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch, torchvision</span><br><span class="line">os.environ[<span class="string">&#x27;TORCH_HOME&#x27;</span>] = <span class="string">&#x27;F:/WorkSpace/tensorflow/pytorch/models&#x27;</span></span><br><span class="line"></span><br><span class="line">model = torchvision.models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">data = torch.rand(<span class="number">1</span>, <span class="number">3</span>, <span class="number">64</span>, <span class="number">64</span>)</span><br><span class="line">labels = torch.rand(<span class="number">1</span>, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
 
 <p>接下来，我们将输入数据通过模型的每一层做一次预测，这就是<strong>前向传播</strong></p>
@@ -302,7 +303,7 @@
                         <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-10-11</span>
+                    <span>最后编辑：2021-10-12</span>
                     </div>
                 </div>
             </footer>
@@ -386,7 +387,7 @@
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
     <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">4</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">3</span></li></ul>
   </aside>
 
 
@@ -406,6 +407,12 @@
   <div class="tab-content">
       <ul class="list-group">
         
+        
+          
+          
+            <a class="list-group-item" href="/2021/10/12/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B004/"><i class="fa  fa-book"></i> pytorch入门笔记04</a>
+            
+          
         
           
           
@@ -432,11 +439,7 @@
           
         
           
-          
-            <a class="list-group-item" href="/2021/09/29/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B002/"><i class="fa  fa-book"></i> pytorch笔记02</a>
             
-          
-        
           
             
           
