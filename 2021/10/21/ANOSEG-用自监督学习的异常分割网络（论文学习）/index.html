@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>scheme打开手机内APP | 菠萝菠萝卜的博客</title>
+  <title>ANOSEG:用自监督学习的异常分割网络（论文学习） | 菠萝菠萝卜的博客</title>
   <meta name="author" content="菠萝菠萝卜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,21 +13,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="android, html5" />
+    <meta name="keywords" content="python, pytorch" />
   
-  <meta name="description" content="需求：网页上一个链接，点击后会唤醒手机内响应的app，打开指定APP的功能页面。 方法：在AndroidManifest.xml里面对需要打开的页面设置action，两个category, data 12345678&lt;activity android:name&#x3D;&quot;.MainActivity2&quot;&gt;    &lt;intent-filter&gt;        &amp;lt">
+  <meta name="description" content="ANOSEG:用自监督学习的异常分割网络（论文学习）这是自己读的第一篇英文论文，在其中发现自己有很多不会的知识点和术语之类的，现在还没完全读懂，目前记录学习到的知识补充，后续会继续补充。 知识点补充IoUIoU：（intersection over union）交并比，产生的候选框(Candidate bound)和原标记框(Ground Truth bound)的交叠率，就是交集和并集的比值$$">
 <meta property="og:type" content="article">
-<meta property="og:title" content="scheme打开手机内APP">
-<meta property="og:url" content="https://boluoboluobo-github-io.vercel.app/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/index.html">
+<meta property="og:title" content="ANOSEG:用自监督学习的异常分割网络（论文学习）">
+<meta property="og:url" content="https://boluoboluobo-github-io.vercel.app/2021/10/21/ANOSEG-%E7%94%A8%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%EF%BC%88%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%EF%BC%89/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
-<meta property="og:description" content="需求：网页上一个链接，点击后会唤醒手机内响应的app，打开指定APP的功能页面。 方法：在AndroidManifest.xml里面对需要打开的页面设置action，两个category, data 12345678&lt;activity android:name&#x3D;&quot;.MainActivity2&quot;&gt;    &lt;intent-filter&gt;        &amp;lt">
+<meta property="og:description" content="ANOSEG:用自监督学习的异常分割网络（论文学习）这是自己读的第一篇英文论文，在其中发现自己有很多不会的知识点和术语之类的，现在还没完全读懂，目前记录学习到的知识补充，后续会继续补充。 知识点补充IoUIoU：（intersection over union）交并比，产生的候选框(Candidate bound)和原标记框(Ground Truth bound)的交叠率，就是交集和并集的比值$$">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://boluoboluobo-github-io.vercel.app/null">
-<meta property="article:published_time" content="2021-05-03T05:52:43.000Z">
-<meta property="article:modified_time" content="2021-05-03T05:56:32.977Z">
+<meta property="article:published_time" content="2021-10-21T02:26:37.000Z">
+<meta property="article:modified_time" content="2021-10-21T08:38:39.385Z">
 <meta property="article:author" content="菠萝菠萝卜">
-<meta property="article:tag" content="html5">
-<meta property="article:tag" content="android">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://boluoboluobo-github-io.vercel.app/null">
 <meta name="twitter:site" content="@null">
@@ -138,21 +138,21 @@
     <article>
         <div class="kratos-hentry kratos-post-inner clearfix">
             <header class="kratos-entry-header">
-                <h1 class="kratos-entry-title text-center">scheme打开手机内APP</h1>
+                <h1 class="kratos-entry-title text-center">ANOSEG:用自监督学习的异常分割网络（论文学习）</h1>
                 
                 <ul class="kratos-post-meta text-center">
-                    <li><i class="fa fa-calendar"></i> 2021-05-03</li>
+                    <li><i class="fa fa-calendar"></i> 2021-10-21</li>
                     <li><i class="fa fa-user"></i> 作者 菠萝菠萝卜</li>
                     <li>
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.04K
+                            985
                         
                         字
                     </li>
                     
-                        <li id="/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/" class="leancloud_visitors" data-flag-title="scheme打开手机内APP">
+                        <li id="/2021/10/21/ANOSEG-%E7%94%A8%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%EF%BC%88%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%EF%BC%89/" class="leancloud_visitors" data-flag-title="ANOSEG:用自监督学习的异常分割网络（论文学习）">
                             <i class="fa fa-eye"></i>
                             <span class="leancloud-visitors-count"> </span> 次阅读
                         </li>
@@ -162,22 +162,20 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1620021392977"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1634805519385"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                 <hr />
-                <p>需求：网页上一个链接，点击后会唤醒手机内响应的app，打开指定APP的功能页面。</p>
-<p>方法：在AndroidManifest.xml里面对需要打开的页面设置action，两个category, data</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.VIEW&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.DEFAULT&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.BROWSABLE&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">&quot;fshao&quot;</span> <span class="attr">android:host</span>=<span class="string">&quot;my.app&quot;</span> <span class="attr">android:pathPrefix</span>=<span class="string">&quot;/openwith&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
+                <h1 id="ANOSEG-用自监督学习的异常分割网络（论文学习）"><a href="#ANOSEG-用自监督学习的异常分割网络（论文学习）" class="headerlink" title="ANOSEG:用自监督学习的异常分割网络（论文学习）"></a>ANOSEG:用自监督学习的异常分割网络（论文学习）</h1><p>这是自己读的第一篇英文论文，在其中发现自己有很多不会的知识点和术语之类的，现在还没完全读懂，目前记录学习到的知识补充，后续会继续补充。</p>
+<h2 id="知识点补充"><a href="#知识点补充" class="headerlink" title="知识点补充"></a>知识点补充</h2><h3 id="IoU"><a href="#IoU" class="headerlink" title="IoU"></a>IoU</h3><p>IoU：（intersection over union）交并比，产生的候选框(Candidate bound)和原标记框(Ground Truth bound)的交叠率，就是交集和并集的比值<br>$$<br>IoU = \frac{A \cap B} {A \cup B}<br>$$</p>
+<h3 id="GT"><a href="#GT" class="headerlink" title="GT"></a>GT</h3><p>GT: (Ground Truth)人工标注的正确label，训练集认为100%正确的标签。</p>
+<h3 id="SOTA"><a href="#SOTA" class="headerlink" title="SOTA"></a>SOTA</h3><p>SOTA：(state of the art)技术发展最新水平。比如 SOTA model表示在该项研究任务中，目前最好/最先进的模型。</p>
+<h3 id="CoordConv"><a href="#CoordConv" class="headerlink" title="CoordConv"></a>CoordConv</h3><p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1807.03247.pdf">论文地址</a></p>
+<p>在原始的卷积层上面，添加两个层，一个是x坐标的层，一个是y层的坐标。给卷积添加了空间感知能力，在回归问题和分类问题上表现都比卷积效果更好。</p>
+<p>python实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ins_feat = x <span class="comment"># 当前实例特征tensor</span></span><br><span class="line"><span class="comment"># 生成从-1到1的线性值</span></span><br><span class="line">x_range = torch.linspace(-<span class="number">1</span>, <span class="number">1</span>, ins_feat.shape[-<span class="number">1</span>], device=ins_feat.device)</span><br><span class="line">y_range = torch.linspace(-<span class="number">1</span>, <span class="number">1</span>, ins_feat.shape[-<span class="number">2</span>], device=ins_feat.device)</span><br><span class="line">y, x = torch.meshgrid(y_range, x_range) <span class="comment"># 生成二维坐标网格</span></span><br><span class="line">y = y.expand([ins_feat.shape[<span class="number">0</span>], <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>]) <span class="comment"># 扩充到和ins_feat相同维度</span></span><br><span class="line">x = x.expand([ins_feat.shape[<span class="number">0</span>], <span class="number">1</span>, -<span class="number">1</span>, -<span class="number">1</span>])</span><br><span class="line">coord_feat = torch.cat([x, y], <span class="number">1</span>) <span class="comment"># 位置特征</span></span><br><span class="line">ins_feat = torch.cat([ins_feat, coord_feat], <span class="number">1</span>) <span class="comment"># concatnate一起作为下一个卷积的输入</span></span><br></pre></td></tr></table></figure>
 
-<p>一会儿url请求格式是： scheme://host/path?传的参数</p>
-<p>对应页面获取数据：</p>
-<h1 id="kotlin"><a href="#kotlin" class="headerlink" title="kotlin"></a>kotlin</h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> uri = intent.<span class="keyword">data</span></span><br><span class="line"><span class="keyword">if</span>(uri != <span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="keyword">val</span> url = uri.toString()</span><br><span class="line">    <span class="keyword">val</span> scheme = uri.scheme</span><br><span class="line">    <span class="keyword">val</span> host = uri.host</span><br><span class="line">    <span class="keyword">val</span> port = uri.port</span><br><span class="line">    <span class="keyword">val</span> path = uri.path</span><br><span class="line">    <span class="keyword">val</span> pathSegments = uri.pathSegments</span><br><span class="line">    <span class="keyword">val</span> query = uri.queryParameterNames</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (key <span class="keyword">in</span> query)&#123;</span><br><span class="line">        showText = showText + key + <span class="string">&quot;:&quot;</span> + uri.getQueryParameter(key) + <span class="string">&quot;\n&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    tv_show.setText(showText)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="java"><a href="#java" class="headerlink" title="java"></a>java</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Uri uri = getIntent().getData();  </span><br><span class="line"><span class="keyword">if</span> (uri != <span class="keyword">null</span>) &#123;  </span><br><span class="line">    <span class="comment">// 完整的url信息  </span></span><br><span class="line">    String url = uri.toString();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;url: &quot;</span> + uri);  </span><br><span class="line">    <span class="comment">// scheme部分  </span></span><br><span class="line">    String scheme = uri.getScheme();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;scheme: &quot;</span> + scheme);  </span><br><span class="line">    <span class="comment">// host部分  </span></span><br><span class="line">    String host = uri.getHost();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;host: &quot;</span> + host);  </span><br><span class="line">    <span class="comment">//port部分  </span></span><br><span class="line">    <span class="keyword">int</span> port = uri.getPort();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;host: &quot;</span> + port);  </span><br><span class="line">    <span class="comment">// 访问路劲  </span></span><br><span class="line">    String path = uri.getPath();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;path: &quot;</span> + path);  </span><br><span class="line">    List&lt;String&gt; pathSegments = uri.getPathSegments();  </span><br><span class="line">    <span class="comment">// Query部分  </span></span><br><span class="line">    String query = uri.getQuery();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;query: &quot;</span> + query);  </span><br><span class="line">    <span class="comment">//获取指定参数值  </span></span><br><span class="line">    String goodsId = uri.getQueryParameter(<span class="string">&quot;goodsId&quot;</span>);  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;goodsId: &quot;</span> + goodsId);  </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
-<p>本文章参考的博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chaoyuehedy/p/9004224.html">https://www.cnblogs.com/chaoyuehedy/p/9004224.html</a></p>
-<p>本文也是看这个博客，记录一下。</p>
+<p>简单了解，代码转自<a target="_blank" rel="noopener" href="https://blog.csdn.net/oYeZhou/article/details/116717210">https://blog.csdn.net/oYeZhou/article/details/116717210</a></p>
 
             </div>
             
@@ -233,7 +231,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://boluoboluobo-github-io.vercel.app/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/",
+                text: "https://boluoboluobo-github-io.vercel.app/2021/10/21/ANOSEG-%E7%94%A8%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%EF%BC%88%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%EF%BC%89/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -245,11 +243,10 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://boluoboluobo-github-io.vercel.app/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/";
-            const title         = "「scheme打开手机内APP」";
-            const excerpt       = `需求：网页上一个链接，点击后会唤醒手机内响应的app，打开指定APP的功能页面。
-方法：在AndroidManifest.xml里面对需要打开的页面设置action，两个category, data
-12345678&lt;activ...`;
+            const hostUrl       = "https://boluoboluobo-github-io.vercel.app/2021/10/21/ANOSEG-%E7%94%A8%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%EF%BC%88%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%EF%BC%89/";
+            const title         = "「ANOSEG:用自监督学习的异常分割网络（论文学习）」";
+            const excerpt       = `ANOSEG:用自监督学习的异常分割网络（论文学习）这是自己读的第一篇英文论文，在其中发现自己有很多不会的知识点和术语之类的，现在还没完全读懂，目前记录学习到的知识补充，后续会继续补充。
+知识点补充IoUIoU：（intersecti...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -268,10 +265,10 @@
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        <a class="tag-none-link" href="/tags/android/" rel="tag">android</a>, <a class="tag-none-link" href="/tags/html5/" rel="tag">html5</a>
+                        <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-05-03</span>
+                    <span>最后编辑：2021-10-21</span>
                     </div>
                 </div>
             </footer>
@@ -280,12 +277,12 @@
             <nav class="navigation post-navigation clearfix" role="navigation">
                 
                 <div class="nav-previous clearfix">
-                    <a title=" Studio下载依赖慢" href="/2021/05/03/Studio下载依赖慢/">&lt; 上一篇</a>
+                    <a title=" 力扣每日一题 2021/10/20" href="/2021/10/20/力扣每日一题20211020/">&lt; 上一篇</a>
                 </div>
                 
                 
                 <div class="nav-next clearfix">
-                    <a title=" pip安装报错 HTTPSConnectionPool：Read timed out." href="/2021/05/03/pythonQs/">下一篇 &gt;</a>
+                    <a title=" 力扣每日一题 2021/10/21" href="/2021/10/21/力扣每日一题20211021/">下一篇 &gt;</a>
                 </div>
                 
             </nav>
@@ -301,7 +298,7 @@
                 appKey: 'HA3J9tdvziBrLcSml8Kai0qH',
                 visitor: true,
                 enableQQ: false,
-                path: '/2021/05/03/scheme%E6%89%93%E5%BC%80%E6%89%8B%E6%9C%BA%E5%86%85APP/',
+                path: '/2021/10/21/ANOSEG-%E7%94%A8%E8%87%AA%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0%E7%9A%84%E5%BC%82%E5%B8%B8%E5%88%86%E5%89%B2%E7%BD%91%E7%BB%9C%EF%BC%88%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0%EF%BC%89/',
 				avatar: ''
             });
         }
