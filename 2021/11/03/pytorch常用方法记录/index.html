@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>力扣每日一题 2021/10/19 | 菠萝菠萝卜的博客</title>
+  <title>pytorch常用方法记录 | 菠萝菠萝卜的博客</title>
   <meta name="author" content="菠萝菠萝卜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,22 +13,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="leetcode(中等)" />
+    <meta name="keywords" content="python, pytorch" />
   
-  <meta name="description" content="211.添加与搜索单词-数据结构设计请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。 实现词典类 WordDictionary ：  WordDictionary() 初始化词典对象 void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配 bool search(word) 如果数据结构中存在字符串与 word 匹配，则返">
+  <meta name="description" content="pytorch常用方法记录 本篇记录在学习使用pytorch时，常用的东西记录，以便随时查看。 常用损失函数交叉熵CrossEntropyLoss计算公式：$$E &#x3D; -\sum_k t_klog(y_k)$$这个公式在深度学习入门04中讲过。 python代码： 12cross_entropy_loss &#x3D; torch.CrossEntropyLoss()loss &#x3D; cross_entropy">
 <meta property="og:type" content="article">
-<meta property="og:title" content="力扣每日一题 2021&#x2F;10&#x2F;19">
-<meta property="og:url" content="https://www.boluoboluobo.top/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/index.html">
+<meta property="og:title" content="pytorch常用方法记录">
+<meta property="og:url" content="https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
-<meta property="og:description" content="211.添加与搜索单词-数据结构设计请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。 实现词典类 WordDictionary ：  WordDictionary() 初始化词典对象 void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配 bool search(word) 如果数据结构中存在字符串与 word 匹配，则返">
+<meta property="og:description" content="pytorch常用方法记录 本篇记录在学习使用pytorch时，常用的东西记录，以便随时查看。 常用损失函数交叉熵CrossEntropyLoss计算公式：$$E &#x3D; -\sum_k t_klog(y_k)$$这个公式在深度学习入门04中讲过。 python代码： 12cross_entropy_loss &#x3D; torch.CrossEntropyLoss()loss &#x3D; cross_entropy">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.boluoboluobo.top/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/leetcode.svg">
-<meta property="article:published_time" content="2021-10-19T02:49:52.000Z">
-<meta property="article:modified_time" content="2021-10-19T02:15:45.338Z">
+<meta property="og:image" content="https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/pytorch.jpg">
+<meta property="article:published_time" content="2021-11-03T07:19:07.000Z">
+<meta property="article:modified_time" content="2021-11-03T09:07:15.850Z">
 <meta property="article:author" content="菠萝菠萝卜">
-<meta property="article:tag" content="leetcode(中等)">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="pytorch">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.boluoboluobo.top/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/leetcode.svg">
+<meta name="twitter:image" content="https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/pytorch.jpg">
 <meta name="twitter:site" content="@null">
   
   <!-- 站点验证相关 -->
@@ -137,21 +138,21 @@
     <article>
         <div class="kratos-hentry kratos-post-inner clearfix">
             <header class="kratos-entry-header">
-                <h1 class="kratos-entry-title text-center">力扣每日一题 2021/10/19</h1>
+                <h1 class="kratos-entry-title text-center">pytorch常用方法记录</h1>
                 
                 <ul class="kratos-post-meta text-center">
-                    <li><i class="fa fa-calendar"></i> 2021-10-19</li>
+                    <li><i class="fa fa-calendar"></i> 2021-11-03</li>
                     <li><i class="fa fa-user"></i> 作者 菠萝菠萝卜</li>
                     <li>
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~3.23K
+                            ~2.05K
                         
                         字
                     </li>
                     
-                        <li id="/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/" class="leancloud_visitors" data-flag-title="力扣每日一题 2021/10/19">
+                        <li id="/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/" class="leancloud_visitors" data-flag-title="pytorch常用方法记录">
                             <i class="fa fa-eye"></i>
                             <span class="leancloud-visitors-count"> </span> 次阅读
                         </li>
@@ -161,35 +162,59 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1634609745338"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1635930435850"></time> 前，其中的内容可能需要更新。
                 </div>
                 
-                    <div class="kratos-post-inner-toc">
-                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#211-%E6%B7%BB%E5%8A%A0%E4%B8%8E%E6%90%9C%E7%B4%A2%E5%8D%95%E8%AF%8D-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">211.添加与搜索单词-数据结构设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">解题代码</span></a></li></ol>
-                    </div>
-                
                 <hr />
-                <h1 id="211-添加与搜索单词-数据结构设计"><a href="#211-添加与搜索单词-数据结构设计" class="headerlink" title="211.添加与搜索单词-数据结构设计"></a>211.添加与搜索单词-数据结构设计</h1><p>请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。</p>
-<p>实现词典类 WordDictionary ：</p>
-<ul>
-<li>WordDictionary() 初始化词典对象</li>
-<li>void addWord(word) 将 word 添加到数据结构中，之后可以对它进行匹配</li>
-<li>bool search(word) 如果数据结构中存在字符串与 word 匹配，则返回 true ；否则，返回  false 。word 中可能包含一些 ‘.’ ，每个 . 都可以表示任何一个字母。</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/design-add-and-search-words-data-structure">原文链接</a></p>
-<p><strong>示例：</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">输入：</span><br><span class="line">[<span class="string">&quot;WordDictionary&quot;</span>,<span class="string">&quot;addWord&quot;</span>,<span class="string">&quot;addWord&quot;</span>,<span class="string">&quot;addWord&quot;</span>,<span class="string">&quot;search&quot;</span>,<span class="string">&quot;search&quot;</span>,<span class="string">&quot;search&quot;</span>,<span class="string">&quot;search&quot;</span>]</span><br><span class="line">[[],[<span class="string">&quot;bad&quot;</span>],[<span class="string">&quot;dad&quot;</span>],[<span class="string">&quot;mad&quot;</span>],[<span class="string">&quot;pad&quot;</span>],[<span class="string">&quot;bad&quot;</span>],[<span class="string">&quot;.ad&quot;</span>],[<span class="string">&quot;b..&quot;</span>]]</span><br><span class="line">输出：</span><br><span class="line">[<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">null</span>,<span class="literal">false</span>,<span class="literal">true</span>,<span class="literal">true</span>,<span class="literal">true</span>]</span><br><span class="line"></span><br><span class="line">解释：</span><br><span class="line">WordDictionary wordDictionary = new WordDictionary();</span><br><span class="line">wordDictionary.addWord(&quot;bad&quot;);</span><br><span class="line">wordDictionary.addWord(&quot;dad&quot;);</span><br><span class="line">wordDictionary.addWord(&quot;mad&quot;);</span><br><span class="line">wordDictionary.search(&quot;pad&quot;); // return False</span><br><span class="line">wordDictionary.search(&quot;bad&quot;); // return True</span><br><span class="line">wordDictionary.search(&quot;.ad&quot;); // return True</span><br><span class="line">wordDictionary.search(&quot;b..&quot;); // return True</span><br></pre></td></tr></table></figure>
+                <h1 id="pytorch常用方法记录"><a href="#pytorch常用方法记录" class="headerlink" title="pytorch常用方法记录"></a>pytorch常用方法记录</h1><p> 本篇记录在学习使用pytorch时，常用的东西记录，以便随时查看。</p>
+<h2 id="常用损失函数"><a href="#常用损失函数" class="headerlink" title="常用损失函数"></a>常用损失函数</h2><h3 id="交叉熵CrossEntropyLoss"><a href="#交叉熵CrossEntropyLoss" class="headerlink" title="交叉熵CrossEntropyLoss"></a>交叉熵CrossEntropyLoss</h3><p>计算公式：<br>$$<br>E = -\sum_k t_klog(y_k)<br>$$<br>这个公式在深度学习入门04中讲过。</p>
+<p>python代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cross_entropy_loss = torch.CrossEntropyLoss()</span><br><span class="line">loss = cross_entropy_loss(<span class="built_in">input</span>: Tensor, target: Tensor)</span><br></pre></td></tr></table></figure>
 
-<p><strong>提示：</strong></p>
-<ul>
-<li>1 &lt;= word.length &lt;= 500</li>
-<li>addWord 中的 word 由小写英文字母组成</li>
-<li>search 中的 word 由 ‘.’ 或小写英文字母组成</li>
-<li>最多调用 50000 次 addWord 和 search</li>
-</ul>
-<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>整个字典是一个Map，map存储一个String的列表，以word的长度为key，当查找的时候，通过长度找出列表，列表中遍历查找对应的单词。</p>
-<h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">algorithm211</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        WordDictionary dictionary = <span class="keyword">new</span> WordDictionary();</span><br><span class="line">        dictionary.addWord(<span class="string">&quot;bad&quot;</span>);</span><br><span class="line">        dictionary.addWord(<span class="string">&quot;dad&quot;</span>);</span><br><span class="line">        System.out.println(dictionary.search(<span class="string">&quot;pad&quot;</span>));</span><br><span class="line">        System.out.println(dictionary.search(<span class="string">&quot;bad&quot;</span>));</span><br><span class="line">        System.out.println(dictionary.search(<span class="string">&quot;.ad&quot;</span>));</span><br><span class="line">        System.out.println(dictionary.search(<span class="string">&quot;b..&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">WordDictionary</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> Map&lt;Integer, List&lt;String&gt;&gt; dictionary = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">/** Initialize your data structure here. */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">WordDictionary</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            dictionary = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Adds a word into the data structure. */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addWord</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">            List&lt;String&gt; list = dictionary.get(word.length());</span><br><span class="line">            <span class="keyword">if</span>(list == <span class="keyword">null</span>)&#123;</span><br><span class="line">                list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">            &#125;</span><br><span class="line">            list.add(word);</span><br><span class="line">            dictionary.put(word.length(),list);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">/** Returns if the word is in the data structure. A word could contain the dot character &#x27;.&#x27; to represent any one letter. */</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">int</span> len = word.length();</span><br><span class="line">            List&lt;String&gt; list = dictionary.get(len);</span><br><span class="line">            <span class="keyword">boolean</span> flag = <span class="keyword">false</span>;</span><br><span class="line">            <span class="keyword">for</span>(String str : list)&#123;</span><br><span class="line">                <span class="keyword">boolean</span> f = <span class="keyword">true</span>;</span><br><span class="line">                <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; len;i++)&#123;</span><br><span class="line">                    <span class="keyword">if</span>(word.charAt(i) != <span class="string">&#x27;.&#x27;</span>)&#123;</span><br><span class="line">                        <span class="keyword">if</span>(word.charAt(i) != str.charAt(i))</span><br><span class="line">                            f = <span class="keyword">false</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span>(f)&#123;</span><br><span class="line">                    flag = <span class="keyword">true</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> flag;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong>CrossEntropyLoss的输入就直接是Model的输出，不要是softmax之后的。还有就是label必须是long类型在[0, class-1]之间。</p>
+<p><img src="/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/cross_entropy_loss.jpg"></p>
+<p>查看源码中的解释即可知道，CrossEntropyLoss = log_softmax + NllLoss，因此不需要softmax。其中的C代表的类型。</p>
+<h3 id="均方差MSELoss-L2Loss"><a href="#均方差MSELoss-L2Loss" class="headerlink" title="均方差MSELoss (L2Loss)"></a>均方差MSELoss (L2Loss)</h3><p>计算公式：<br>$$<br>MSE = \frac {1}{m} \sum_i(y_i - \hat {y_i})^2<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mseLoss = torch.MSELoss()</span><br><span class="line">loss = mseLoss(<span class="built_in">input</span>: Tensor, target: Tensor)</span><br></pre></td></tr></table></figure>
 
+<h3 id="BCELoss"><a href="#BCELoss" class="headerlink" title="BCELoss"></a>BCELoss</h3><p>bce loss分类，用于二分类问题。数学公式如下<br>$$<br>loss(X_i,y_i) = -w_i[y_ilogx_i + (1 - y_i)log(1 - xi)]<br>$$<br>pytorch中bceloss</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">torch</span>.<span class="title">nn</span>.<span class="title">BCELoss</span>(<span class="params">weight: <span class="type">Optional</span>[torch.Tensor] = <span class="literal">None</span>, size_average=<span class="literal">None</span>, reduce=<span class="literal">None</span>, reduction: <span class="built_in">str</span> = <span class="string">&#x27;mean&#x27;</span></span>)</span></span><br></pre></td></tr></table></figure>
+
+<p>weight: 初始化权重矩阵</p>
+<p>size_average: 默认是True，对loss求平均数</p>
+<p>reduction: 默认求和， 对于batch_size的loss平均数</p>
+<h3 id="L1Loss-MAE"><a href="#L1Loss-MAE" class="headerlink" title="L1Loss (MAE)"></a>L1Loss (MAE)</h3><p>指的是一范数损失，也叫MAE，就是<strong>估计值和目标值做差的绝对值</strong></p>
+<p>公式：<br>$$<br>loss(x,y) = \frac {1}{n} \sum_{i=1}^n|y_i-f(x_i)|<br>$$</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">l1_loss = nn.L1Loss()</span><br><span class="line">loss = l1_loss(<span class="built_in">input</span>:Tensor, target:Tensor)</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用激活函数"><a href="#常用激活函数" class="headerlink" title="常用激活函数"></a>常用激活函数</h2><h3 id="Sigmoid函数"><a href="#Sigmoid函数" class="headerlink" title="Sigmoid函数"></a>Sigmoid函数</h3><p>公式：</p>
+<p>$$<br>h(x) = \frac {1}{1 + e^{(-x)}}<br>$$</p>
+<p>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.Sigmoid()</span><br></pre></td></tr></table></figure>
+
+<h3 id="ReLu函数"><a href="#ReLu函数" class="headerlink" title="ReLu函数"></a>ReLu函数</h3><p>ReLU函数：在输入大于0时，直接输出该值；在小于等于0时为0</p>
+<p>公式：</p>
+<p>$$<br>h(x) = \begin {cases}x, &amp;{(x \gt 0)}\\ 0, &amp;{(x \leq 0)} \end{cases}<br>$$<br>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.ReLU(inplace= <span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<p>inplace若为True，则覆盖之前的值，可以减少内存消耗。</p>
+<h3 id="LeakyReLU"><a href="#LeakyReLU" class="headerlink" title="LeakyReLU"></a>LeakyReLU</h3><p>虽然relu在SGD中收敛很快，但是对于小于0的值梯度永远是0，那么激活函数收到的值通常都会有bias，如果偏置很小，导致值一直都是负数，使得梯度无法更新，最终导致神经元“死亡”。所以提出了LeakyReLU，当x小于0时不再等于0而是等于一个weight * x。通常这个权重取0.2<br>$$<br>y = max(0,x) + weight * min(0,x)<br>$$<br>代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nn.LeakyReLU(<span class="number">0.2</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h2><h3 id="torch-squeeze"><a href="#torch-squeeze" class="headerlink" title="torch.squeeze()"></a>torch.squeeze()</h3><p>对数据的维度进行压缩，去掉某行或某列。只能对于为1的维度。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">t = torch.randn((<span class="number">2</span>,<span class="number">3</span>,<span class="number">1</span>))</span><br><span class="line"><span class="built_in">print</span>(t.size())</span><br><span class="line">t = t.squeeze(<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(t.size())</span><br></pre></td></tr></table></figure>
+
+<p>out:</p>
+<p>torch.Size([2, 3, 1])<br>torch.Size([2, 3])</p>
+<h3 id="torch-unsqueeze"><a href="#torch-unsqueeze" class="headerlink" title="torch.unsqueeze()"></a>torch.unsqueeze()</h3><p>将数据维数进行扩充。比如：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">t = torch.randn((<span class="number">2</span>,<span class="number">3</span>,<span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(t.size())</span><br><span class="line">t = torch.unsqueeze(t,dim=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(t.size())</span><br><span class="line"><span class="comment"># 或者 tensor.unsqueeze(dim)</span></span><br><span class="line">t = t.unsqueeze(<span class="number">2</span>) <span class="comment"># 是一样的</span></span><br></pre></td></tr></table></figure>
+
+<p>out：</p>
+<p>torch.Size([2, 3, 3])<br>torch.Size([2, 3, 1, 3])</p>
+<h3 id="torch-empty"><a href="#torch-empty" class="headerlink" title="torch.empty()"></a>torch.empty()</h3><p>之前pytorch入门笔记01讲过，这里将如何赋值</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">t = torch.empty(<span class="number">2</span>,<span class="number">3</span>)</span><br><span class="line">t.data[<span class="number">0</span>].copy_(torch.randn(<span class="number">3</span>))</span><br><span class="line">t.data[<span class="number">1</span>].copy_(torch.randn(<span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+<p>data找到对应的值，然后copy进去即可。</p>
 
             </div>
             
@@ -245,7 +270,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://www.boluoboluobo.top/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/",
+                text: "https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -257,13 +282,10 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://www.boluoboluobo.top/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/";
-            const title         = "「力扣每日一题 2021/10/19」";
-            const excerpt       = `211.添加与搜索单词-数据结构设计请你设计一个数据结构，支持 添加新单词 和 查找字符串是否与任何先前添加的字符串匹配 。
-实现词典类 WordDictionary ：
-
-WordDictionary() 初始化词典对象
-void ...`;
+            const hostUrl       = "https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/";
+            const title         = "「pytorch常用方法记录」";
+            const excerpt       = `pytorch常用方法记录 本篇记录在学习使用pytorch时，常用的东西记录，以便随时查看。
+常用损失函数交叉熵CrossEntropyLoss计算公式：$$E = -\sum_k t_klog(y_k)$$这个公式在深度学习入门0...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -282,10 +304,10 @@ void ...`;
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        <a class="tag-none-link" href="/tags/leetcode-%E4%B8%AD%E7%AD%89/" rel="tag">leetcode(中等)</a>
+                        <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-10-19</span>
+                    <span>最后编辑：2021-11-03</span>
                     </div>
                 </div>
             </footer>
@@ -294,13 +316,9 @@ void ...`;
             <nav class="navigation post-navigation clearfix" role="navigation">
                 
                 <div class="nav-previous clearfix">
-                    <a title=" 力扣每日一题 2021/10/18" href="/2021/10/18/力扣每日一题20211018/">&lt; 上一篇</a>
+                    <a title=" GAN生成动漫头像" href="/2021/10/29/GAN生成动漫头像/">&lt; 上一篇</a>
                 </div>
                 
-                
-                <div class="nav-next clearfix">
-                    <a title=" 力扣每日一题 2021/10/20" href="/2021/10/20/力扣每日一题20211020/">下一篇 &gt;</a>
-                </div>
                 
             </nav>
         
@@ -315,7 +333,7 @@ void ...`;
                 appKey: 'HA3J9tdvziBrLcSml8Kai0qH',
                 visitor: true,
                 enableQQ: false,
-                path: '/2021/10/19/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211019/',
+                path: '/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/',
 				avatar: ''
             });
         }
@@ -353,18 +371,6 @@ void ...`;
 </aside>
             
                     <div class="sticky-area">
-                
-                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
-    <div class="photo-background"></div>
-    <h4 class="widget-title no-after">
-        <i class="fa fa-compass"></i>
-        文章目录
-        <span class="toc-progress-bar"></span>
-    </h4>
-    <div class="textwidget">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#211-%E6%B7%BB%E5%8A%A0%E4%B8%8E%E6%90%9C%E7%B4%A2%E5%8D%95%E8%AF%8D-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E8%AE%BE%E8%AE%A1"><span class="toc-number">1.</span> <span class="toc-text">211.添加与搜索单词-数据结构设计</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">解题代码</span></a></li></ol>
-    </div>
-</aside>
                 
                 
   <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
