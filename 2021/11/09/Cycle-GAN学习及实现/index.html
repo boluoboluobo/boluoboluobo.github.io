@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.boluoboluobo.top/null">
 <meta property="article:published_time" content="2021-11-09T10:40:33.000Z">
-<meta property="article:modified_time" content="2021-11-10T05:20:38.857Z">
+<meta property="article:modified_time" content="2021-11-10T05:28:04.564Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="pytorch">
 <meta property="article:tag" content="CycleGan">
@@ -274,7 +274,7 @@ mjx-container[display="true"] + br {
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1636521638857"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1636522084564"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
@@ -286,7 +286,7 @@ mjx-container[display="true"] + br {
 <p>马—&gt;斑马</p>
 <p><img src="/2021/11/09/Cycle-GAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/horse2zebra.jpg"></p>
 <p>斑马—-&gt;马</p>
-<p><img src="/2021/11/09/Cycle-GAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/Cycle-GAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0%5Czebra2horse.jpg"></p>
+<p><img src="/2021/11/09/Cycle-GAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/zebra2horse.jpg"></p>
 <h2 id="Cycle-GAN原理"><a href="#Cycle-GAN原理" class="headerlink" title="Cycle GAN原理"></a>Cycle GAN原理</h2><p>CycleGAN主要是做的在没有成对的图像情况下，弄清楚如何将一个图像的特征转化为另一个图像的特征。假设X是A类型的图，Y是B类型的图。要训练一种Generator，将X的原图生成新的y，让判别器D无法分辨生成的y和Y，认为他们两个是同一类。然而实际操作中发现无法单独优化判别器。然后，从翻译中找到的灵感，假如从英语翻译到法语，再从法语翻译回英语，那么原来的英语应该和翻译回的英语相同。</p>
 <p>​    就是说CycleGAN当中有两个Generator，一个将X类转为Y类，一个是将Y类转为X类。对应的也有两个Discriminator，一个是认X类的，一个是认Y类的。目标是把X转成Y。</p>
 <p>​    如果只训练一个Generator直接转换的话存在一个问题</p>
