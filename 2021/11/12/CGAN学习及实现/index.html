@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+  <!-- 元数据 -->
+  <meta charset="utf-8">
+  <link rel="icon" href="">
+  <title>CGAN学习及实现 | 菠萝菠萝卜的博客</title>
+  <meta name="author" content="菠萝菠萝卜" />
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="format-detection" content="telphone=no, email=no" />
+  
+    <meta name="keywords" content="cgan, conditional GAN, pytorch" />
+  
+  <meta name="description" content="CGAN学习及实现 在GAN的学习中，生成了随机的二次元人物头像。人物随机生成，随机生成的人物不可控，如何让Generator按照我们想的样子的二次元头像呢。这里使用了CGAN(conditional GAN)条件GAN完成这个任务。 论文地址 效果图这个是跑了150个epoch的效果，训练集和写GAN的那篇用的是一样的。       CGAN思想 这个图网上到处都有，一搜全都是。我也简单说一下吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CGAN学习及实现">
+<meta property="og:url" content="https://www.boluoboluobo.top/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="菠萝菠萝卜的博客">
+<meta property="og:description" content="CGAN学习及实现 在GAN的学习中，生成了随机的二次元人物头像。人物随机生成，随机生成的人物不可控，如何让Generator按照我们想的样子的二次元头像呢。这里使用了CGAN(conditional GAN)条件GAN完成这个任务。 论文地址 效果图这个是跑了150个epoch的效果，训练集和写GAN的那篇用的是一样的。       CGAN思想 这个图网上到处都有，一搜全都是。我也简单说一下吧">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.boluoboluobo.top/null">
+<meta property="article:published_time" content="2021-11-12T05:57:21.000Z">
+<meta property="article:modified_time" content="2021-11-12T08:25:34.112Z">
+<meta property="article:author" content="菠萝菠萝卜">
+<meta property="article:tag" content="pytorch">
+<meta property="article:tag" content="cgan">
+<meta property="article:tag" content="conditional GAN">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.boluoboluobo.top/null">
+<meta name="twitter:site" content="@null">
+  
+  <!-- 站点验证相关 -->
+  
+    
+    
+    
+  
+  <!-- 样式表文件 -->
+  <link rel="stylesheet" id="kratos-css" href="/css/kratosr.min.css" type="text/css" media="all">
+  
+    <link rel="stylesheet" id="highlight-css" href="/css/highlight/night-eighties.min.css" type="text/css" media="all">
+  
+  
+  <link rel="stylesheet" id="fontawe-css" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" type="text/css" media="all">
+  <link rel="stylesheet" id="nprogress-css" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" type="text/css" media="all">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+  
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css">
+  
+  
+    <link rel="stylesheet" id="darkmode-css" href="/css/kr-dark.min.css" type="text/css" media="all">
+  
+  <!-- 不得不预先加载的一些JS文件 -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+  
+    <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
+  
+<!-- hexo injector head_end start -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
+
+
+    <body class="custom-background">
+        <div id="kratos-wrapper">
+    <div id="kratos-page">
+        <div id="kratos-header">
+            <header id="kratos-desktop-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="nav-header">
+                        <nav id="kratos-menu-wrap">
+                            <ul id="kratos-primary-menu" class="sf-menu">
+                                
+                                    
+                                        <li><a href="/"><i class="fa fa-home"></i>首页</a></li>
+                                    
+                                
+                                    
+                                        <li><a href="/archives/"><i class="fa fa-file"></i>档案馆</a></li>
+                                    
+                                
+                                    
+                                        <li>
+                                            <a><i class="fa fa-link"></i>链接</a>
+                                            <ul class="sub-menu">
+                                                
+                                                    
+                                                
+                                                    
+                                                        <li><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_36571422">CSDN博客</a></li>
+                                                    
+                                                
+                                            </ul>
+                                        </li>
+                                    
+                                
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+            <header id="kratos-mobile-topnav" class="kratos-topnav">
+                <div class="container">
+                    <div class="color-logo"><a href="/">菠萝菠萝卜的博客</a></div>
+                    <div class="nav-toggle">
+                        <a class="kratos-nav-toggle js-kratos-nav-toggle">
+                            <i></i>
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="kratos-start kratos-hero-2">
+            <!-- <div class="kratos-overlay"></div> -->
+            <div class="kratos-cover kratos-cover-2 text-center">
+                <div class="desc desc2 animate-box">
+                    <a href="/">
+                        <h2>菠萝菠萝卜的博客</h2> <br />
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="kratos-blog-post">
+            <div class="container">
+                <div id="main" class="row">
+                    
+
+        <section class="col-md-8">
+    <article>
+        <div class="kratos-hentry kratos-post-inner clearfix">
+            <header class="kratos-entry-header">
+                <h1 class="kratos-entry-title text-center">CGAN学习及实现</h1>
+                
+                <ul class="kratos-post-meta text-center">
+                    <li><i class="fa fa-calendar"></i> 2021-11-12</li>
+                    <li><i class="fa fa-user"></i> 作者 菠萝菠萝卜</li>
+                    <li>
+                        <i class="fa fa-edit"></i> 
+                        
+                        
+                            ~13.08K
+                        
+                        字
+                    </li>
+                    
+                        <li id="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="leancloud_visitors" data-flag-title="CGAN学习及实现">
+                            <i class="fa fa-eye"></i>
+                            <span class="leancloud-visitors-count"> </span> 次阅读
+                        </li>
+                        
+                    
+                </ul>
+            </header>
+            <div class="kratos-post-content">
+                <div id="expire-alert" class="alert alert-warning hidden" role="alert">
+                    本文最后编辑于 <time datetime="1636705534112"></time> 前，其中的内容可能需要更新。
+                </div>
+                
+                    <div class="kratos-post-inner-toc">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">CGAN学习及实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text">效果图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CGAN%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.</span> <span class="toc-text">CGAN思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-number">1.3.</span> <span class="toc-text">训练的细节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%9B%AE%E6%A0%87"><span class="toc-number">1.3.1.</span> <span class="toc-text">训练目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用的数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="toc-number">1.3.3.</span> <span class="toc-text">开始训练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-number">1.5.</span> <span class="toc-text">相关链接</span></a></li></ol></li></ol>
+                    </div>
+                
+                <hr />
+                <h1 id="CGAN学习及实现"><a href="#CGAN学习及实现" class="headerlink" title="CGAN学习及实现"></a>CGAN学习及实现</h1><p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0%5Cg_25.jpg"></p>
+<p>在GAN的学习中，生成了随机的二次元人物头像。人物随机生成，随机生成的人物不可控，如何让Generator按照我们想的样子的二次元头像呢。这里使用了CGAN(conditional GAN)条件GAN完成这个任务。</p>
+<p><a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1411.1784.pdf">论文地址</a></p>
+<h2 id="效果图"><a href="#效果图" class="headerlink" title="效果图"></a>效果图</h2><p>这个是跑了150个epoch的效果，训练集和写GAN的那篇用的是一样的。</p>
+<img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/cgan_1.jpeg" style="zoom:50%;">
+
+<img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/cgan_2.jpeg" style="zoom:50%;">
+
+<img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/cgan_3.jpeg" style="zoom:50%;">
+
+<h2 id="CGAN思想"><a href="#CGAN思想" class="headerlink" title="CGAN思想"></a>CGAN思想</h2><p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/CGANNet.png"></p>
+<p>这个图网上到处都有，一搜全都是。我也简单说一下吧。CGAN是在原始GAN的基础上，在训练生成器G和判别器D的时候都加入了新的条件变量y，y可以是各种信息，标签等信息。y在训练过程中起到指导作用。</p>
+<p>图中的做法是，对于生成器G，将y条件信息，和noise拼接，放入生成器中用来生成图片。对于判别器D，将y条件信息和x图像信息拼接。拼接方式可以是用全连接将类别转为相应大小的图片，拼接到原图片的通道当中，然后继续和GAN的D一样进行评分。这个是网上很多人的做法，我的代码也使用的这个。不过我觉得也可以是，图片经过一个网络生成embedding，label通过一个网络生成一个Embedding然后两个特征相组合在进行评分也可以。</p>
+<h2 id="训练的细节"><a href="#训练的细节" class="headerlink" title="训练的细节"></a>训练的细节</h2><h3 id="训练目标"><a href="#训练目标" class="headerlink" title="训练目标"></a>训练目标</h3><p>根据输入的头发颜色，眼睛颜色，让Generator生成出对应的二次元头像。</p>
+<h3 id="使用的数据集"><a href="#使用的数据集" class="headerlink" title="使用的数据集"></a>使用的数据集</h3><p>这里用的是和GAN那篇一样的，需要用到tags.csv</p>
+<p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/csv.png" alt="csv"></p>
+<p>最上面的一行是我自己加的。tags格式为：图片号，头发颜色 hair 眼睛颜色 eyes。读取csv使用的是<strong>pandas</strong>的包，没有的可以自行安装</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pandas</span><br></pre></td></tr></table></figure>
+
+<p>读csv格式标签的方法。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line">df = pd.read_csv(csv_path) <span class="comment"># 读csv文件</span></span><br><span class="line">label = df.iloc[item, <span class="number">1</span>] <span class="comment"># 获取第item行，第1列，列数是以逗号分隔</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="开始训练"><a href="#开始训练" class="headerlink" title="开始训练"></a>开始训练</h3><p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/trainDetail1.png"></p>
+<p>这里是训练判别器D的方式，不同于GAN那样，只判断图像是否为二次元头像。这里需要想到几个问题：这个图片是否清晰，这个label条件是否正确。需要考虑三种情况，也就是三个loss：</p>
+<p>第一种，我们先给D一个训练集当中的图片，和对应的label。此时是最好的情况(图片清晰，条件正确)，我们应当给高分，让它靠近1.</p>
+<p>第二种，我们给G一个随机noise加上当前的label，让它产生out图片，此时的图片变得不清晰，但是label是正确的。将out图片和label送给D评分，此时分数应当降低，让它靠近0</p>
+<p>第三种，我们重新从数据集当中选出和当前label不一样的图片，这时属于是label错误(图片足够清晰，条件错误)，D同样需要给他低分。</p>
+<p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/trainDetail2.png"></p>
+<p>这个是两种评分方式，第一种上面的是常用方法，图片和条件分别产生Embedding然后合拼到新的网络中产生分数。第二种是李宏毅老师说的方法，觉得更符合逻辑一些。这个做法是，一个图片经过一个网络，产生一个图像分数（用来判定图像是否清晰）和一个Embedding特征，将特征和条件结合，进入新的网络，产生图像和条件是否满足的分数。这样让网络知道是哪个部分导致的分数降低，从而达到更好的效果。这个我打算去实现以下，做个尝试。</p>
+<p><img src="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/trainDetail3.png"></p>
+<p>这个是整个训练过程：(c代表条件label，x代表图片，z代表随机噪声)</p>
+<p>D训练</p>
+<ol>
+<li>从数据集选择m个正向样本。</li>
+<li>产生m个随机noise样本</li>
+<li>获取生成数据，将noise和条件c加入G中产生新的图片</li>
+<li>从数据集中获取m个新的图片。</li>
+<li>更新判别器参数，下面的公式可以那GAN那篇的方式来看。</li>
+</ol>
+<p>G训练</p>
+<ol>
+<li>产生m个随机噪声样本noise</li>
+<li>从数据集中拿到m个条件c</li>
+<li>用noise和c产生图片，放入D中评分，让评分靠近1</li>
+</ol>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><p>一些参数配置，这里用的label是one-hot形式，2 x 13的大小，总共13种颜色，第一行是头发颜色，第二行是眼睛颜色。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">generateLabel</span>(<span class="params">hair_colors, eye_colors, one_hot=<span class="literal">False</span></span>):</span></span><br><span class="line">    hlen = <span class="built_in">len</span>(hair_colors)</span><br><span class="line">    elen = <span class="built_in">len</span>(eye_colors)</span><br><span class="line">    <span class="keyword">if</span> hlen != elen:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"头发和眼睛数量不匹配"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">None</span></span><br><span class="line">    <span class="comment"># 转为one-hot label</span></span><br><span class="line">    colorClass = {<span class="string">'white'</span>: <span class="number">0</span>, <span class="string">'blonde'</span>: <span class="number">1</span>, <span class="string">'aqua'</span>: <span class="number">2</span>, <span class="string">'gray'</span>: <span class="number">3</span>, <span class="string">'yellow'</span>: <span class="number">4</span>, <span class="string">'black'</span>: <span class="number">5</span>,</span><br><span class="line">                  <span class="string">'blue'</span>: <span class="number">6</span>, <span class="string">'brown'</span>: <span class="number">7</span>, <span class="string">'green'</span>: <span class="number">8</span>, <span class="string">'pink'</span>: <span class="number">9</span>, <span class="string">'purple'</span>: <span class="number">10</span>, <span class="string">'red'</span>: <span class="number">11</span>, <span class="string">'orange'</span>: <span class="number">12</span>}</span><br><span class="line">    <span class="keyword">if</span> one_hot:</span><br><span class="line">        <span class="comment"># one_hot label</span></span><br><span class="line">        result = torch.empty(hlen, <span class="number">2</span>, <span class="number">13</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(hlen):</span><br><span class="line">            hair = torch.zeros(<span class="built_in">len</span>(colorClass))</span><br><span class="line">            hair[colorClass[hair_colors[i]]] = <span class="number">1</span></span><br><span class="line">            eye = torch.zeros(<span class="built_in">len</span>(colorClass))</span><br><span class="line">            eye[colorClass[eye_colors[i]]] = <span class="number">1</span></span><br><span class="line">            t = torch.cat([hair, eye], dim=<span class="number">0</span>)</span><br><span class="line">            t = t.view(-<span class="number">1</span>, <span class="number">13</span>)</span><br><span class="line">            result.data[i].copy_(t)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        result = torch.empty(hlen, <span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(hlen):</span><br><span class="line">            t = torch.tensor([</span><br><span class="line">                colorClass[hair_colors[i]],</span><br><span class="line">                colorClass[eye_colors[i]]</span><br><span class="line">            ], dtype=torch.<span class="built_in">float</span>).view(<span class="number">2</span>, <span class="number">1</span>)</span><br><span class="line">            result.data[i].copy_(t)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line">batch_size = <span class="number">20</span>		<span class="comment"># 批数量</span></span><br><span class="line">simple_transform = transform.Compose([</span><br><span class="line">    transform.Resize((<span class="number">64</span>, <span class="number">64</span>)),</span><br><span class="line">    transform.ToTensor(),</span><br><span class="line">    transform.Normalize((<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>), (<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>))</span><br><span class="line">])		<span class="comment"># 图片改大小，转Tensor，转[-1, 1]</span></span><br><span class="line">device = torch.device(<span class="string">"cuda"</span> <span class="keyword">if</span> torch.cuda.is_available() <span class="keyword">else</span> <span class="string">"cpu"</span>) <span class="comment"># 使用GPU or CPU</span></span><br><span class="line">noise_z = <span class="number">100</span>	<span class="comment"># noise维度</span></span><br><span class="line">generator_feature_map = <span class="number">64</span> <span class="comment"># 特征数</span></span><br><span class="line">path = <span class="string">"cartoon"</span> <span class="comment"># 数据集路径</span></span><br><span class="line">train_set = CGANDataSet(pic_dir=os.path.join(path,<span class="string">"images"</span>), label_csv_file=os.path.join(path, <span class="string">"tags.csv"</span>), transform=simple_transform)	<span class="comment"># 数据集</span></span><br><span class="line">train_loader = Data.DataLoader(train_set, batch_size=batch_size, shuffle=<span class="literal">True</span>, num_workers=<span class="number">0</span>)</span><br><span class="line">train_loader2 = Data.DataLoader(train_set, batch_size=batch_size, shuffle=<span class="literal">True</span>, num_workers=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># 正确标签</span></span><br><span class="line">true_label = torch.ones(batch_size).to(device)</span><br><span class="line">true_label = true_label.view(-<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 错误标签</span></span><br><span class="line">false_label = torch.zeros(batch_size).to(device)</span><br><span class="line">false_label = false_label.view(-<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="comment"># 固定noise，condition 用于每个epoch产生相同图片，用来看效果</span></span><br><span class="line">fix_noises = torch.randn(<span class="number">4</span>, noise_z, <span class="number">1</span>, <span class="number">1</span>).to(device)</span><br><span class="line">hair_colors = [<span class="string">'blue'</span>, <span class="string">'black'</span>, <span class="string">'blue'</span>, <span class="string">'white'</span>]</span><br><span class="line">eye_colors = [<span class="string">'blue'</span>, <span class="string">'orange'</span>, <span class="string">'red'</span>, <span class="string">'blue'</span>]</span><br><span class="line">fix_condition = generateLabel(hair_colors, eye_colors, one_hot=<span class="literal">True</span>).to(device)</span><br><span class="line"><span class="comment"># 随机noise</span></span><br><span class="line">noises = torch.randn(batch_size, noise_z, <span class="number">1</span>, <span class="number">1</span>).to(device)</span><br><span class="line">g_train_cycle = <span class="number">1</span>  <span class="comment"># 训练生成器周期</span></span><br><span class="line">save_img_cycle = <span class="number">1</span>  <span class="comment"># 每几次epoch输出一次结果</span></span><br><span class="line">print_step = <span class="number">200</span>  <span class="comment"># 打印loss 信息周期</span></span><br><span class="line">load_last_param = <span class="number">0</span> <span class="comment"># 是否加载最新的参数	0为不加载，从头训练</span></span><br><span class="line">train_num = <span class="number">100</span>		<span class="comment"># 训练轮数，几个epoch</span></span><br><span class="line">bceloss = nn.BCELoss() <span class="comment"># 同样使用BCEloss</span></span><br><span class="line">learning_rate = <span class="number">0.0002</span>	<span class="comment"># 学习率</span></span><br><span class="line">beta = <span class="number">0.5</span></span><br></pre></td></tr></table></figure>
+
+<p>ConditionalGANSet.py</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CGANDataSet</span>(<span class="params">Dataset</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, pic_dir, label_csv_file, transform=<span class="literal">None</span></span>):</span></span><br><span class="line">        self.pic_dir = pic_dir</span><br><span class="line">        self.label_file = label_csv_file</span><br><span class="line">        self.pic_files = os.listdir(pic_dir)</span><br><span class="line">        self.df = pd.read_csv(label_csv_file)</span><br><span class="line">        self.transform = transform</span><br><span class="line">        self.colorClass = {<span class="string">'white'</span>: <span class="number">0</span>, <span class="string">'blonde'</span>: <span class="number">1</span>, <span class="string">'aqua'</span>: <span class="number">2</span>, <span class="string">'gray'</span>: <span class="number">3</span>, <span class="string">'yellow'</span>: <span class="number">4</span>, <span class="string">'black'</span>: <span class="number">5</span>,</span><br><span class="line">                           <span class="string">'blue'</span>: <span class="number">6</span>, <span class="string">'brown'</span>: <span class="number">7</span>, <span class="string">'green'</span>: <span class="number">8</span>, <span class="string">'pink'</span>: <span class="number">9</span>, <span class="string">'purple'</span>: <span class="number">10</span>, <span class="string">'red'</span>: <span class="number">11</span>, <span class="string">'orange'</span>: <span class="number">12</span>}</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(self.pic_files)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__getitem__</span>(<span class="params">self, item</span>):</span></span><br><span class="line">        image = Image.<span class="built_in">open</span>(os.path.join(self.pic_dir, self.pic_files[item]))</span><br><span class="line">        imagename = self.pic_files[item].split(<span class="string">'.'</span>)</span><br><span class="line">        imagename = <span class="built_in">int</span>(imagename[<span class="number">0</span>])</span><br><span class="line">        label = self.df.iloc[imagename, <span class="number">1</span>]</span><br><span class="line">        label = label.split(<span class="string">' '</span>)</span><br><span class="line">        <span class="comment"># one_hot 形式</span></span><br><span class="line">        hair = torch.zeros(<span class="built_in">len</span>(self.colorClass))</span><br><span class="line">        hair[self.colorClass[label[<span class="number">0</span>]]] = <span class="number">1</span></span><br><span class="line">        eye = torch.zeros(<span class="built_in">len</span>(self.colorClass))</span><br><span class="line">        eye[self.colorClass[label[<span class="number">2</span>]]] = <span class="number">1</span></span><br><span class="line">        label = torch.cat([hair, eye], dim=<span class="number">0</span>)</span><br><span class="line">        label = label.view(-<span class="number">1</span>, <span class="built_in">len</span>(self.colorClass))</span><br><span class="line">        <span class="keyword">if</span> self.transform:</span><br><span class="line">            image = self.transform(image)</span><br><span class="line">        <span class="keyword">return</span> image, label</span><br></pre></td></tr></table></figure>
+
+<p>Generator</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Generator</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Generator, self).__init__()</span><br><span class="line">        self.layer1 = nn.Sequential(</span><br><span class="line">            <span class="comment"># 100*1*1 --&gt; (64 * 8) * 4 *4</span></span><br><span class="line">            nn.ConvTranspose2d(noise_z + <span class="number">2</span> * <span class="number">13</span>, generator_feature_map * <span class="number">8</span>, kernel_size=<span class="number">4</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(generator_feature_map * <span class="number">8</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.layer2 = nn.Sequential(</span><br><span class="line">            <span class="comment"># (64 * 8) * 4 * 4 --&gt; (64 * 4)*8*8</span></span><br><span class="line">            nn.ConvTranspose2d(generator_feature_map * <span class="number">8</span>, generator_feature_map * <span class="number">4</span>, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>,</span><br><span class="line">                               padding=<span class="number">1</span>),</span><br><span class="line">            nn.BatchNorm2d(generator_feature_map * <span class="number">4</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.layer3 = nn.Sequential(</span><br><span class="line"></span><br><span class="line">            <span class="comment"># (64*4)*8*8 --&gt; (64*2)*16*16</span></span><br><span class="line">            nn.ConvTranspose2d(generator_feature_map * <span class="number">4</span>, generator_feature_map * <span class="number">2</span>, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>,</span><br><span class="line">                               bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(generator_feature_map * <span class="number">2</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.layer4 = nn.Sequential(</span><br><span class="line"></span><br><span class="line">            <span class="comment"># (64*2)*16*16 --&gt; 64*32*32</span></span><br><span class="line">            nn.ConvTranspose2d(generator_feature_map * <span class="number">2</span>, generator_feature_map, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>,</span><br><span class="line">                               bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(generator_feature_map),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>))</span><br><span class="line">        self.layer5 = nn.Sequential(</span><br><span class="line">            <span class="comment"># 64*32*32 --&gt; 3*64*64</span></span><br><span class="line">            nn.ConvTranspose2d(generator_feature_map, <span class="number">3</span>, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.Tanh()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x, label</span>):</span></span><br><span class="line">        label = label.view(-<span class="number">1</span>, <span class="number">2</span> * <span class="number">13</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">        x = torch.cat([x, label], dim=<span class="number">1</span>)</span><br><span class="line">        out = self.layer1(x)</span><br><span class="line">        out = self.layer2(out)</span><br><span class="line">        out = self.layer3(out)</span><br><span class="line">        out = self.layer4(out)</span><br><span class="line">        out = self.layer5(out)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+
+<p>Discriminator</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 定义鉴别器网络D</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Discriminator</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, ndf=<span class="number">64</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Discriminator, self).__init__()</span><br><span class="line">        self.label_embedding = nn.Linear(<span class="number">2</span> * <span class="number">13</span>, <span class="number">64</span> * <span class="number">64</span>)</span><br><span class="line">        <span class="comment"># 图像先进入一个Network，产生一个Embedding</span></span><br><span class="line">        self.image_network = nn.Sequential(</span><br><span class="line">            <span class="comment"># (3, 64, 64) --&gt; (64, 32, 32)</span></span><br><span class="line">            nn.Conv2d(<span class="number">3</span> + <span class="number">1</span>, ndf, kernel_size=<span class="number">4</span>, stride=<span class="number">2</span>, padding=<span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="literal">True</span>),</span><br><span class="line">            <span class="comment"># (64, 32, 32) --&gt; (128, 16, 16)</span></span><br><span class="line">            nn.Conv2d(ndf, ndf * <span class="number">2</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">2</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="literal">True</span>),</span><br><span class="line">            <span class="comment"># (128, 16, 16) --&gt; (256, 8, 8)</span></span><br><span class="line">            nn.Conv2d(ndf * <span class="number">2</span>, ndf * <span class="number">4</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">4</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="literal">True</span>),</span><br><span class="line">            <span class="comment"># (256, 8, 8) --&gt; (512, 4, 4)</span></span><br><span class="line">            nn.Conv2d(ndf * <span class="number">4</span>, ndf * <span class="number">8</span>, <span class="number">4</span>, <span class="number">2</span>, <span class="number">1</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.BatchNorm2d(ndf * <span class="number">8</span>),</span><br><span class="line">            nn.LeakyReLU(<span class="number">0.2</span>, inplace=<span class="literal">True</span>),</span><br><span class="line">            <span class="comment"># (512, 4, 4) --&gt; (1, 1, 1)</span></span><br><span class="line">            nn.Conv2d(ndf * <span class="number">8</span>, <span class="number">1</span>, <span class="number">4</span>, <span class="number">1</span>, <span class="number">0</span>, bias=<span class="literal">False</span>),</span><br><span class="line">            nn.Sigmoid()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 定义NetD的前向传播</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x, label</span>):</span></span><br><span class="line">        label = label.view(-<span class="number">1</span>, <span class="number">2</span>*<span class="number">13</span>)</span><br><span class="line">        label = self.label_embedding(label)</span><br><span class="line">        label = label.view(-<span class="number">1</span>, <span class="number">1</span>, <span class="number">64</span>, <span class="number">64</span>)</span><br><span class="line">        x = torch.cat([x, label], dim=<span class="number">1</span>)</span><br><span class="line">        out = self.image_network(x)</span><br><span class="line">        <span class="keyword">return</span> out</span><br></pre></td></tr></table></figure>
+
+<p>训练</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br></pre></td><td class="code"><pre><span class="line">generator = Generator().to(device)</span><br><span class="line">discriminator = Discriminator().to(device)</span><br><span class="line"><span class="comment"># 加载网络参数部分</span></span><br><span class="line"><span class="keyword">if</span> load_last_param &gt; <span class="number">0</span>:</span><br><span class="line">    dState = torch.load(<span class="string">"CGANOutPut/net/netd_%d.pth"</span> % load_last_param)</span><br><span class="line">    gState = torch.load(<span class="string">"CGANOutPut/net/netg_%d.pth"</span> % load_last_param)</span><br><span class="line">    generator.load_state_dict(gState)</span><br><span class="line">    discriminator.load_state_dict(dState)</span><br><span class="line"></span><br><span class="line">g_optim = optim.Adam(generator.parameters(), lr=learning_rate, betas=(beta, <span class="number">0.999</span>))</span><br><span class="line">d_optim = optim.Adam(discriminator.parameters(), lr=learning_rate, betas=(beta, <span class="number">0.999</span>))</span><br><span class="line"><span class="comment"># 训练Discriminator</span></span><br><span class="line">ite = <span class="built_in">iter</span>(train_loader2)</span><br><span class="line">step = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> trainIdx <span class="keyword">in</span> <span class="built_in">range</span>(train_num):</span><br><span class="line">    <span class="keyword">for</span> step, data <span class="keyword">in</span> <span class="built_in">enumerate</span>(train_loader):</span><br><span class="line">        image_x, label = data</span><br><span class="line">        image_x = image_x.to(device)</span><br><span class="line">        label = label.to(device)</span><br><span class="line">        <span class="comment"># 训练判别器</span></span><br><span class="line">        noises = torch.randn(batch_size, noise_z, <span class="number">1</span>, <span class="number">1</span>).to(device)</span><br><span class="line">        <span class="comment"># positive examples --&gt; 正样本</span></span><br><span class="line">        positive_score = discriminator(image_x, label)</span><br><span class="line">        <span class="comment"># 正样本的标签和随机noise samples，产生fake图片</span></span><br><span class="line">        fake_pic = generator(noises, label)</span><br><span class="line">        <span class="comment"># 由于图像模糊导致分数低的情况。</span></span><br><span class="line">        low_img_score = discriminator(fake_pic.detach(), label)</span><br><span class="line">        <span class="comment"># 再次从数据集中拿出样本, 要求标签和当前标签不一样。 image3为通过label筛选出与label不一样的图片</span></span><br><span class="line">        image3 = torch.empty_like(image_x)</span><br><span class="line">        index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                image2, label2 = ite.<span class="built_in">next</span>()</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                ite = <span class="built_in">iter</span>(train_loader2)</span><br><span class="line">                image2, label2 = ite.<span class="built_in">next</span>()</span><br><span class="line">            label2 = label2.to(device)</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(label.shape[<span class="number">0</span>]):</span><br><span class="line">                <span class="keyword">if</span> torch.argmax(label[i][<span class="number">0</span>]) == torch.argmax(label2[i][<span class="number">0</span>]) <span class="keyword">and</span> torch.argmax(label[i][<span class="number">1</span>]) == torch.argmax(label2[i][<span class="number">1</span>]):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">                image3.data[index].copy_(image2.data[i])</span><br><span class="line">                index += <span class="number">1</span></span><br><span class="line">                <span class="keyword">if</span> index == batch_size:</span><br><span class="line">                    <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> index == batch_size:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">        image3 = image3.to(device)</span><br><span class="line">        <span class="comment"># 图片足够清晰，但是label不匹配导致的分数低的情况</span></span><br><span class="line">        wrong_label_score = discriminator(image3, label)</span><br><span class="line">        <span class="comment"># 求梯度</span></span><br><span class="line">        d_optim.zero_grad()</span><br><span class="line">        real_loss = bceloss(positive_score, true_label)</span><br><span class="line">        low_img_loss = bceloss(low_img_score, false_label)</span><br><span class="line">        wrong_label_loss = bceloss(wrong_label_score, false_label)</span><br><span class="line">        d_loss = real_loss + low_img_loss + wrong_label_loss</span><br><span class="line"></span><br><span class="line">        d_loss.backward()</span><br><span class="line">        d_optim.step()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> step % g_train_cycle == <span class="number">0</span>:</span><br><span class="line">            <span class="comment"># 训练生成器</span></span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                _, lbs = ite.<span class="built_in">next</span>()</span><br><span class="line">            <span class="keyword">except</span> StopIteration:</span><br><span class="line">                ite = <span class="built_in">iter</span>(train_loader2)</span><br><span class="line">                _, lbs = ite.<span class="built_in">next</span>()</span><br><span class="line">            lbs = lbs.to(device)</span><br><span class="line">            g_optim.zero_grad()</span><br><span class="line">            noises.data.copy_(torch.randn(batch_size, noise_z, <span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">            fake_img = generator(noises, lbs)</span><br><span class="line">            fake_out = discriminator(fake_img, lbs)</span><br><span class="line">            loss_fake = bceloss(fake_out, true_label)</span><br><span class="line">            loss_fake.backward()</span><br><span class="line">            g_optim.step()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> step % print_step == print_step - <span class="number">1</span>:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"train: "</span>, trainIdx, <span class="string">"step: "</span>, step + <span class="number">1</span>, <span class="string">" d_loss: "</span>, real_loss.item(), <span class="string">"mean score: "</span>,</span><br><span class="line">                  torch.mean(positive_score).item())</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"train: "</span>, trainIdx, <span class="string">"step: "</span>, step + <span class="number">1</span>, <span class="string">" g_loss: "</span>, loss_fake.item(), <span class="string">"mean score: "</span>,</span><br><span class="line">                  torch.mean(fake_out).item())</span><br><span class="line">	<span class="comment"># 每间隔save_img_cycle个epoch，进行保存网络参数以及样例图像。</span></span><br><span class="line">    <span class="keyword">if</span> trainIdx % save_img_cycle == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            fix_fake_image = generator(fix_noises, fix_condition)</span><br><span class="line">            fix_fake_image = fix_fake_image.data.cpu()</span><br><span class="line">            comb_img = torchvision.utils.make_grid(fix_fake_image, nrow=<span class="number">4</span>)</span><br><span class="line">            savepath = os.path.join(<span class="string">"CGANOutPut"</span>, <span class="string">"pics"</span>, <span class="string">"g_%s.jpg"</span> % (trainIdx + load_last_param + <span class="number">1</span>))</span><br><span class="line">            saveImg(comb_img, savepath)</span><br><span class="line">            torch.save(discriminator.state_dict(), <span class="string">'./CGANOutPut/net/netd_%s.pth'</span> % (trainIdx + load_last_param + <span class="number">1</span>))</span><br><span class="line">            torch.save(generator.state_dict(), <span class="string">'./CGANOutPut/net/netg_%s.pth'</span> % (trainIdx + load_last_param + <span class="number">1</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="相关链接"><a href="#相关链接" class="headerlink" title="相关链接"></a>相关链接</h2><p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Up411R7Lk?p=2">李宏毅GAN视频</a></p>
+
+            </div>
+            
+                <div class="kratos-copyright text-center clearfix">
+                    <h5>本作品采用 <a rel="license nofollow" target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/">知识共享署名-相同方式共享 4.0 国际许可协议</a> 进行许可</h5>
+                </div>
+            
+            <footer class="kratos-entry-footer clearfix">
+                
+                    <div class="post-like-donate text-center clearfix" id="post-like-donate">
+                    
+                        <a class="donate" href="javascript:;"><i class="fa fa-bitcoin"></i> 打赏</a>
+                    
+                    
+                        <a class="share" href="javascript:;"><i class="fa fa-share-alt"></i> 分享</a>
+                        <div class="share-wrap" style="display: none;">
+    <div class="share-group">
+        <a href="javascript:;" class="share-plain qq" onclick="share('qq');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-qq"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain qzone" onclick="share('qzone');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-star"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weixin pop style-plain" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weixin"></i>
+            </div>
+            <div class="share-int">
+                <div class="qrcode" id="wechat-qr"></div>
+                <p>打开微信“扫一扫”，打开网页后点击屏幕右上角分享按钮</p>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain weibo" onclick="share('weibo');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-weibo"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain facebook style-plain" onclick="share('facebook');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-facebook"></i>
+            </div>
+        </a>
+        <a href="javascript:;" class="share-plain twitter style-plain" onclick="share('twitter');" rel="nofollow">
+            <div class="icon-wrap">
+                <i class="fa fa-twitter"></i>
+            </div>
+        </a>
+    </div>
+    <script type="text/javascript">
+        $(()=>{
+            new QRCode("wechat-qr", {
+                text: "https://www.boluoboluobo.top/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/",
+                width: 150,
+                height: 150,
+                correctLevel : QRCode.CorrectLevel.H
+            });
+        });
+        function share(dest) {
+            const qqBase        = "https://connect.qq.com/widget/shareqq/index.html?";
+            const weiboBase     = "https://service.weibo.com/share/share.php?";
+            const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
+            const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
+            const twitterBase   = "https://twitter.com/intent/tweet?";
+            const hostUrl       = "https://www.boluoboluobo.top/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/";
+            const title         = "「CGAN学习及实现」";
+            const excerpt       = `CGAN学习及实现
+在GAN的学习中，生成了随机的二次元人物头像。人物随机生成，随机生成的人物不可控，如何让Generator按照我们想的样子的二次元头像呢。这里使用了CGAN(conditional GAN)条件GAN完成这个任务。...`;
+            let _URL;
+            switch (dest) {
+                case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
+                case "weibo"    : _URL = weiboBase+"url="+hostUrl+"&title="+title+excerpt;                                 break;
+                case "qzone"    : _URL = qzoneBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";  break;
+                case "facebook" : _URL = facebookBase+"u="+hostUrl;                                                        break;
+                case "twitter"  : _URL = twitterBase+"text="+title+excerpt+"&url="+hostUrl;                                break;
+            }
+            window.open(_URL);
+        };
+    </script>
+</div>
+                    
+                    </div>
+                
+                <div class="footer-tag clearfix">
+                    <div class="pull-left">
+                    <i class="fa fa-tags"></i>
+                        <a class="tag-none-link" href="/tags/cgan/" rel="tag">cgan</a>, <a class="tag-none-link" href="/tags/conditional-GAN/" rel="tag">conditional GAN</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
+                    </div>
+                    <div class="pull-date">
+                    <span>最后编辑：2021-11-12</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        
+            <nav class="navigation post-navigation clearfix" role="navigation">
+                
+                <div class="nav-previous clearfix">
+                    <a title=" Cycle GAN学习及实现" href="/2021/11/09/Cycle-GAN学习及实现/">&lt; 上一篇</a>
+                </div>
+                
+                
+            </nav>
+        
+        
+            <div id="v-comments" class="post-comments"></div>
+<script>
+    var load_comm = () => {
+        const init = () => {
+            new Valine({
+                el: '#v-comments',
+                appId: 'pnDNVddr900afG7XglGQgJCb-gzGzoHsz',
+                appKey: 'HA3J9tdvziBrLcSml8Kai0qH',
+                visitor: true,
+                enableQQ: false,
+                path: '/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/',
+				avatar: ''
+            });
+        }
+        if (typeof Valine == 'undefined') {
+            const src = 'https://cdn.jsdelivr.net/npm/valine@1.4.14/dist/Valine.min.js';
+            $.getScript(src, init);
+        } else {
+            init();
+        }
+    };
+</script>
+<noscript>Please enable JavaScript to view the <a target="_blank" rel="noopener" href="https://valine.js.org/">comments powered by Valine.</a></noscript>
+
+        
+    </article>
+</section>
+
+                
+            
+
+<section id="kratos-widget-area" class="col-md-4 hidden-xs hidden-sm">
+    <!-- 文章和页面根据splitter来分割，没有的话就从头开始设置为sticky -->
+    
+    
+                <aside id="krw-about" class="widget widget-kratos-about clearfix">
+    <div class="photo-background"></div>
+    <div class="photo-wrapper clearfix">
+        <div class="photo-wrapper-tip text-center">
+            <img class="about-photo" src="/images/avatar.jpg" />
+        </div>
+    </div>
+    <div class="textwidget">
+        <p class="text-center">上上下下，左右左右，BABA！</p>
+    </div>
+</aside>
+            
+                    <div class="sticky-area">
+                
+                    <aside id="krw-toc" class="widget widget-kratos-toc clearfix">
+    <div class="photo-background"></div>
+    <h4 class="widget-title no-after">
+        <i class="fa fa-compass"></i>
+        文章目录
+        <span class="toc-progress-bar"></span>
+    </h4>
+    <div class="textwidget">
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">CGAN学习及实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E5%9B%BE"><span class="toc-number">1.1.</span> <span class="toc-text">效果图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CGAN%E6%80%9D%E6%83%B3"><span class="toc-number">1.2.</span> <span class="toc-text">CGAN思想</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%9A%84%E7%BB%86%E8%8A%82"><span class="toc-number">1.3.</span> <span class="toc-text">训练的细节</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%AD%E7%BB%83%E7%9B%AE%E6%A0%87"><span class="toc-number">1.3.1.</span> <span class="toc-text">训练目标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">使用的数据集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="toc-number">1.3.3.</span> <span class="toc-text">开始训练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.4.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="toc-number">1.5.</span> <span class="toc-text">相关链接</span></a></li></ol></li></ol>
+    </div>
+</aside>
+                
+                
+  <aside id="krw-categories" class="widget widget-kratos-categories clearfix">
+    <h4 class="widget-title"><i class="fa fa-folder"></i>分类目录</h4>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DeepLearning/">DeepLearning</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/OpenGL/">OpenGL</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/hexo/">hexo</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python/">python</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/">pytorch</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/pytorch/python/">python</a><span class="category-list-count">7</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E5%8D%9A%E6%96%87/">博文</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E7%AE%97%E6%B3%95/">算法</a><span class="category-list-count">13</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/">论文学习</a><span class="category-list-count">2</span></li></ul>
+  </aside>
+
+
+            
+                
+  <aside id="krw-tags" class="widget widget-kratos-tags clearfix">
+    <h4 class="widget-title"><i class="fa fa-tags"></i>标签聚合</h4>
+      <div class="tag-clouds">
+        <a href="/tags/A/" style="font-size: 0.6em;">A*</a> <a href="/tags/Android/" style="font-size: 0.6em;">Android</a> <a href="/tags/C-C/" style="font-size: 0.6em;">C/C++</a> <a href="/tags/CycleGan/" style="font-size: 0.6em;">CycleGan</a> <a href="/tags/DeepLearning/" style="font-size: 0.8em;">DeepLearning</a> <a href="/tags/Kotlin/" style="font-size: 0.8em;">Kotlin</a> <a href="/tags/OpenGL/" style="font-size: 0.67em;">OpenGL</a> <a href="/tags/TensorFlow/" style="font-size: 0.73em;">TensorFlow</a> <a href="/tags/android/" style="font-size: 0.6em;">android</a> <a href="/tags/app/" style="font-size: 0.6em;">app</a> <a href="/tags/bfs/" style="font-size: 0.6em;">bfs</a> <a href="/tags/cgan/" style="font-size: 0.6em;">cgan</a> <a href="/tags/conditional-GAN/" style="font-size: 0.6em;">conditional GAN</a> <a href="/tags/gan/" style="font-size: 0.6em;">gan</a> <a href="/tags/hexo/" style="font-size: 0.6em;">hexo</a> <a href="/tags/html5/" style="font-size: 0.6em;">html5</a> <a href="/tags/java/" style="font-size: 0.67em;">java</a> <a href="/tags/kaggle/" style="font-size: 0.6em;">kaggle</a>
+      </div>
+  </aside>
+
+            
+                
+  <aside id="krw-posts" class="widget widget-kratos-posts">
+  <h4 class="widget-title"><i class="fa fa-file"></i>最新文章</h4>
+  <div class="tab-content">
+      <ul class="list-group">
+        
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/12/CGAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/"><i class="fa  fa-book"></i> CGAN学习及实现</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/09/Cycle-GAN%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/"><i class="fa  fa-book"></i> Cycle GAN学习及实现</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/05/ResNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/"><i class="fa  fa-book"></i> ResNet学习及实现</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/"><i class="fa  fa-book"></i> pytorch常用方法记录</a>
+            
+          
+        
+          
+          
+            <a class="list-group-item" href="/2021/10/29/GAN%E7%94%9F%E6%88%90%E5%8A%A8%E6%BC%AB%E5%A4%B4%E5%83%8F/"><i class="fa  fa-book"></i> GAN生成动漫头像</a>
+            
+          
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+      </ul>
+  </div>
+  </aside>
+
+            
+    </div>
+</section>
+        
+        </div>
+    </div>
+</div>
+<footer>
+    <div id="footer"  class="ap-lrc"  >
+        <div class="kr-tool text-center">
+            <div class="tool">
+                
+                    <div class="box search-box">
+                        <a href="/search/">
+                            <span class="fa fa-search"></span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="box theme-box" id="darkmode-switch">
+                        <span class="fa fa-adjust"></span>
+                    </div>
+                
+                
+            </div>
+            <div class="box gotop-box">
+                <span class="fa fa-chevron-up"></span>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 footer-list text-center">
+                    <ul class="kratos-social-icons">
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    </ul>
+                    <ul class="kratos-copyright">
+                        <div>
+                            <li>&copy; 2021 菠萝菠萝卜的博客 版权所有.</li>
+                            <li>本站已运行<span id="span_dt">Loading...</span></li>
+                        </div>
+                        <div>
+                            <li>Theme <a href="https://github.com/Candinya/Kratos-Rebirth" target="_blank">Kratos:Rebirth</a></li>
+                            <li>Site built with&nbsp;<i class="fa fa-heart throb" style="color:#d43f57"></i>&nbsp;by 菠萝菠萝卜.</li>
+                        </div>
+                        <div>
+                            <li>Powered by <a href="https://hexo.io" target="_blank" rel="nofollow">Hexo</a></li>
+                            <li>Hosted on <a href="https://github.io" target="_blank">Github Pages</a></li>
+                        </div>
+                        <div>
+                            
+                            
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+</div>
+
+        <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.4/dist/js/bootstrap.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.js"></script>
+<script>const notMobile = (!(navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)));</script>
+
+    <div>
+        <canvas id="snow"></canvas>
+        <script async type="text/javascript" src="/js/snow.min.js"></script>
+    </div>
+
+<script async src="/js/candy.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/meting@2/dist/Meting.min.js"></script>
+    <meting-js
+        server="netease"
+        type="playlist"
+        id="1469580721"
+        order="random"
+        fixed="true"
+    >
+    </meting-js>
+
+
+
+    <script defer src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js"></script>
+<script defer src="/js/kratosr.min.js"></script>
+<script defer src="/js/pjax.min.js"></script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/layui-src@2.5.5/dist/layui.all.js"></script>
+
+
+    <script defer src="/js/kr-dark.min.js"></script>
+
+
+
+<!-- Extra support for third-party plguins  -->
+
+
+    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+</html>
