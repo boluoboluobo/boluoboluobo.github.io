@@ -58,11 +58,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -154,8 +150,9 @@
                             <p>
                                 
                                     pytorch常用方法记录 本篇记录在学习使用pytorch时，常用的东西记录，以便随时查看。遇到新学到的会更新在这里。
-常用损失函数交叉熵CrossEntropyLoss计算公式：这个公式在深度学习入门04中讲过。
-python代码...
+常用损失函数交叉熵CrossEntropyLoss计算公式：
+
+E = -\sum_k t_klog(y_k)这...
                                 
                             </p>
                         </div>
@@ -516,8 +513,7 @@ python代码...
                                 
                                     Pytorch 张量标量（0D）只包含一个元素的张量为标量。类型通常为FloatTensor或LongTensor
 123import torchx = torch.rand(10)x.size()
-
-向量（1D）12import t...
+向量（1D）12import to...
                                 
                             </p>
                         </div>
@@ -891,5 +887,20 @@ document.addEventListener('visibilitychange', function () {
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

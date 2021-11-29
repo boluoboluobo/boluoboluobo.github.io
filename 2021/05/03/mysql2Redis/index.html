@@ -61,11 +61,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -169,32 +165,28 @@
                 <p>​    最近毕业设计上想加上一个redis，就必须要把MySQL里面的数据转移到redis当中。那么问题来了，关系型数据库的数据怎么转移到非关系型数据库中呢？然后百度MySQL数据迁移redis，然后果不其然，各个博客保持了高度统一，看那么几篇博客，几乎都是转载的，有原创的也很少。当然我也只是个小白，摸索了很久才成功了。</p>
 <p>​    如果百度过了的同学对events_all_time这个表很熟悉吧，哈哈。我也不多说了，原文写的没问题，也不是说没问题，是思路没问题，语法也没问题，但是实际操作后会报错，这个报错原因也不知道为啥。我在Stack Overflow上面看到的解决方法不是用的redisprotocol。对于我这个小白来说，文章里面有的地方没有解释。看起来有点费劲，搞不明白为啥这么写。<strong>然后我这篇就是先解释下redisprotocol，再说下mysql转redis命令的方法，最后说下mysql里面多条数据以什么格式，怎么存到redis。</strong>（这里附一下那个不知道被转了多少遍的events_all_time 2333）</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> events_all_time (</span><br><span class="line">  id <span class="type">int</span>(<span class="number">11</span>) unsigned <span class="keyword">NOT</span> <span class="keyword">NULL</span> AUTO_INCREMENT,</span><br><span class="line">  action <span class="type">varchar</span>(<span class="number">255</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  count <span class="type">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (id),</span><br><span class="line">  <span class="keyword">UNIQUE</span> KEY uniq_action (action)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>百度上的mysql迁移redis的方法，看不懂的同学，结合官网的解释<a target="_blank" rel="noopener" href="https://redis.io/topics/mass-insert%EF%BC%8C%E9%A3%9F%E7%94%A8%E6%9B%B4%E4%BD%B3%E5%93%A6%E3%80%82">https://redis.io/topics/mass-insert，食用更佳哦。</a></p>
+<h1 id="正文"><a href="#正文" class="headerlink" title="正文"></a>正文</h1><p>百度上的mysql迁移redis的方法，看不懂的同学，结合官网的解释<a target="_blank" rel="noopener" href="https://redis.io/topics/mass-insert，食用更佳哦。">https://redis.io/topics/mass-insert，食用更佳哦。</a></p>
 <p>​    用redis普通的客户端插入大量数据并不好，所以官方推荐的方法是生成一个符合redis协议的text文件，用redis统一去调用。text文件可以写redis命令，也可以写redis协议。协议格式如下</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*<span class="tag">&lt;<span class="name">args</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line">$<span class="tag">&lt;<span class="name">len</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">arg0</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">arg1</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">argN</span>&gt;</span><span class="tag">&lt;<span class="name">cr</span>&gt;</span><span class="tag">&lt;<span class="name">lf</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
 <p>​    <cr>对应的 ‘\r’ (ASCII码13),<lf>对应的 ‘\n’ (ASCII码10)。然后那个<em>和$符号的意义就是。</em>号后面加数字，表示整个命令总共有多少个参数，包括命令本身。$后面加数字，表示对应的参数，有多少字节。</lf></cr></p>
 <p>​    举个栗子  <strong>SET key1 value1</strong></p>
 <p><strong>转化为redis的协议就是  *3\r\n$3\r\nSET\r\n$4\r\nkey1\r\n$6\r\nvalue1\r\n</strong></p>
-<p>*<strong>3–&gt;有set,key1,value1三个</strong></p>
-<p><strong>$3–&gt;后面SET有三个字节</strong></p>
-<p><strong>$4–&gt;后面key1有4个字节</strong></p>
-<p><strong>$6–&gt;后面value1有6个字节</strong></p>
+<p><strong>*3—&gt;有set,key1,value1三个</strong></p>
+<p><strong>$3—&gt;后面SET有三个字节</strong></p>
+<p><strong>$4—&gt;后面key1有4个字节</strong></p>
+<p><strong>$6—&gt;后面value1有6个字节</strong></p>
 <p>是不是很简单^_^!!!!!</p>
 <p>然后看看那个不知道被转了多少遍的events_to_redis.sql。明白了redis protocol之后再看这个代码，一目了然。作者的意图就是把数据库里面查询出的值，拼接成相应的命令。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> CONCAT(</span><br><span class="line">  &quot;*4\r\n&quot;,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(redis_cmd), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  redis_cmd, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(redis_key), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  redis_key, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(hkey), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  hkey, <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  <span class="string">&#x27;$&#x27;</span>, LENGTH(hval), <span class="string">&#x27;\r\n&#x27;</span>,</span><br><span class="line">  hval, <span class="string">&#x27;\r&#x27;</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">FROM</span> (</span><br><span class="line">  <span class="keyword">SELECT</span></span><br><span class="line">  <span class="string">&#x27;HSET&#x27;</span> <span class="keyword">as</span> redis_cmd,</span><br><span class="line">  <span class="string">&#x27;events_all_time&#x27;</span> <span class="keyword">AS</span> redis_key,</span><br><span class="line">  action <span class="keyword">AS</span> hkey,</span><br><span class="line">  count <span class="keyword">AS</span> hval</span><br><span class="line">  <span class="keyword">FROM</span> events_all_time</span><br><span class="line">) <span class="keyword">AS</span> t</span><br></pre></td></tr></table></figure>
-
 <p>最终用</p>
-<p><strong>mysql -h ‘ip地址’ -u’用户名’ -p’密码’ ‘database’ –skip-column-names –raw &lt; events_to_redis.sql | redis-cli –pipe</strong></p>
-<p>这条命令意思就是 mysql登录后，用‘database’这个数据库， –skip-column-names(使mysql输出不包含列名) –raw（使mysql不转换字段值中的换行符），然后就是运行events_to_redis.sql，用管道传入redis-cli当中运行即可。</p>
+<p><strong>mysql -h ‘ip地址’ -u’用户名’ -p’密码’ ‘database’ —skip-column-names —raw &lt; events_to_redis.sql | redis-cli —pipe</strong></p>
+<p>这条命令意思就是 mysql登录后，用‘database’这个数据库， —skip-column-names(使mysql输出不包含列名) —raw（使mysql不转换字段值中的换行符），然后就是运行events_to_redis.sql，用管道传入redis-cli当中运行即可。</p>
 <p><strong>这里有一个问题，就是按照 *3\r\n$3\r\nSET\r\n$4\r\nkey1\r\n$6\r\nvalue1\r\n这样的方式是不行的。总是报错</strong> </p>
 <p><strong>ERR Protocol error: expected ‘$’, got ‘ ‘</strong></p>
 <p><strong>具体原因我并不太清楚，如果有同学解决了，希望可以评论说一下，让我这个小白也学习一下。</strong></p>
 <p><strong>解决方案</strong></p>
 <p>我最后的解决方案其实就是在前面了解了的基础上，把sql语句修改了，让mysql最终输出的格式是普通的 SET key value的格式，然后运行即可。</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> </span><br><span class="line">  CONCAT(</span><br><span class="line">    redis_cmd,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    redis_key,</span><br><span class="line">    idval,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    ACTION,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    actionval,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    COUNT,<span class="string">&#x27; &#x27;</span>,</span><br><span class="line">    countval,<span class="string">&#x27; &#x27;</span></span><br><span class="line">  ) </span><br><span class="line"><span class="keyword">FROM</span></span><br><span class="line">  (<span class="keyword">SELECT</span> </span><br><span class="line">    <span class="string">&#x27;HSET&#x27;</span> <span class="keyword">AS</span> redis_cmd,</span><br><span class="line">    <span class="string">&#x27;events_all_time&#x27;</span> <span class="keyword">AS</span> redis_key,</span><br><span class="line">    id <span class="keyword">AS</span> idval,</span><br><span class="line">    <span class="string">&#x27;action&#x27;</span> <span class="keyword">AS</span> ACTION,</span><br><span class="line">    ACTION <span class="keyword">AS</span> actionval,</span><br><span class="line">    <span class="string">&#x27;count&#x27;</span> <span class="keyword">AS</span> COUNT,</span><br><span class="line">    COUNT <span class="keyword">AS</span> countval</span><br><span class="line">  <span class="keyword">FROM</span></span><br><span class="line">    events_all_time) <span class="keyword">AS</span> t</span><br></pre></td></tr></table></figure>
-
 <p>总而言之，不管你用的是mysql，java，python，C/C++，甚至是记事本。只要输出的格式是redis protocol或redis命令，传入redis-cli当中就可以完成这个任务。</p>
 <p><strong>mysql多条数据存入redis</strong></p>
 <p>然后对于mysql 的多条数据，我使用的是redis的hmset命令。</p>
@@ -623,5 +615,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

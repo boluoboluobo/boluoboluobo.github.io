@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~1.76K
+                            ~1.75K
                         
                         字
                     </li>
@@ -173,24 +169,23 @@
 <p>如下图所示，在奇数行（即，第一行、第三行、第五行……）中，按从左到右的顺序进行标记；</p>
 <p>而偶数行（即，第二行、第四行、第六行……）中，按从右到左的顺序进行标记。</p>
 <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/path-in-zigzag-labelled-binary-tree">原文地址</a></p>
-<p><img src="/2021/10/17/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211017/tree.png"></p>
+<p><img src="/2021/10/17/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211017/tree.png" alt></p>
 <p>给你树上某一个节点的标号 <code>label</code>，请你返回从根节点到该标号为 <code>label</code> 节点的路径，该路径是由途经的节点标号所组成的。</p>
 <p><strong>示例 1：</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：label = 14</span><br><span class="line">输出：[1,3,4,14]</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例 2：</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：label = 26</span><br><span class="line">输出：[1,2,6,10,26]</span><br></pre></td></tr></table></figure>
-
 <p><strong>提示：</strong></p>
 <ul>
 <li>1 &lt;= label &lt;= 10^6</li>
 </ul>
-<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>利用公式，计算高度。<br>$$<br>h = \lceil log_m(n(m - 1) + 1) \rceil<br>$$<br>其中 </p>
+<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>利用公式，计算高度。</p>
+<script type="math/tex; mode=display">
+h = \lceil log_m(n(m - 1) + 1) \rceil</script><p>其中 </p>
 <p>m:  m叉树</p>
 <p>n:  n个节点</p>
 <p>二叉树当中，每个节点整除之后就是父亲节点。奇数层是顺序，偶数层是逆序，我的做法是，假设都是顺序，那么我可以找到一个顺序形式下的路径，通过2^(floor - 1)和2^(floor) - 1，可以知道当前层最大最小值，根据算出的父亲节点值，知道相对位置，在根据奇偶层，相应更改对应位置的值是顺序的第几个或者逆序的第几个，但是我计算用的值不变。然后数组就用前插就能完成根节点到对应label位置</p>
 <h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">algorithm1104</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = pathInZigZagTree(<span class="number">26</span>);</span><br><span class="line">        <span class="keyword">for</span> (Integer item:list) &#123;</span><br><span class="line">            System.out.println(item);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> List&lt;Integer&gt; <span class="title">pathInZigZagTree</span><span class="params">(<span class="keyword">int</span> label)</span> </span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">        <span class="comment">//计算层数</span></span><br><span class="line">        <span class="keyword">double</span> high = Math.log((label + <span class="number">1</span>)) / Math.log(<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">int</span> ceil = (<span class="keyword">int</span>) Math.ceil(high);</span><br><span class="line">        <span class="keyword">int</span> point = label;</span><br><span class="line">        list.add(label);</span><br><span class="line">        <span class="keyword">if</span>((ceil &amp; <span class="number">1</span>) == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> max = (<span class="number">1</span> &lt;&lt; ceil) - <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">int</span> min = (<span class="number">1</span> &lt;&lt; (ceil - <span class="number">1</span>));</span><br><span class="line">            point = (min +  max - point);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span>(point &gt; <span class="number">1</span>)&#123;</span><br><span class="line">            point = point &gt;&gt; <span class="number">1</span>;</span><br><span class="line">            ceil--;</span><br><span class="line">            <span class="keyword">if</span>((ceil &amp; <span class="number">1</span>) == <span class="number">1</span>)&#123;</span><br><span class="line">                list.add(<span class="number">0</span>,point);</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="keyword">int</span> max = (<span class="number">1</span> &lt;&lt; ceil) - <span class="number">1</span>;</span><br><span class="line">                <span class="keyword">int</span> min = (<span class="number">1</span> &lt;&lt; (ceil - <span class="number">1</span>));</span><br><span class="line">                list.add(<span class="number">0</span>,(min +  max - point));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> list;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
             </div>
             
@@ -627,5 +622,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

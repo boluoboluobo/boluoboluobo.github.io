@@ -61,11 +61,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -169,13 +165,10 @@
                 <p>需求：网页上一个链接，点击后会唤醒手机内响应的app，打开指定APP的功能页面。</p>
 <p>方法：在AndroidManifest.xml里面对需要打开的页面设置action，两个category, data</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">&quot;.MainActivity2&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.action.VIEW&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.DEFAULT&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">&quot;android.intent.category.BROWSABLE&quot;</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">data</span> <span class="attr">android:scheme</span>=<span class="string">&quot;fshao&quot;</span> <span class="attr">android:host</span>=<span class="string">&quot;my.app&quot;</span> <span class="attr">android:pathPrefix</span>=<span class="string">&quot;/openwith&quot;</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
 <p>一会儿url请求格式是： scheme://host/path?传的参数</p>
 <p>对应页面获取数据：</p>
 <h1 id="kotlin"><a href="#kotlin" class="headerlink" title="kotlin"></a>kotlin</h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> uri = intent.<span class="keyword">data</span></span><br><span class="line"><span class="keyword">if</span>(uri != <span class="literal">null</span>)&#123;</span><br><span class="line">    <span class="keyword">val</span> url = uri.toString()</span><br><span class="line">    <span class="keyword">val</span> scheme = uri.scheme</span><br><span class="line">    <span class="keyword">val</span> host = uri.host</span><br><span class="line">    <span class="keyword">val</span> port = uri.port</span><br><span class="line">    <span class="keyword">val</span> path = uri.path</span><br><span class="line">    <span class="keyword">val</span> pathSegments = uri.pathSegments</span><br><span class="line">    <span class="keyword">val</span> query = uri.queryParameterNames</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">for</span> (key <span class="keyword">in</span> query)&#123;</span><br><span class="line">        showText = showText + key + <span class="string">&quot;:&quot;</span> + uri.getQueryParameter(key) + <span class="string">&quot;\n&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    tv_show.setText(showText)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h1 id="java"><a href="#java" class="headerlink" title="java"></a>java</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">Uri uri = getIntent().getData();  </span><br><span class="line"><span class="keyword">if</span> (uri != <span class="keyword">null</span>) &#123;  </span><br><span class="line">    <span class="comment">// 完整的url信息  </span></span><br><span class="line">    String url = uri.toString();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;url: &quot;</span> + uri);  </span><br><span class="line">    <span class="comment">// scheme部分  </span></span><br><span class="line">    String scheme = uri.getScheme();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;scheme: &quot;</span> + scheme);  </span><br><span class="line">    <span class="comment">// host部分  </span></span><br><span class="line">    String host = uri.getHost();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;host: &quot;</span> + host);  </span><br><span class="line">    <span class="comment">//port部分  </span></span><br><span class="line">    <span class="keyword">int</span> port = uri.getPort();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;host: &quot;</span> + port);  </span><br><span class="line">    <span class="comment">// 访问路劲  </span></span><br><span class="line">    String path = uri.getPath();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;path: &quot;</span> + path);  </span><br><span class="line">    List&lt;String&gt; pathSegments = uri.getPathSegments();  </span><br><span class="line">    <span class="comment">// Query部分  </span></span><br><span class="line">    String query = uri.getQuery();  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;query: &quot;</span> + query);  </span><br><span class="line">    <span class="comment">//获取指定参数值  </span></span><br><span class="line">    String goodsId = uri.getQueryParameter(<span class="string">&quot;goodsId&quot;</span>);  </span><br><span class="line">    Log.e(TAG, <span class="string">&quot;goodsId: &quot;</span> + goodsId);  </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
-
 <p>本文章参考的博客：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/chaoyuehedy/p/9004224.html">https://www.cnblogs.com/chaoyuehedy/p/9004224.html</a></p>
 <p>本文也是看这个博客，记录一下。</p>
 
@@ -602,5 +595,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

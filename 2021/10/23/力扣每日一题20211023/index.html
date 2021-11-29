@@ -15,12 +15,12 @@
   
     <meta name="keywords" content="leetcode(简单)" />
   
-  <meta name="description" content="492.构造矩形作为一位web开发者， 懂得怎样去规划一个页面的尺寸是很重要的。 现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求： 123451. 你设计的矩形页面必须等于给定的目标面积。2. 宽度 W 不应大于长度 L，换言之，要求 L &gt;&#x3D; W 。3. 长度 L 和宽度 W 之间的差距应当尽可能小。     你需要按顺序输出你设">
+  <meta name="description" content="492.构造矩形作为一位web开发者， 懂得怎样去规划一个页面的尺寸是很重要的。 现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求： 123451. 你设计的矩形页面必须等于给定的目标面积。2. 宽度 W 不应大于长度 L，换言之，要求 L &gt;&#x3D; W 。3. 长度 L 和宽度 W 之间的差距应当尽可能小。    你需要按顺序输出你设计">
 <meta property="og:type" content="article">
 <meta property="og:title" content="力扣每日一题 2021&#x2F;10&#x2F;23">
 <meta property="og:url" content="https://www.boluoboluobo.top/2021/10/23/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211023/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
-<meta property="og:description" content="492.构造矩形作为一位web开发者， 懂得怎样去规划一个页面的尺寸是很重要的。 现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求： 123451. 你设计的矩形页面必须等于给定的目标面积。2. 宽度 W 不应大于长度 L，换言之，要求 L &gt;&#x3D; W 。3. 长度 L 和宽度 W 之间的差距应当尽可能小。     你需要按顺序输出你设">
+<meta property="og:description" content="492.构造矩形作为一位web开发者， 懂得怎样去规划一个页面的尺寸是很重要的。 现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求： 123451. 你设计的矩形页面必须等于给定的目标面积。2. 宽度 W 不应大于长度 L，换言之，要求 L &gt;&#x3D; W 。3. 长度 L 和宽度 W 之间的差距应当尽可能小。    你需要按顺序输出你设计">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.boluoboluobo.top/2021/10/23/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211023/leetcode.svg">
 <meta property="article:published_time" content="2021-10-23T02:21:11.000Z">
@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            811
+                            807
                         
                         字
                     </li>
@@ -171,12 +167,9 @@
                 <hr />
                 <h1 id="492-构造矩形"><a href="#492-构造矩形" class="headerlink" title="492.构造矩形"></a>492.构造矩形</h1><p>作为一位web开发者， 懂得怎样去规划一个页面的尺寸是很重要的。 现给定一个具体的矩形页面面积，你的任务是设计一个长度为 L 和宽度为 W 且满足以下要求的矩形的页面。要求：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1. 你设计的矩形页面必须等于给定的目标面积。</span><br><span class="line"></span><br><span class="line">2. 宽度 W 不应大于长度 L，换言之，要求 L &gt;= W 。</span><br><span class="line"></span><br><span class="line">3. 长度 L 和宽度 W 之间的差距应当尽可能小。</span><br></pre></td></tr></table></figure>
-
 <p>   你需要按顺序输出你设计的页面的长度 L 和宽度 W。</p>
 <p><strong>示例 1：</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: 4</span><br><span class="line">输出: [2, 2]</span><br><span class="line">解释: 目标面积是 4， 所有可能的构造方案有 [1,4], [2,2], [4,1]。</span><br><span class="line">但是根据要求2，[1,4] 不符合要求; 根据要求3，[2,2] 比 [4,1] 更能符合要求. 所以输出长度 L 为 2， 宽度 W 为 2。</span><br></pre></td></tr></table></figure>
-
-
 <p><strong>提示：</strong></p>
 <ul>
 <li>给定的面积不大于 10,000,000 且为正整数。</li>
@@ -185,7 +178,6 @@
 <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/construct-the-rectangle">原文链接</a></p>
 <h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>由于需要L和W差距尽可能小，所以最小的情况就是两个相等，应当开根即可找到，由于要求是整数，所以取整之后，若是无法整除，可以依次向下减找到最小差距的两个值即可。</p>
 <h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] constructRectangle(<span class="keyword">int</span> area) &#123;</span><br><span class="line">        <span class="keyword">int</span>[] lw = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">        <span class="keyword">int</span> sq = (<span class="keyword">int</span>)Math.sqrt(area);</span><br><span class="line">        <span class="keyword">while</span>(area % sq != <span class="number">0</span>)&#123;</span><br><span class="line">            sq--;</span><br><span class="line">        &#125;</span><br><span class="line">        lw[<span class="number">1</span>] = sq;</span><br><span class="line">        lw[<span class="number">0</span>] = area / sq;</span><br><span class="line">        <span class="keyword">return</span> lw;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
             </div>
             
@@ -621,5 +613,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

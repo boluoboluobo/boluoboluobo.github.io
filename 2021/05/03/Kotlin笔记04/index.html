@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~4.08K
+                            ~4.06K
                         
                         字
                     </li>
@@ -172,85 +168,69 @@
                 <p>Kotlin的集合创建也是相当简单的。集合主要就是List和Set，Map这些的。</p>
 <h1 id="集合的创建与遍历"><a href="#集合的创建与遍历" class="headerlink" title="集合的创建与遍历"></a>集合的创建与遍历</h1><h2 id="List数组"><a href="#List数组" class="headerlink" title="List数组"></a>List数组</h2><p>java的List</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">list.add(<span class="string">&quot;Apple&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;Banana&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;Orange&quot;</span>);</span><br><span class="line">list.add(<span class="string">&quot;Pear&quot;</span>);</span><br></pre></td></tr></table></figure>
-
 <p>当然kotlin也是可以这么做的</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = ArrayList&lt;&gt;()</span><br><span class="line">list.add(<span class="string">&quot;Apple&quot;</span>)</span><br><span class="line">list.add(<span class="string">&quot;Banana&quot;</span>)</span><br><span class="line">list.add(<span class="string">&quot;Orange&quot;</span>)</span><br><span class="line">list.add(<span class="string">&quot;Pear&quot;</span>)</span><br></pre></td></tr></table></figure>
-
 <p>这么多代码，很明显不是kotlin的作风，当然可以进行简化</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list2 = listOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br><span class="line"><span class="comment">//for in的方式可以遍历这个数组</span></span><br><span class="line"><span class="keyword">for</span>(fruit <span class="keyword">in</span> list2)&#123;</span><br><span class="line">    println(fruit)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>listOf方法创建的是不可变的集合，需要可变的集合使用mutableListOf()</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list3 = mutableListOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br><span class="line">list3.add(<span class="string">&quot;watermalon&quot;</span>)</span><br></pre></td></tr></table></figure>
-
 <h2 id="Set集合"><a href="#Set集合" class="headerlink" title="Set集合"></a>Set集合</h2><p>和List一样</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//和List集合几乎一样。创建集合方式变成了setOf和mutableSetOf</span></span><br><span class="line"><span class="comment">//Set集合的底层使用的是hash映射机制存储的，无法保证有序</span></span><br><span class="line"><span class="keyword">val</span> set1 = setOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> set2 = mutableSetOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br></pre></td></tr></table></figure>
-
 <h2 id="Map集合"><a href="#Map集合" class="headerlink" title="Map集合"></a>Map集合</h2><p>传统方式，Kotlin不推荐</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map1 = HashMap&lt;String,<span class="built_in">Int</span>&gt;()</span><br><span class="line">map1.put(<span class="string">&quot;Apple&quot;</span>,<span class="number">1</span>)</span><br><span class="line">map1.put(<span class="string">&quot;Banana&quot;</span>,<span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
 <p>kotlin推荐的方式</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map1 = HashMap&lt;String,<span class="built_in">Int</span>&gt;()</span><br><span class="line">map1[<span class="string">&quot;Orange&quot;</span>] = <span class="number">3</span></span><br><span class="line"><span class="keyword">val</span> num = map1[<span class="string">&quot;Orange&quot;</span>]</span><br></pre></td></tr></table></figure>
-
 <p>简化方式</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> map2 = mapOf(</span><br><span class="line">    <span class="string">&quot;Apple&quot;</span> to <span class="number">1</span>,</span><br><span class="line">    <span class="string">&quot;Banana&quot;</span> to <span class="number">2</span>,</span><br><span class="line">    <span class="string">&quot;Orange&quot;</span> to <span class="number">3</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-
 <p>这里的to看似是关键字进行关联，实际上to不是关键字，而是infix函数，后面可以自己写类似to的infix函数。也可以自己实现to的方式。</p>
 <p>for-in遍历map集合</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>((fruit,number) <span class="keyword">in</span> map2)&#123;</span><br><span class="line">    println(<span class="string">&quot;<span class="variable">$fruit</span> 数量 <span class="variable">$number</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h1 id="集合的函数式api"><a href="#集合的函数式api" class="headerlink" title="集合的函数式api"></a>集合的函数式api</h1><h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>lambda表达式的语法结构：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; 参数名<span class="number">1</span>: 参数类型, 参数名<span class="number">2</span>: 参数类型 -&gt; 函数体&#125;</span><br></pre></td></tr></table></figure>
-
 <p>首先外层大括号，如果有参数传入lambda表达式中，我们需要声明参数列表，参数列表之后 -&gt;符号，表示参数列表的结束以及函数体的开始，函数体可以写任意行代码，并以最后一行代码会作为lambda表达式的返回值。</p>
 <h2 id="maxBy函数"><a href="#maxBy函数" class="headerlink" title="maxBy函数"></a>maxBy函数</h2><p>从一个字符串数组当中找出最长的字符串。</p>
 <p>第一时间想到的实现方法是：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list2 = listOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br><span class="line"><span class="keyword">var</span> maxLengthFruit = <span class="string">&quot;&quot;</span></span><br><span class="line"><span class="keyword">for</span>(fruit <span class="keyword">in</span> list2)&#123;</span><br><span class="line">    <span class="keyword">if</span>(fruit.length &gt; maxLengthFruit.length)&#123;</span><br><span class="line">        maxLengthFruit = fruit</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">println(<span class="string">&quot;max length fruit is &quot;</span> + maxLengthFruit)</span><br></pre></td></tr></table></figure>
-
 <p>如果用上集合的函数式api，可以让这件事变得更加简洁容易</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> list = listOf(<span class="string">&quot;Apple&quot;</span>,<span class="string">&quot;Banana&quot;</span>,<span class="string">&quot;Orange&quot;</span>,<span class="string">&quot;Pear&quot;</span>,<span class="string">&quot;Grape&quot;</span>)</span><br><span class="line"><span class="keyword">val</span> maxLenFruit = list.maxBy &#123; it.length &#125;</span><br><span class="line">println(maxLenFruit)</span><br></pre></td></tr></table></figure>
-
 <h2 id="结合maxBy，Lambda定义，还原简化过程"><a href="#结合maxBy，Lambda定义，还原简化过程" class="headerlink" title="结合maxBy，Lambda定义，还原简化过程"></a>结合maxBy，Lambda定义，还原简化过程</h2><ol>
 <li><p>可以不用专门定义lambda</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy(&#123;fruit:String -&gt; fruit.length&#125;)</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy(&#123;fruit:String -&gt; fruit.length&#125;)</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>Kotlin规定当Lambda参数，(即{fruit:String -&gt; fruit.length})是函数最后一个参数时，可以把Lambda放在括号外面</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy()&#123;fruit:String -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy()&#123;fruit:String -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>如果Lambda是函数的唯一一个参数，可以省略括号</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;fruit:String -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;fruit:String -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>利用kotlin的类型推到机制，Lambda中的参数列表，大多数情况不用声明参数类型</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;fruit -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;fruit -&gt; fruit.length&#125;</span><br></pre></td></tr></table></figure>
+</li>
 <li><p>当只有一个参数时，可以不写参数名。可以用it关键字代替</p>
-<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;it.length&#125;</span><br></pre></td></tr></table></figure></li>
+<figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.maxBy&#123;it.length&#125;</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
 <h2 id="map函数"><a href="#map函数" class="headerlink" title="map函数"></a>map函数</h2><p>map即映射，他可以将每个元素映射成另一个值</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> newList = list.map&#123;it.toUpperCase()&#125; <span class="comment">//全部大写</span></span><br></pre></td></tr></table></figure>
-
 <h2 id="filter函数"><a href="#filter函数" class="headerlink" title="filter函数"></a>filter函数</h2><p>filter函数，就是过滤</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> newlist2 = list.filter &#123; it.length &lt;= <span class="number">5</span> &#125;.map&#123;it.toLowerCase()&#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="any函数"><a href="#any函数" class="headerlink" title="any函数"></a>any函数</h2><p>any用于判断集合中是否至少存在一个元素满足条件。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> anyResult = list.any &#123; it.length &lt;= <span class="number">5</span> &#125;</span><br></pre></td></tr></table></figure>
-
 <h2 id="all函数"><a href="#all函数" class="headerlink" title="all函数"></a>all函数</h2><p>all用于判断集合中是否所有元素满足条件</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> allResult = list.all &#123; it.length &lt;= <span class="number">5</span> &#125;</span><br></pre></td></tr></table></figure>
-
 <h1 id="Java函数式API的使用"><a href="#Java函数式API的使用" class="headerlink" title="Java函数式API的使用"></a>Java函数式API的使用</h1><p>Kotlin中调用一个java方法，并且该方法接受一个java单抽象方法接口函数，就可以用函数式API</p>
 <p>单抽象方法接口： 接口中只有一个待实现的方法</p>
 <p>比如：Java中的子线程创建</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">        <span class="meta">@override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;Thread is running&quot;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;).start();</span><br></pre></td></tr></table></figure>
-
 <p>Kotlin当中就是这么写的</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Thread(<span class="keyword">object</span>:Runnable&#123;</span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">fun</span> <span class="title">run</span><span class="params">()</span></span> &#123;</span><br><span class="line">        println(<span class="string">&quot;Thread is running&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start()</span><br></pre></td></tr></table></figure>
-
 <p>由于kotlin舍去了new，因此匿名类实例的时候不能用new了，而是改用object。</p>
 <p>进一步精简：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//如果接口中只有一个待实现方法，可以省略</span></span><br><span class="line">Thread(&#123;</span><br><span class="line">    println(<span class="string">&quot;Thread is running&quot;</span>)</span><br><span class="line">&#125;).start()</span><br></pre></td></tr></table></figure>
-
 <p>再利用上面的简化方法</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Thread&#123;println(<span class="string">&quot;Thread is running&quot;</span>)&#125;.start()</span><br></pre></td></tr></table></figure>
-
 <p>其实kotlin提供了一个更简单的方法</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">thread&#123;println(<span class="string">&quot;Thread is running&quot;</span>)&#125;</span><br></pre></td></tr></table></figure>
-
 <p>这个thread可选参数有很多，可以自己点进去看，这个方法的实现很简单。完全可以不用说，看一眼他的实现就能明白怎么用的。</p>
 
             </div>
@@ -688,5 +668,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

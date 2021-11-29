@@ -61,11 +61,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -147,7 +143,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.88K
+                            ~2.83K
                         
                         字
                     </li>
@@ -175,39 +171,30 @@
 <p>也可以用 with torch.no_grad(): 包起来。</p>
 <p>Tensor当中有一个属性grad_fn用来记录创建了张量的Function引用。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.ones(<span class="number">2</span>,<span class="number">2</span>,requires_grad=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>tensor([[1., 1.],<br>        [1., 1.]], requires_grad=True)</p>
 <p>做一次加法操作</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line">x = torch.ones(<span class="number">2</span>,<span class="number">2</span>,requires_grad=<span class="literal">True</span>)</span><br><span class="line">y = x + <span class="number">2</span></span><br><span class="line"><span class="built_in">print</span>(y)</span><br></pre></td></tr></table></figure>
-
 <p>out</p>
 <p>tensor([[3., 3.],<br>        [3., 3.]], grad_fn=<AddBackward0>)</AddBackward0></p>
 <p>做更多操作</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">z = y * y * <span class="number">3</span></span><br><span class="line">out = z.mean()</span><br><span class="line"><span class="built_in">print</span>(z,out)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>tensor([[27., 27.],<br>        [27., 27.]], grad_fn=<MulBackward0>) tensor(27., grad_fn=<MeanBackward1>)</MeanBackward1></MulBackward0></p>
 <h1 id="激活函数"><a href="#激活函数" class="headerlink" title="激活函数"></a>激活函数</h1><p>pytorch中的激活函数所在的位置是 torch.nn.functional当中，使用的时候引入即可</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="comment">#假数据</span></span><br><span class="line"><span class="comment"># x -5~5之间取200个</span></span><br><span class="line">x = torch.linspace(-<span class="number">5</span>,<span class="number">5</span>,<span class="number">200</span>)</span><br><span class="line">x_np = x.numpy()</span><br><span class="line">y_relu = F.relu(x).numpy()</span><br><span class="line">y_sigmoid = torch.sigmoid(x).numpy()</span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">221</span>)</span><br><span class="line">plt.plot(x_np,y_relu,c=<span class="string">&#x27;red&#x27;</span>,label=<span class="string">&#x27;relu&#x27;</span>)</span><br><span class="line"></span><br><span class="line">plt.subplot(<span class="number">222</span>)</span><br><span class="line">plt.plot(x_np,y_sigmoid,c=<span class="string">&#x27;red&#x27;</span>,label=<span class="string">&#x27;sigmoid&#x27;</span>)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
-
-<p>![](pytorch入门笔记02/torch Activation Funtion.jpg)</p>
+<p><img src="/2021/09/29/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B002/torch Activation Funtion.jpg" alt></p>
 <h1 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h1><p>使用pytorch中的utils.data</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.utils.data <span class="keyword">as</span> Data</span><br><span class="line"><span class="comment"># 新版的TensorDataset(*Tensor) 当中是可以填写多个Tensor的</span></span><br><span class="line"><span class="comment"># 旧版的TensorDataset(data_tensor=, target_tensor= )</span></span><br><span class="line"><span class="comment"># 其中填写的是数据和标签，相当于是打包起来</span></span><br><span class="line">torch_dataset = Data.TensorDataset(x_train,t_train)</span><br><span class="line"><span class="comment"># dataloader，负责的是按批加载pytorch张量</span></span><br><span class="line"><span class="comment"># 就是和深度学习入门那本书里讲的minibatch是一样的，参数就是填dataset数据集，batchsize每个批次是多少个，shuffle是否打乱</span></span><br><span class="line">loader = Data.DataLoader(dataset=torch_dataset,</span><br><span class="line">                         batch_size=batch_size,</span><br><span class="line">                         shuffle=<span class="literal">True</span></span><br><span class="line">                         )</span><br><span class="line"><span class="comment"># 每次获得的批次使用</span></span><br><span class="line"><span class="keyword">for</span> step, (batch_x,batch_y) <span class="keyword">in</span> <span class="built_in">enumerate</span>(loader):</span><br><span class="line">    <span class="comment"># 设定自动微分</span></span><br><span class="line">    batch_x.requires_grad = <span class="literal">True</span></span><br><span class="line">    <span class="comment"># 转到GPU中计算</span></span><br><span class="line">    batch_y.cuda()</span><br><span class="line">    batch_x.cuda()</span><br><span class="line">    <span class="comment"># 获得预测值</span></span><br><span class="line">    prediction = network(batch_x)</span><br><span class="line">    <span class="comment"># 交叉熵</span></span><br><span class="line">    loss = F.cross_entropy(prediction,batch_y.long())</span><br><span class="line">    <span class="comment"># 反向传播 optimizer为梯度下降</span></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    optimizer.step()</span><br><span class="line">    train_loss_list.append(loss.item())</span><br></pre></td></tr></table></figure>
-
 <h1 id="pytorch的使用"><a href="#pytorch的使用" class="headerlink" title="pytorch的使用"></a>pytorch的使用</h1><p>个人翻译pytorch官网60min教程</p>
 <p>让我们看一下单词训练。 比如， 我们从torchvision中加载一个预训练resnet18模型。我们创建一个随机tensor数据去代表一个有3通道，高和宽都是64的图像，它对应的label初始化为一些随机数。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch, torchvision</span><br><span class="line">os.environ[<span class="string">&#x27;TORCH_HOME&#x27;</span>] = <span class="string">&#x27;F:/WorkSpace/tensorflow/pytorch/models&#x27;</span></span><br><span class="line"></span><br><span class="line">model = torchvision.models.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">data = torch.rand(<span class="number">1</span>, <span class="number">3</span>, <span class="number">64</span>, <span class="number">64</span>)</span><br><span class="line">labels = torch.rand(<span class="number">1</span>, <span class="number">1000</span>)</span><br></pre></td></tr></table></figure>
-
 <p>接下来，我们将输入数据通过模型的每一层做一次预测，这就是<strong>前向传播</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prediction = model(data)</span><br></pre></td></tr></table></figure>
-
 <p>我们用模型的预测和对应的label去计算误差(loss). 下一步是对网络的误差进行反向传播。当我们调用误差tensor的.backward()的时候，反向传播开始。自动梯度接下来会为每个模型参数计算并存储梯度在参数的.grad属性</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">loss = (prediction - labels).<span class="built_in">sum</span>()</span><br><span class="line">loss.backward() <span class="comment"># backward pass</span></span><br></pre></td></tr></table></figure>
-
 <p>下一步，我们加载一个优化器， 在这个例子用的SGD，学习率为0.01，动量为0.9，我们在这个优化器中注册模型的所有参数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">optim = torch.optim.SGD(model.parameters(), lr=<span class="number">0.01</span>, momentum= <span class="number">0.9</span>)</span><br></pre></td></tr></table></figure>
-
 <p>最终，我们调用.step()去初始化梯度下降。优化器通过存储在.grad中的梯度调整每一个参数</p>
 <p>到这一步，你已经掌握了训练你的神经网络所需的所有东西。</p>
 <p>这里官网教程往后是详细介绍梯度原理。求梯度原理请见深度学习入门笔记04</p>
@@ -646,5 +633,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

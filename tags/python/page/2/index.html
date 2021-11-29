@@ -58,11 +58,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -216,9 +212,9 @@
                                     误差反向传播法计算图计算图：将计算过程用图形表达出来。
 首先说下书上的例子：
 问题1：太郎在超市买了2个100日元一个的苹果，消费税是10%，请计算支付金额。
-相当简单的一道题， 2 * 100 * 1.1即可。计算图表示则是：
+相当简单的一道题， 2  100  1.1即可。计算图表示则是：
 
-将...
+将x2...
                                 
                             </p>
                         </div>
@@ -340,8 +336,7 @@
                                 
                                     Pytorch 张量标量（0D）只包含一个元素的张量为标量。类型通常为FloatTensor或LongTensor
 123import torchx = torch.rand(10)x.size()
-
-向量（1D）12import t...
+向量（1D）12import to...
                                 
                             </p>
                         </div>
@@ -467,7 +462,9 @@
 输出层：最右边的一列，用来输出数据
 隐藏层：中间层。
 神经网络和感知机是相似的，二者最大的区别就在于激活函数。
-激活函数先看一下之前感知机的函数式简单做下变形引入一个函数 h...
+激活函数先看一下之前感知机的函数式
+
+y = \begin{c...
                                 
                             </p>
                         </div>
@@ -1091,5 +1088,20 @@ document.addEventListener('visibilitychange', function () {
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

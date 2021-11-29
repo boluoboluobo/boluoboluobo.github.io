@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~4.32K
+                            ~4.30K
                         
                         字
                     </li>
@@ -183,59 +179,41 @@
 </li>
 </ol>
 <h1 id="第一个HelloKotlin"><a href="#第一个HelloKotlin" class="headerlink" title="第一个HelloKotlin"></a>第一个HelloKotlin</h1><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    println(<span class="string">&quot;Hello Kotlin&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>首先安装IDEA，这个直接官网下载就可以了。打开IDEA ，File-&gt;new Project，选择Kotlin，然后next，写项目名称，然后finish就可以啦。在项目目录下，src右击-&gt; New -&gt; Kotlin file/Class，填写文件名字，类型选择File即可。然后输入以上代码，第一个Hello Kotlin就ok了</p>
 <h1 id="变量和函数"><a href="#变量和函数" class="headerlink" title="变量和函数"></a>变量和函数</h1><h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><p>kotlin的变量和java有很大的不同，java中定义变量需要具体声明变量类型，而kotlin只有两种val和var。因为kotlin拥有很优秀的类型推导机制。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Kotlin</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//val -&gt; java中的final变量，不可变量</span></span><br><span class="line"><span class="comment">//var -&gt; java中的非final变量，可变量</span></span><br><span class="line"><span class="comment">//永远优先使用val，val无法满足需求的时候再改var</span></span><br><span class="line"><span class="keyword">val</span> a = <span class="number">10</span>  <span class="comment">//相当于java的 final int a = 10;</span></span><br><span class="line"><span class="keyword">var</span> b = <span class="number">11</span>  <span class="comment">//相当于java的 int a = 10;</span></span><br></pre></td></tr></table></figure>
-
 <p>注意： kotlin代码是不用写分号的，其实写了也没关系，编译器直接无视掉了</p>
 <p>kotlin的类型推导也不总是正常工作的，比如某个变量需要延迟赋值的话仍然需要显示声明变量类型才可以</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">lateinit</span> <span class="keyword">var</span> a : String</span><br></pre></td></tr></table></figure>
-
-
-
 <p>注意：永远优先使用val，val无法满足需求的时候再改var。</p>
 <p>在java中除非主动设定final，否则这个变量一直是可变的。当项目变得复杂的时候，永远不知道这个变量什么时候被谁改掉了，容易导致各种问题，kotlin强制要求必须让开发者主动声明变量是否可变。</p>
 <h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">methodName</span><span class="params">(a : <span class="type">Int</span>, b : <span class="type">Int</span>)</span></span> : <span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>语法规则： fun 方法名(参数) : 返回值类型{}</p>
 <p>参数格式：参数名:参数类型</p>
 <p>无返回值就不写返回值类型，不用写return。</p>
 <p>语法糖：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//语法糖，当函数中只有一行代码时，可以省去return，用=代替，返回值类型也可省去，kotlin推到机制即可推导出类型</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum2</span><span class="params">(p1 : <span class="type">Int</span>,p2:<span class="type">Int</span>)</span></span>= max(p1,p2)</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum3</span><span class="params">(p1:<span class="type">Int</span>,p2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span> (p1 &gt; p2) p1 <span class="keyword">else</span> p2</span><br></pre></td></tr></table></figure>
-
 <p>这也是我比较喜欢kotlin的一方面，可以少写很多东西(oﾟ▽ﾟ)o  ，越往后学，就会发现很多看起来很复杂的代码，改到kotlin当中，轻轻松松没几行就完成了。</p>
 <h2 id="逻辑控制"><a href="#逻辑控制" class="headerlink" title="逻辑控制"></a>逻辑控制</h2><h3 id="if条件语句"><a href="#if条件语句" class="headerlink" title="if条件语句"></a>if条件语句</h3><p>kotlin的条件语句有两种实现方式 if 和 when</p>
 <p>kotlin的if和java的基本没区别</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="number">0</span></span><br><span class="line">    <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        value = num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        value = num2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>Kotlin的if语句相比java还有一个额外的功能，他是可以有返回值的</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> value = <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>if语句将每个条件的最后一行代码作为返回值，并将返回值赋值给了value变量。最终将value变量返回。当然以上代码还可以更加精简。</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>继续简化</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span>(num1 &gt; num2)&#123;</span><br><span class="line">        num1</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        num2</span><br><span class="line">    &#125;</span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">largerNum</span><span class="params">(num1:<span class="type">Int</span>,num2:<span class="type">Int</span>)</span></span>=<span class="keyword">if</span>(num1 &gt; num2) num1 <span class="keyword">else</span> num2</span><br></pre></td></tr></table></figure>
-
 <p>是不是觉得kotlin的简化爽的一批。。。</p>
 <h3 id="when语句"><a href="#when语句" class="headerlink" title="when语句"></a>when语句</h3><p>会java的同学，应该了解switch语句吧，非常不好用，只能传整型变量最为条件，一个一个case比对，还必须每个case写break，十分不爽。那么看了kotlin的when语句解决了以上问题</p>
 <p>写个例子：输入学生姓名，返回对应的成绩分数</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore</span><span class="params">(name:<span class="type">String</span>)</span></span>=<span class="keyword">if</span> (name == <span class="string">&quot;Tom&quot;</span>)&#123;</span><br><span class="line">    <span class="number">86</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">&quot;Jim&quot;</span>)&#123;</span><br><span class="line">    <span class="number">77</span></span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span>(name == <span class="string">&quot;Jack&quot;</span>)&#123;</span><br><span class="line">    <span class="number">95</span></span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>上面使用了if判断学生姓名，返回分数，用了很多if，else，这个时候就可以考虑使用when了</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore</span><span class="params">(name : <span class="type">String</span>)</span></span>=<span class="keyword">when</span>(name)&#123;</span><br><span class="line">    <span class="string">&quot;Tom&quot;</span> -&gt; <span class="number">86</span>,</span><br><span class="line">    <span class="string">&quot;Jim&quot;</span> -&gt; <span class="number">77</span>,</span><br><span class="line">    <span class="string">&quot;Jack&quot;</span> -&gt; <span class="number">95</span>,</span><br><span class="line">    <span class="keyword">else</span> -&gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>清清爽爽，而且when语句和if一样也是可以有返回值的，因此也可以用语法糖。</p>
 <p>when语句可以使用任意类型的参数，包括类型匹配</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//when的类型匹配</span></span><br><span class="line"><span class="comment">//is关键字是匹配核心，相当于java中的Instanceof</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">checkNumber</span><span class="params">(num:<span class="type">Number</span>)</span></span>=<span class="keyword">when</span>(num)&#123;</span><br><span class="line">    <span class="keyword">is</span> <span class="built_in">Int</span> -&gt; println(<span class="string">&quot;is Int&quot;</span>)</span><br><span class="line">    <span class="keyword">is</span> <span class="built_in">Double</span> -&gt; println(<span class="string">&quot;is Double&quot;</span>)</span><br><span class="line">    <span class="keyword">else</span> -&gt; println(<span class="string">&quot;number not support&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//when的不带参数用法</span></span><br><span class="line"><span class="comment">//判断字符串或对象是否相等可以用 ==，不像java需要用equals(),===可以用来匹配是否是同一个对象</span></span><br><span class="line"><span class="comment">//比如需要这种只要以Tom开头的人，都取86分，就需要when的不带参数用法</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">getScore3</span><span class="params">(name:<span class="type">String</span>)</span></span>=<span class="keyword">when</span>&#123;</span><br><span class="line">    name == <span class="string">&quot;Jim&quot;</span> -&gt; <span class="number">77</span></span><br><span class="line">    name.startsWith(<span class="string">&quot;Tom&quot;</span>) -&gt; <span class="number">86</span></span><br><span class="line">    name == <span class="string">&quot;Jack&quot;</span> -&gt; <span class="number">95</span></span><br><span class="line">    <span class="keyword">else</span> -&gt; <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h3 id="循环语句"><a href="#循环语句" class="headerlink" title="循环语句"></a>循环语句</h3><figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//kotlin的while和java的while没有任何区别</span></span><br><span class="line"><span class="comment">//for-i用法被舍弃，for-each用法被加强变为for-in循环</span></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">forin</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">//..是创建两端闭区间的关键字，创建一个[0,10]的区间</span></span><br><span class="line">    <span class="keyword">val</span> range = <span class="number">0.</span><span class="number">.10</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> range)&#123;</span><br><span class="line">        <span class="comment">//println(i)</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//until创建一个左闭右开的区间 [0,10)</span></span><br><span class="line">    <span class="keyword">val</span> range2 = <span class="number">0</span> until <span class="number">10</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//默认情况下是区间内递增1，相当于for-i中的i++</span></span><br><span class="line">    <span class="comment">//step关键字设定递增数量，step 2相当于 i = i + 2</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">0</span> until <span class="number">10</span> step <span class="number">2</span>)&#123;</span><br><span class="line">        <span class="comment">//println(i)</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//创建降序区间</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">10</span> downTo <span class="number">1</span>)&#123;</span><br><span class="line">        println(i)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Kotlin的强转是 as\</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
 
             </div>
             
@@ -666,5 +644,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

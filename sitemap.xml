@@ -389,7 +389,7 @@
 
   
   <url>
-    <loc>https://www.boluoboluobo.top/tags/kmp/</loc>
+    <loc>https://www.boluoboluobo.top/tags/A/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -397,27 +397,6 @@
   
   <url>
     <loc>https://www.boluoboluobo.top/tags/%E7%AE%97%E6%B3%95/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/kotlin/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/C-C/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/A/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -432,6 +411,48 @@
   
   <url>
     <loc>https://www.boluoboluobo.top/tags/%E5%AF%BB%E8%B7%AF%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/python/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/pytorch/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/gan/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/kmp/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/kotlin/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/C-C/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -480,28 +501,7 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/tags/mysql/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/redis/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.boluoboluobo.top/tags/kaggle/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/python/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -515,7 +515,14 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/tags/pytorch/</loc>
+    <loc>https://www.boluoboluobo.top/tags/mysql/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/tags/redis/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -557,6 +564,13 @@
   </url>
   
   <url>
+    <loc>https://www.boluoboluobo.top/tags/model-evaluation/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.boluoboluobo.top/tags/DeepLearning/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
@@ -565,20 +579,6 @@
   
   <url>
     <loc>https://www.boluoboluobo.top/tags/numpy/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/gan/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/tags/CycleGan/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -599,7 +599,7 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/tags/model-evaluation/</loc>
+    <loc>https://www.boluoboluobo.top/tags/CycleGan/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -609,6 +609,20 @@
   
   <url>
     <loc>https://www.boluoboluobo.top/categories/%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-11-29</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.boluoboluobo.top/categories/%E5%8D%9A%E6%96%87/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -643,14 +657,14 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
+    <loc>https://www.boluoboluobo.top/categories/python/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/categories/python/</loc>
+    <loc>https://www.boluoboluobo.top/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
@@ -671,13 +685,6 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/categories/DeepLearning/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.boluoboluobo.top/categories/pytorch/python/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
@@ -685,14 +692,7 @@
   </url>
   
   <url>
-    <loc>https://www.boluoboluobo.top/categories/%E8%AE%BA%E6%96%87%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2021-11-29</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.boluoboluobo.top/categories/%E5%8D%9A%E6%96%87/</loc>
+    <loc>https://www.boluoboluobo.top/categories/DeepLearning/</loc>
     <lastmod>2021-11-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>

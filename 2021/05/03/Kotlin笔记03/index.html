@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.08K
+                            ~2.07K
                         
                         字
                     </li>
@@ -172,28 +168,21 @@
                 <p>常见的架构模式有MVP,MVC,MVVM不论是哪个架构，都有M，M就是Model（数据类）。</p>
 <h1 id="数据类与单例类"><a href="#数据类与单例类" class="headerlink" title="数据类与单例类"></a>数据类与单例类</h1><p>数据类通常要写toString(), eauals()等方法。比如java写数据类</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Cellphone</span></span>&#123;</span><br><span class="line">    String brand;</span><br><span class="line">    <span class="keyword">double</span> price;</span><br><span class="line">    <span class="function">publi <span class="title">Cellphone</span><span class="params">(String brand,<span class="keyword">double</span> price)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.brand = brand;</span><br><span class="line">        <span class="keyword">this</span>.price = price;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object obj)</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> Cellphone)&#123;</span><br><span class="line">            Cellphone other = (Cellphone)obj;</span><br><span class="line">            <span class="keyword">return</span> other.brand.equals(brand) &amp;&amp; other.price == price;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> brand.hashCode() + (<span class="keyword">int</span>)price;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Cellphone(brand=&quot;</span>+ brand + <span class="string">&quot;, price=&quot;</span> + price + <span class="string">&quot;)&quot;</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>tips: java里面的Object ，在kotlin当中是 Any。 instanceof在kotlin中是 is</p>
 <p>是不是感觉很长，好的，轮到kotlin了。简单到难以想象</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">data</span> <span class="class"><span class="keyword">class</span> <span class="title">Cellphone</span></span>(<span class="keyword">val</span> brand:String,<span class="keyword">val</span> price:<span class="built_in">Double</span>)</span><br></pre></td></tr></table></figure>
-
 <p>结束了。就只有一句话。kotlin将那些toString，equals等等那些毫无实际逻辑的方法自动生成，大大减少工作量。仅仅需要在class前面加上data即可。’==’相当于equals，’===’就是比较哈希值看是不是同一个对象。</p>
 <p>接下来可以测试下</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">val</span> cellphone1 = Cellphone(<span class="string">&quot;小米8&quot;</span>,<span class="number">4100.0</span>)</span><br><span class="line">    <span class="keyword">val</span> cellphone2 = Cellphone(<span class="string">&quot;小米8&quot;</span>,<span class="number">4100.0</span>)</span><br><span class="line">    println(cellphone1)</span><br><span class="line">    println(<span class="string">&quot;cellphone1 equals cellphone2 <span class="subst">$&#123;cellphone1 == cellphone2&#125;</span>&quot;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>java常见的单例模式</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Singleton</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> static Singleton instance;</span><br><span class="line">    <span class="keyword">private</span> Singleton()&#123;&#125;</span><br><span class="line">    <span class="keyword">public</span> synchronized static Singleton getInstance()&#123;</span><br><span class="line">        <span class="keyword">if</span>(instance == <span class="literal">null</span>)&#123;</span><br><span class="line">            instance = new Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> void singletonTest()&#123;</span><br><span class="line">        System.<span class="keyword">out</span>.println(<span class="string">&quot;singletonTest is Called.&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>轮到kotlin，简单到可怕</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> Singleton&#123;&#125;</span><br></pre></td></tr></table></figure>
-
 <p>ok了这个就是单例了，接下来添加方法</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">object</span> Singleton&#123;</span><br><span class="line">    <span class="function"><span class="keyword">fun</span> <span class="title">singletonTest</span><span class="params">()</span></span>&#123;</span><br><span class="line">        println(<span class="string">&quot;singletonTest is Called&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>Kotlin当中不需要私有化构造函数，不用提供getInstance(),只要把class改为object关键字，单例类就创建完了。</p>
 <p>使用：</p>
 <figure class="highlight kotlin"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Singleton.singletonTest()</span><br></pre></td></tr></table></figure>
-
 
             </div>
             
@@ -630,5 +619,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

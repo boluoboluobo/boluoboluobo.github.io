@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -171,30 +167,28 @@
                 <hr />
                 <h1 id="建立OpenGL"><a href="#建立OpenGL" class="headerlink" title="建立OpenGL"></a>建立OpenGL</h1><p>学习使用的环境： Windows 10, Visual studio 2017, 项目架构x86, GLFW 32位。</p>
 <h2 id="下载GLFW"><a href="#下载GLFW" class="headerlink" title="下载GLFW"></a>下载GLFW</h2><p>进入网站： <a target="_blank" rel="noopener" href="https://www.glfw.org/">GLFW网站</a></p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/GLFW.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/GLFW.jpg" alt></p>
 <p>Download下载GLFW，这里是源码，下边有预编译好的版本。Document可以查看文档（其中就有创建窗口的方法）。</p>
 <h2 id="设置库"><a href="#设置库" class="headerlink" title="设置库"></a>设置库</h2><h3 id="添加依赖文件"><a href="#添加依赖文件" class="headerlink" title="添加依赖文件"></a>添加依赖文件</h3><p>在项目中添加Dependency文件夹，用来存放GLFW依赖。上边下载的GLFW的预加载文件，解压后。</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/PreBuildLib.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/PreBuildLib.jpg" alt></p>
 <p>主要用到两个。在lib-vc2017中，glfw3.dll和glfw3dll.lib暂时可以不需要，主要用到静态链接库glfw3.lib</p>
 <h3 id="配置属性"><a href="#配置属性" class="headerlink" title="配置属性"></a>配置属性</h3><p>打开VS右边的属性管理器，右键项目 -&gt; 属性(properties)，如下配置</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/GLFWSetting.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/GLFWSetting.jpg" alt></p>
 <p>点击附加包含目录，添加include位置，但是不推荐直接写绝对路径，因为项目不一定会在这个位置，当然vs提供了一个宏定义(Macros)，点击宏,搜索SolutionDir即可找到。</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/Macros.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/Macros.jpg" alt></p>
 <p>设置配置</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/settingPage.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/settingPage.jpg" alt></p>
 <p>Dependency位置，验证配置正确与否，可以在包含目录点击三角，下边有个编辑，有个计算的值，把值拿出来放在文件夹路径下，看看能不能访问到，能访问到就ok了。</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/DependencyPos.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/DependencyPos.jpg" alt></p>
 <p>同样的方法设置链接器(linker)</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/Linker.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/Linker.jpg" alt></p>
 <p>设置需要的依赖项 (Additional Dependencies)</p>
-<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/AdditionDependency.jpg"></p>
+<p><img src="/2021/06/13/OpenGL%E7%AC%94%E8%AE%B001/AdditionDependency.jpg" alt></p>
 <h1 id="创建一个窗口"><a href="#创建一个窗口" class="headerlink" title="创建一个窗口"></a>创建一个窗口</h1><p>打开GLFW官网的Document页面，复制代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;GLFW/glfw3.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    GLFWwindow* window;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Initialize the library */</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">glfwInit</span>())</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Create a windowed mode window and its OpenGL context */</span></span><br><span class="line">    window = <span class="built_in">glfwCreateWindow</span>(<span class="number">640</span>, <span class="number">480</span>, <span class="string">&quot;Hello World&quot;</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);</span><br><span class="line">    <span class="keyword">if</span> (!window)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">glfwTerminate</span>();</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Make the window&#x27;s context current */</span></span><br><span class="line">    <span class="built_in">glfwMakeContextCurrent</span>(window);</span><br><span class="line"></span><br><span class="line">    <span class="comment">/* Loop until the user closes the window */</span></span><br><span class="line">    <span class="keyword">while</span> (!<span class="built_in">glfwWindowShouldClose</span>(window))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* Render here */</span></span><br><span class="line">        <span class="built_in">glClear</span>(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Swap front and back buffers */</span></span><br><span class="line">        <span class="built_in">glfwSwapBuffers</span>(window);</span><br><span class="line"></span><br><span class="line">        <span class="comment">/* Poll for and process events */</span></span><br><span class="line">        <span class="built_in">glfwPollEvents</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">glfwTerminate</span>();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>F5运行即可得到一个窗口。</p>
 <h2 id="绘制一个三角形"><a href="#绘制一个三角形" class="headerlink" title="绘制一个三角形"></a>绘制一个三角形</h2><p>绘制是在glClear之后进行绘制。需要glBegin(GLenum) glEnd()。添加代码</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">		<span class="comment">/* Render here */</span></span><br><span class="line">		<span class="built_in">glClear</span>(GL_COLOR_BUFFER_BIT);</span><br><span class="line"></span><br><span class="line">		<span class="built_in">glBegin</span>(GL_TRIANGLES);</span><br><span class="line">		<span class="built_in">glVertex2f</span>(<span class="number">-0.5f</span>, <span class="number">-0.5f</span>);</span><br><span class="line">		<span class="built_in">glVertex2f</span>(<span class="number">0.0f</span>, <span class="number">0.5f</span>);</span><br><span class="line">		<span class="built_in">glVertex2f</span>(<span class="number">0.5f</span>, <span class="number">-0.5f</span>);</span><br><span class="line">		<span class="built_in">glEnd</span>();</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-
 <p>运行即可。</p>
 
             </div>
@@ -633,5 +627,20 @@ Download下载GLFW，这里是源码，下边有预编译好的...`;
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

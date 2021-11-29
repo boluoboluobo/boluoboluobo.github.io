@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~2.69K
+                            ~2.68K
                         
                         字
                     </li>
@@ -175,10 +171,8 @@
 <p>返回 <strong>确切</strong> 满足购物清单所需花费的最低价格，你可以充分利用大礼包的优惠活动。你不能购买超出购物清单指定数量的物品，即使那样会降低整体价格。任意大礼包可无限次购买。</p>
 <p><strong>示例 1：</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入：price = [2,5], special = [[3,0,5],[1,2,10]], needs = [3,2]</span><br><span class="line">输出：14</span><br><span class="line">解释：有 A 和 B 两种物品，价格分别为 ¥2 和 ¥5 。 </span><br><span class="line">大礼包 1 ，你可以以 ¥5 的价格购买 3A 和 0B 。 </span><br><span class="line">大礼包 2 ，你可以以 ¥10 的价格购买 1A 和 2B 。 </span><br><span class="line">需要购买 3 个 A 和 2 个 B ， 所以付 ¥10 购买 1A 和 2B（大礼包 2），以及 ¥4 购买 2A 。</span><br></pre></td></tr></table></figure>
-
 <p><strong>示例 2：</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">输入：price = [2,3,4], special = [[1,1,0,4],[2,2,1,9]], needs = [1,2,1]</span><br><span class="line">输出：11</span><br><span class="line">解释：A ，B ，C 的价格分别为 ¥2 ，¥3 ，¥4 。</span><br><span class="line">可以用 ¥4 购买 1A 和 1B ，也可以用 ¥9 购买 2A ，2B 和 1C 。 </span><br><span class="line">需要买 1A ，2B 和 1C ，所以付 ¥4 买 1A 和 1B（大礼包 1），以及 ¥3 购买 1B ， ¥4 购买 1C 。 </span><br><span class="line">不可以购买超出待购清单的物品，尽管购买大礼包 2 更加便宜。</span><br></pre></td></tr></table></figure>
-
 <p><strong>提示：</strong></p>
 <ul>
 <li>n == price.length</li>
@@ -193,7 +187,6 @@
 <p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/shopping-offers">原文链接</a></p>
 <h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>最开始大体思路就是递归，每次调用获得当前情况的最优解。递归到无法使用礼包，将当前剩下部分物品所需的价格进行回溯。每次方法内部检查可以使用的礼包，避免无效递归。接着就是对比使用礼包和不使用礼包以及不同礼包之间最好的方案返回。最终得到最优解。</p>
 <h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">shoppingOffers</span><span class="params">(List&lt;Integer&gt; price, List&lt;List&lt;Integer&gt;&gt; special, List&lt;Integer&gt; needs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> min = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; needs.size();i++)&#123;</span><br><span class="line">            min += price.get(i) * needs.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">boolean</span> canUseGift;</span><br><span class="line">        <span class="comment">//遍历每个礼包方案</span></span><br><span class="line">        <span class="keyword">for</span> (List&lt;Integer&gt; list : special)&#123;</span><br><span class="line">            sum = <span class="number">0</span>;</span><br><span class="line">            <span class="comment">//判断能否使用礼包</span></span><br><span class="line">            canUseGift = <span class="keyword">true</span>;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; needs.size();i++)&#123;</span><br><span class="line">                <span class="keyword">if</span> (list.get(i) &gt; needs.get(i))&#123;</span><br><span class="line">                    canUseGift = <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//使用礼包</span></span><br><span class="line">            <span class="keyword">if</span> (canUseGift)&#123;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; needs.size();i++)&#123;</span><br><span class="line">                   needs.set(i, needs.get(i) - list.get(i));</span><br><span class="line">                &#125;</span><br><span class="line">                sum += list.get(list.size() - <span class="number">1</span>);</span><br><span class="line">                sum += shoppingOffers(price, special, needs);</span><br><span class="line">                min = min &gt; sum ? sum : min;</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; needs.size();i++)&#123;</span><br><span class="line">                    needs.set(i, needs.get(i) + list.get(i));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i &lt; needs.size();i++)&#123;</span><br><span class="line">            sum += price.get(i) * needs.get(i);</span><br><span class="line">        &#125;</span><br><span class="line">        min = min &gt; sum ? sum : min;</span><br><span class="line">        <span class="keyword">return</span> min;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 
             </div>
             
@@ -629,5 +622,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

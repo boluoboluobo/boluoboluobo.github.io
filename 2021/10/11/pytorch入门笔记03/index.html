@@ -61,11 +61,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -147,7 +143,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~4.13K
+                            ~3.97K
                         
                         字
                     </li>
@@ -172,7 +168,7 @@
                 <hr />
                 <h1 id="神经网络"><a href="#神经网络" class="headerlink" title="神经网络"></a>神经网络</h1><p>神经网络可以通过使用torch.nn包进行构建</p>
 <p>现在你粗略了解了autograd，nn依赖autograd去定义模型还有求微分。一个nn.Module含有很多层和forward(input)方法，forward方法返回output</p>
-<p><img src="/2021/10/11/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B003/mnist.png"></p>
+<p><img src="/2021/10/11/pytorch%E5%85%A5%E9%97%A8%E7%AC%94%E8%AE%B003/mnist.png" alt></p>
 <p>这是一个前馈网络的例子。他接收输入，逐层传递输入，最终给出输出</p>
 <p>一个典型的神行网络训练流程如下：</p>
 <ul>
@@ -184,22 +180,18 @@
 <li>更新网络权重， 经典的更新例子： W = W - lr * grad</li>
 </ul>
 <h2 id="定义网络"><a href="#定义网络" class="headerlink" title="定义网络"></a>定义网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> torch, torch.optim</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line">os.environ[<span class="string">&#x27;TORCH_HOME&#x27;</span>] = <span class="string">&#x27;F:/WorkSpace/tensorflow/pytorch/models&#x27;</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Net, self).__init__()</span><br><span class="line">        <span class="comment"># 单通道图像输入， 输出6通道， 5x5 卷积核</span></span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">6</span>, <span class="number">5</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">6</span>, <span class="number">16</span>, <span class="number">5</span>)</span><br><span class="line">        <span class="comment"># 一个仿射变换操作(Affine) : y = Wx + b</span></span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">16</span> * <span class="number">5</span> * <span class="number">5</span>, <span class="number">120</span>) <span class="comment"># 5*5 来自图像的维度</span></span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">120</span>, <span class="number">84</span>)</span><br><span class="line">        self.fc3 = nn.Linear(<span class="number">84</span>, <span class="number">10</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        <span class="comment"># Max池化，窗口为(2,2)</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv1(x)), (<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line">        <span class="comment"># 如果尺寸是正方形， 你可以用一个数字来指定</span></span><br><span class="line">        x = F.max_pool2d(F.relu(self.conv2(x)), <span class="number">2</span>)</span><br><span class="line">        x = torch.flatten(x, <span class="number">1</span>) <span class="comment"># 批处理除外，所有数据降维展平，意思就是二维图像转成一行数组。</span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = F.relu(self.fc2(x))</span><br><span class="line">        x = self.fc3(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line">net = Net()</span><br><span class="line"><span class="built_in">print</span>(net)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>Net(<br>  (conv1): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1))<br>  (conv2): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))<br>  (fc1): Linear(in_features=400, out_features=120, bias=True)<br>  (fc2): Linear(in_features=120, out_features=84, bias=True)<br>  (fc3): Linear(in_features=84, out_features=10, bias=True)<br>)</p>
 <p>你仅仅是需要定义forward方法，backward方法（计算梯度）是自动定义好的。你可以使用任何操作在forward方法中。</p>
 <p>学习的模型参数由net.parameters()返回。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">params = <span class="built_in">list</span>(net.parameters())</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">len</span>(params))</span><br><span class="line"><span class="built_in">print</span>(params[<span class="number">0</span>].size())</span><br></pre></td></tr></table></figure>
-
 <p>10<br>torch.Size([6, 1, 5, 5])</p>
 <p>尝试随机32x32输入，注意：预期的输入这个网络（LeNet）的输入时32x32的。用MNIST数据集在这个网络上的话，请将图像尺寸改为32x32</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">input</span> = torch.randn(<span class="number">1</span>, <span class="number">1</span>, <span class="number">32</span>, <span class="number">32</span>)</span><br><span class="line">out = net(<span class="built_in">input</span>)</span><br><span class="line"><span class="built_in">print</span>(out)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>tensor([[-0.0771,  0.0865,  0.1370,  0.1146, -0.0952, -0.0172, -0.0014, -0.0123,<br>          0.0449,  0.1213]], grad_fn=<AddmmBackward>)</AddmmBackward></p>
 <p>所有参数的梯度缓存清零。然后随机梯度传播</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net.zero_grad()</span><br><span class="line">out.backward(torch.randn(<span class="number">1</span>, <span class="number">10</span>))</span><br></pre></td></tr></table></figure>
-
 <p><strong>Note:</strong></p>
 <p>torch.nn 仅支持mini-batches。 整个torch.nn包仅支持输入一个样本的mini-batch，而不是单个样本</p>
 <p>比如，nn.Conv2d将收到（nSamples x nChannels x Height x Width）的4D（4维张量）。</p>
@@ -208,34 +200,30 @@
 <p>nn包中的loss function有一点不同。 一个简单的loss是：nn.MSELoss，它计算的是输入和目标的均方差</p>
 <p>如：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">output = net(<span class="built_in">input</span>)</span><br><span class="line">target = torch.randn(<span class="number">10</span>)</span><br><span class="line">target = target.view(<span class="number">1</span>, -<span class="number">1</span>)</span><br><span class="line">criterion = nn.MSELoss()</span><br><span class="line"></span><br><span class="line">loss = criterion(output, target)</span><br><span class="line"><span class="built_in">print</span>(loss)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>tensor(0.7784, grad_fn=<MseLossBackward>)</MseLossBackward></p>
 <p>现在，如果你跟着loss的方向走，用它的.grad_fn属性，你会看到一个计算图</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">input -&gt; conv2d -&gt; relu -&gt; maxpool2d -&gt; conv2d -&gt; relu -&gt; maxpool2d</span><br><span class="line">      -&gt; flatten -&gt; linear -&gt; relu -&gt; linear -&gt; relu -&gt; linear</span><br><span class="line">      -&gt; MSELoss</span><br><span class="line">      -&gt; loss</span><br></pre></td></tr></table></figure>
-
 <p>所以，当我们调用loss.backward(), 整个图是分化为w.r.t神经网络的参数，然后所有在图中有requires_grad=True的张量会有他们的.grad，Tensor累计的梯度。</p>
 <p>为了证明，我们退几步</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(loss.grad_fn) <span class="comment"># MSELoss</span></span><br><span class="line"><span class="built_in">print</span>(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># Linear</span></span><br><span class="line"><span class="built_in">print</span>(loss.grad_fn.next_functions[<span class="number">0</span>][<span class="number">0</span>].next_functions[<span class="number">0</span>][<span class="number">0</span>]) <span class="comment"># ReLU</span></span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
-<p>&lt;MseLossBackward object at 0x0000028798DF9D68&gt;<br>&lt;AddmmBackward object at 0x00000287AAC61390&gt;<br>&lt;AccumulateGrad object at 0x00000287AAC61390&gt;</p>
+<p><MseLossBackward object at 0x0000028798df9d68></MseLossBackward></p>
+<p><AddmmBackward object at 0x00000287aac61390></AddmmBackward></p>
+<AccumulateGrad object at 0x00000287aac61390>
+
 <h2 id="反向传播"><a href="#反向传播" class="headerlink" title="反向传播"></a>反向传播</h2><p>反向传播误差，我们所需要做的就是loss.backward(). 你需要清理掉已存在的梯度，否则会被累加到存在的梯度上。</p>
 <p>现在我们尝试调用loss.backward()，观察在backward前后的conv1的偏置梯度</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;conv1.bias.grad before backward&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(net.conv1.bias.grad)</span><br><span class="line"></span><br><span class="line">loss.backward()</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;conv1.bias.grad after backward&#x27;</span>)</span><br><span class="line"><span class="built_in">print</span>(net.conv1.bias.grad)</span><br></pre></td></tr></table></figure>
-
 <p>out:</p>
 <p>conv1.bias.grad before backward<br>None<br>conv1.bias.grad after backward<br>tensor([ 8.4313e-05,  5.5547e-03,  1.2019e-02,  4.9749e-03, -9.5904e-05,<br>         2.6212e-03])</p>
 <h2 id="更新权重"><a href="#更新权重" class="headerlink" title="更新权重"></a>更新权重</h2><p>最简单的在训练中更新规则是随机梯度下降（SGD）：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">weight = weight - learning_rate * gradient</span><br></pre></td></tr></table></figure>
-
 <p>我们可以通过简单的python代码实现</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">learning_rate = <span class="number">0.01</span></span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> net.parameters():</span><br><span class="line">    f.data.sub_(f.grad.data * learning_rate)</span><br></pre></td></tr></table></figure>
-
 <p>然而，由于你使用的神经网络，你想使用各种不同的更新规则例如，SGD， Nesterov-SGD,Adam,RMSProp等等。我们构建了一个小包：torch.optim用来实现所有的这些方法。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建优化器</span></span><br><span class="line">optimizer = optim.SGD(net.parameters(), lr=<span class="number">0.01</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 放在训练循环中</span></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">output = net(<span class="built_in">input</span>)</span><br><span class="line">loss = criterion(output, target)</span><br><span class="line">loss.backward()</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
-
-
+</AccumulateGrad>
             </div>
             
                 <div class="kratos-copyright text-center clearfix">
@@ -670,5 +658,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>

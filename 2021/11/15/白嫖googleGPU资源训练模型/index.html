@@ -60,11 +60,7 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<!-- hexo injector head_end start -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 
     <body class="custom-background">
@@ -146,7 +142,7 @@
                         <i class="fa fa-edit"></i> 
                         
                         
-                            404
+                            402
                         
                         字
                     </li>
@@ -173,14 +169,12 @@
 <p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xueadas/p/9902186.html">利用Google免费GPU跑深度学习模型</a></p>
 <p>方法内容为上方博主的内容。这里只是简单记录一下。</p>
 <p>需要翻墙，使用Google的<a target="_blank" rel="noopener" href="https://drive.google.com/drive/my-drive">云硬盘</a>。在云硬盘在中新建一个Colaboratory,没有的话在关联更多应用中安装</p>
-<p><img src="/2021/11/15/%E7%99%BD%E5%AB%96googleGPU%E8%B5%84%E6%BA%90%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/pic1.png"></p>
+<p><img src="/2021/11/15/%E7%99%BD%E5%AB%96googleGPU%E8%B5%84%E6%BA%90%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/pic1.png" alt></p>
 <p>由于是虚拟环境，当前位置并不是在当前的云盘，所以需要colab去挂载云盘，才可以。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> google.colab <span class="keyword">import</span> drive</span><br><span class="line">drive.mount(<span class="string">&#x27;/content/drive&#x27;</span>)</span><br><span class="line">%cd /content/drive/My\ Drive</span><br></pre></td></tr></table></figure>
-
 <p>就可以看到当前云盘位置。</p>
 <p>如果想用python script.py的方式运行</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!python script.py</span><br></pre></td></tr></table></figure>
-
 <p>即可</p>
 
             </div>
@@ -618,5 +612,20 @@
 <!-- Extra support for third-party plguins  -->
 
 
-    <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
+    <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"/live2dw/assets/assets/hijiki.model.json"},"log":false});</script></body>
 </html>
