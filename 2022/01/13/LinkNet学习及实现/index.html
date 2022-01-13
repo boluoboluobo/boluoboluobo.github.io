@@ -4,7 +4,7 @@
   <!-- 元数据 -->
   <meta charset="utf-8">
   <link rel="icon" href="">
-  <title>力扣每日一题 2021/10/18 | 菠萝菠萝卜的博客</title>
+  <title>LinkNet学习及实现 | 菠萝菠萝卜的博客</title>
   <meta name="author" content="菠萝菠萝卜" />
   <meta http-equiv="Cache-Control" content="no-transform" />
   <meta http-equiv="Cache-Control" content="no-siteapp" />
@@ -13,22 +13,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <meta name="format-detection" content="telphone=no, email=no" />
   
-    <meta name="keywords" content="leetcode(中等)" />
+    <meta name="keywords" content="pytorch, 图像分割" />
   
-  <meta name="description" content="90. 子集II给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。 示例 1： 12输入：nums &#x3D; [1,2,2]输出：[[],[1],[1,2],[1,2,2],[2],[2,2]] 示例 2： 12输入：nums &#x3D; [0]输出：[[],[0]] 提示：  1 &lt;&#x3D; num">
+  <meta name="description" content="LinkNet学习及实现   LinkNet的论文篇幅不多，网络也很简单。首先说一下应用背景，LinkNet想要做的任务是实时的图像分割。就是需要响应时间短，准确率高的一个网络。虽然现在的算法都可以达到很高的准确率，但是都没有把重点放在有效的利用神经网络的参数上。在参数和操作数量方面很多，导致了缓慢。实时的场景理解和图像分割可以应用在自动驾驶，增强现实等场景。 引言和相关工作​    由于增强现实">
 <meta property="og:type" content="article">
-<meta property="og:title" content="力扣每日一题 2021&#x2F;10&#x2F;18">
-<meta property="og:url" content="https://www.boluoboluobo.top/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/index.html">
+<meta property="og:title" content="LinkNet学习及实现">
+<meta property="og:url" content="https://www.boluoboluobo.top/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="菠萝菠萝卜的博客">
-<meta property="og:description" content="90. 子集II给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。 解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。 示例 1： 12输入：nums &#x3D; [1,2,2]输出：[[],[1],[1,2],[1,2,2],[2],[2,2]] 示例 2： 12输入：nums &#x3D; [0]输出：[[],[0]] 提示：  1 &lt;&#x3D; num">
+<meta property="og:description" content="LinkNet学习及实现   LinkNet的论文篇幅不多，网络也很简单。首先说一下应用背景，LinkNet想要做的任务是实时的图像分割。就是需要响应时间短，准确率高的一个网络。虽然现在的算法都可以达到很高的准确率，但是都没有把重点放在有效的利用神经网络的参数上。在参数和操作数量方面很多，导致了缓慢。实时的场景理解和图像分割可以应用在自动驾驶，增强现实等场景。 引言和相关工作​    由于增强现实">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://www.boluoboluobo.top/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/leetcode.svg">
-<meta property="article:published_time" content="2021-10-18T02:49:52.000Z">
-<meta property="article:modified_time" content="2021-10-19T01:57:19.630Z">
+<meta property="og:image" content="https://www.boluoboluobo.top/null">
+<meta property="article:published_time" content="2022-01-13T11:53:49.000Z">
+<meta property="article:modified_time" content="2022-01-13T13:38:53.972Z">
 <meta property="article:author" content="菠萝菠萝卜">
-<meta property="article:tag" content="leetcode(中等)">
+<meta property="article:tag" content="pytorch">
+<meta property="article:tag" content="图像分割">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.boluoboluobo.top/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/leetcode.svg">
+<meta name="twitter:image" content="https://www.boluoboluobo.top/null">
 <meta name="twitter:site" content="@null">
   
   <!-- 站点验证相关 -->
@@ -60,7 +61,119 @@
   
     <script src="https://cdn.jsdelivr.net/npm/qrcode_js@1.0.0/qrcode.min.js"></script>
   
-<meta name="generator" content="Hexo 5.4.0"></head>
+<meta name="generator" content="Hexo 5.4.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
 
     <body class="custom-background">
@@ -133,21 +246,21 @@
     <article>
         <div class="kratos-hentry kratos-post-inner clearfix">
             <header class="kratos-entry-header">
-                <h1 class="kratos-entry-title text-center">力扣每日一题 2021/10/18</h1>
+                <h1 class="kratos-entry-title text-center">LinkNet学习及实现</h1>
                 
                 <ul class="kratos-post-meta text-center">
-                    <li><i class="fa fa-calendar"></i> 2021-10-18</li>
+                    <li><i class="fa fa-calendar"></i> 2022-01-13</li>
                     <li><i class="fa fa-user"></i> 作者 菠萝菠萝卜</li>
                     <li>
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~1.81K
+                            ~3.79K
                         
                         字
                     </li>
                     
-                        <li id="/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/" class="leancloud_visitors" data-flag-title="力扣每日一题 2021/10/18">
+                        <li id="/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="leancloud_visitors" data-flag-title="LinkNet学习及实现">
                             <i class="fa fa-eye"></i>
                             <span class="leancloud-visitors-count"> </span> 次阅读
                         </li>
@@ -157,28 +270,29 @@
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1634608639630"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1642081133972"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
-                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#90-%E5%AD%90%E9%9B%86II"><span class="toc-number">1.</span> <span class="toc-text">90. 子集II</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">解题代码</span></a></li></ol>
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">LinkNet学习及实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%E5%92%8C%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">引言和相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.4.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
                     </div>
                 
                 <hr />
-                <h1 id="90-子集II"><a href="#90-子集II" class="headerlink" title="90. 子集II"></a>90. 子集II</h1><p>给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。</p>
-<p>解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。</p>
-<p><strong>示例 1：</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [1,2,2]</span><br><span class="line">输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]</span><br></pre></td></tr></table></figure>
-<p><strong>示例 2：</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">输入：nums = [0]</span><br><span class="line">输出：[[],[0]]</span><br></pre></td></tr></table></figure>
-<p><strong>提示：</strong></p>
-<ul>
-<li>1 &lt;= nums.length &lt;= 10</li>
-<li>-10 &lt;= nums[i] &lt;= 10</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/subsets-ii">原文链接</a></p>
-<h1 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h1><p>我的方法比较暴力。第一层循环，用来设定窗口大小，内部有一个方法用来递归将所有的组合遍历，对于重复数组，使用的集合将数组排序后存起来。最终集合转数组输出</p>
-<h1 id="解题代码"><a href="#解题代码" class="headerlink" title="解题代码"></a>解题代码</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">algorithm90</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span></span>&#123;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; result = subsetsWithDup(<span class="keyword">new</span> <span class="keyword">int</span>[]&#123;<span class="number">1</span>,<span class="number">2</span>,<span class="number">2</span>&#125;);</span><br><span class="line">        <span class="keyword">int</span> index = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span>(List&lt;Integer&gt; list : result)&#123;</span><br><span class="line">            System.out.println(<span class="string">&quot;列表：&quot;</span> + index );</span><br><span class="line">            index++;</span><br><span class="line">            System.out.println(Arrays.toString(list.toArray()));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> List&lt;List&lt;Integer&gt;&gt; subsetsWithDup(<span class="keyword">int</span>[] nums) &#123;</span><br><span class="line">        <span class="keyword">int</span> len = nums.length;</span><br><span class="line">        Set&lt;List&lt;Integer&gt;&gt; listset = <span class="keyword">new</span> HashSet&lt;&gt;();</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i &lt;= len ;i++)&#123;</span><br><span class="line">            getList(listset, <span class="keyword">new</span> ArrayList&lt;&gt;(), nums, <span class="number">0</span>, i, len);</span><br><span class="line">        &#125;</span><br><span class="line">        List&lt;List&lt;Integer&gt;&gt; result = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        result.addAll(listset);</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getList</span><span class="params">(Set&lt;List&lt;Integer&gt;&gt; listset, List&lt;Integer&gt; prelist, <span class="keyword">int</span>[] nums, <span class="keyword">int</span> start, <span class="keyword">int</span> getNum, <span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">        List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">        list.addAll(prelist);</span><br><span class="line">        Collections.sort(list);</span><br><span class="line">        <span class="keyword">if</span>(getNum == <span class="number">0</span>)&#123;</span><br><span class="line">            listset.add(list);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = start;i &lt; len;i++)&#123;</span><br><span class="line">            list.add(nums[i]);</span><br><span class="line">            getList(listset, list,nums,i + <span class="number">1</span>,getNum - <span class="number">1</span>, len);</span><br><span class="line">            list.remove(list.size() - <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                <h1 id="LinkNet学习及实现"><a href="#LinkNet学习及实现" class="headerlink" title="LinkNet学习及实现"></a>LinkNet学习及实现</h1><p>   LinkNet的论文篇幅不多，网络也很简单。首先说一下应用背景，LinkNet想要做的任务是实时的图像分割。就是需要响应时间短，准确率高的一个网络。虽然现在的算法都可以达到很高的准确率，但是都没有把重点放在有效的利用神经网络的参数上。在参数和操作数量方面很多，导致了缓慢。实时的场景理解和图像分割可以应用在自动驾驶，增强现实等场景。</p>
+<h2 id="引言和相关工作"><a href="#引言和相关工作" class="headerlink" title="引言和相关工作"></a>引言和相关工作</h2><p>​    由于增强现实和自动驾驶汽车等任务的激增，许多研究人员已经将他们的研究重点转向场景理解，其中涉及的一个主要步骤是像素级分类/语义分割。受到Auto-Encoder的启发，大多数的现有的语义分割技术使用的是encoder-decoder的结构。Encoder将信息编码到特征空间，解码器将这些信息映射到类别空间用来分割表示。尽管语义分割针对的是需要实时操作的应用程序，讽刺的是大多深度网络需要大量的处理时间。像YOLO，Fast RNN，SSD专注于实时对象检测，但在语义分割上几乎没有任何工作。</p>
+<p>​    论文中分析，由于池化和卷积导致的控件信息丢失，可以由反池化或全卷积（就是反卷积）恢复。绕过空间信息，直接将encoder结果给到相应的decoder中去，提高了精度，减少了处理时间。其实说的就是特征融合的方式。然后生成器一般要么是用判别器中存的池化索引要么就是反卷积进行上采样。</p>
+<p>​    在SegNet中使用了预训练的VGG作为判别器。每次的最大池化后都会保存池化索引，然后在解码器中上采样的时候使用。再后来的研究人员提出了深度反卷积网络，FCN结合跳跃结构的思想，认为反池化其实没有什么需要的了。标准的预训练编码器都已经被用于分割了，为了得到更精确的分割边界，添加了后处理步骤级联，比如使用条件随机场CRF(Conditional Random Field)</p>
+<h2 id="网络结构"><a href="#网络结构" class="headerlink" title="网络结构"></a>网络结构</h2><p><img src="/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/LinkNet Architecture.png" alt="LinkNet Architecture"></p>
+<p>LinkNet的结构看图就已经很清楚了，将每一层编码器的结果保存一份，再在解码器解出的结果和对应的编码结果加和，传入下一层解码器中去。</p>
+<p><img src="/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/encoder-block.png" alt="encoder-block"></p>
+<p>这个是Encoder的结构，一看就觉得很熟悉，这不就是残差块嘛，编码器的4个Encoder-block之后，不就是ResNet18么。没错，论文里直接说了LinkNet使用的是ResNet18作为Encoder。:joy::joy::joy:</p>
+<p><img src="/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/decoder-block.png" alt="decoder-block"></p>
+<p><img src="/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/featuremap.png" alt="featuremap"></p>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torchvision.models <span class="keyword">as</span> model</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Decoder</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, in_planes, out_planes, kernel_size, stride=<span class="number">1</span>, padding=<span class="number">0</span>, output_padding=<span class="number">0</span>, bias=<span class="literal">False</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(Decoder, self).__init__()</span><br><span class="line">        self.conv1 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(in_planes, in_planes // <span class="number">4</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, bias=bias),</span><br><span class="line">            nn.BatchNorm2d(in_planes // <span class="number">4</span>),</span><br><span class="line">            nn.ReLU(inplace=<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.tp_conv = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(in_planes // <span class="number">4</span>, in_planes // <span class="number">4</span>, kernel_size, stride=stride, padding= padding, output_padding= output_padding, bias= bias),</span><br><span class="line">            nn.BatchNorm2d(in_planes // <span class="number">4</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.conv2 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(in_planes // <span class="number">4</span>, out_planes, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, bias=bias),</span><br><span class="line">            nn.BatchNorm2d(out_planes),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = self.conv1(x)</span><br><span class="line">        x = self.tp_conv(x)</span><br><span class="line">        x = self.conv2(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">LinkNet</span>(<span class="params">nn.Module</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, n_classes=<span class="number">21</span></span>):</span></span><br><span class="line">        <span class="built_in">super</span>(LinkNet, self).__init__()</span><br><span class="line">        base = model.resnet18(pretrained=<span class="literal">True</span>)</span><br><span class="line">        self.in_block = nn.Sequential(</span><br><span class="line">            base.conv1,</span><br><span class="line">            base.bn1,</span><br><span class="line">            base.relu,</span><br><span class="line">            base.maxpool</span><br><span class="line">        )</span><br><span class="line">        self.encoder1 = base.layer1</span><br><span class="line">        self.encoder2 = base.layer2</span><br><span class="line">        self.encoder3 = base.layer3</span><br><span class="line">        self.encoder4 = base.layer4</span><br><span class="line"></span><br><span class="line">        self.decoder1 = Decoder(<span class="number">64</span>, <span class="number">64</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">        self.decoder2 = Decoder(<span class="number">128</span>, <span class="number">64</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">        self.decoder3 = Decoder(<span class="number">256</span>, <span class="number">128</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">        self.decoder4 = Decoder(<span class="number">512</span>, <span class="number">256</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">        self.tp_conv1 = nn.Sequential(</span><br><span class="line">            nn.ConvTranspose2d(<span class="number">64</span>, <span class="number">32</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">            nn.BatchNorm2d(<span class="number">32</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.conv2 = nn.Sequential(</span><br><span class="line">            nn.Conv2d(<span class="number">32</span>, <span class="number">32</span>, <span class="number">3</span>, <span class="number">1</span>, <span class="number">1</span>),</span><br><span class="line">            nn.BatchNorm2d(<span class="number">32</span>),</span><br><span class="line">            nn.ReLU(<span class="literal">True</span>)</span><br><span class="line">        )</span><br><span class="line">        self.tp_conv2 = nn.ConvTranspose2d(<span class="number">32</span>, n_classes, <span class="number">2</span>, <span class="number">2</span>, <span class="number">0</span>)</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        x = self.in_block(x)</span><br><span class="line"></span><br><span class="line">        e1 = self.encoder1(x)</span><br><span class="line">        e2 = self.encoder2(e1)</span><br><span class="line">        e3 = self.encoder3(e2)</span><br><span class="line">        e4 = self.encoder4(e3)</span><br><span class="line"></span><br><span class="line">        d4 = e3 + self.decoder4(e4)</span><br><span class="line">        d3 = e2 + self.decoder3(d4)</span><br><span class="line">        d2 = e1 + self.decoder2(d3)</span><br><span class="line">        d1 = x + self.decoder1(d2)</span><br><span class="line">        out = self.tp_conv1(d1)</span><br><span class="line">        out = self.conv2(out)</span><br><span class="line">        out = self.tp_conv2(out)</span><br><span class="line">        <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    inputs = torch.randn((<span class="number">1</span>, <span class="number">3</span>, <span class="number">352</span>, <span class="number">480</span>))</span><br><span class="line">    net = LinkNet(n_classes=<span class="number">12</span>)</span><br><span class="line">    out = net(inputs)</span><br><span class="line">    <span class="built_in">print</span>(out.size())</span><br></pre></td></tr></table></figure>
+<p><strong>参数设置</strong></p>
+<p>学习率：5e-4</p>
+<p>优化器：RMSProp</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a target="_blank" rel="noopener" href="https://arxiv.org/abs/1707.03718">LinkNet: Exploiting Encoder Representations for Efficient Semantic Segmentation</a></p>
 
             </div>
             
@@ -234,7 +348,7 @@
     <script type="text/javascript">
         $(()=>{
             new QRCode("wechat-qr", {
-                text: "https://www.boluoboluobo.top/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/",
+                text: "https://www.boluoboluobo.top/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/",
                 width: 150,
                 height: 150,
                 correctLevel : QRCode.CorrectLevel.H
@@ -246,12 +360,9 @@
             const qzoneBase     = "https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?";
             const facebookBase  = "https://www.facebook.com/sharer/sharer.php?";
             const twitterBase   = "https://twitter.com/intent/tweet?";
-            const hostUrl       = "https://www.boluoboluobo.top/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/";
-            const title         = "「力扣每日一题 2021/10/18」";
-            const excerpt       = `90. 子集II给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。
-解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
-示例 1：
-12输入：nums = [1,2,2]输出...`;
+            const hostUrl       = "https://www.boluoboluobo.top/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/";
+            const title         = "「LinkNet学习及实现」";
+            const excerpt       = `LinkNet学习及实现   LinkNet的论文篇幅不多，网络也很简单。首先说一下应用背景，LinkNet想要做的任务是实时的图像分割。就是需要响应时间短，准确率高的一个网络。虽然现在的算法都可以达到很高的准确率，但是都没有把重点放...`;
             let _URL;
             switch (dest) {
                 case "qq"       : _URL = qqBase+"url="+hostUrl+"&title="+title+"&desc=&summary="+excerpt+"&site=cxpy";     break;
@@ -270,10 +381,10 @@
                 <div class="footer-tag clearfix">
                     <div class="pull-left">
                     <i class="fa fa-tags"></i>
-                        <a class="tag-none-link" href="/tags/leetcode-%E4%B8%AD%E7%AD%89/" rel="tag">leetcode(中等)</a>
+                        <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>, <a class="tag-none-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/" rel="tag">图像分割</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2021-10-19</span>
+                    <span>最后编辑：2022-01-13</span>
                     </div>
                 </div>
             </footer>
@@ -282,13 +393,9 @@
             <nav class="navigation post-navigation clearfix" role="navigation">
                 
                 <div class="nav-previous clearfix">
-                    <a title=" 力扣每日一题 2021/10/17" href="/2021/10/17/力扣每日一题20211017/">&lt; 上一篇</a>
+                    <a title=" 三种上采样的方式总结" href="/2022/01/06/三种上采样的方式总结/">&lt; 上一篇</a>
                 </div>
                 
-                
-                <div class="nav-next clearfix">
-                    <a title=" 力扣每日一题 2021/10/19" href="/2021/10/19/力扣每日一题20211019/">下一篇 &gt;</a>
-                </div>
                 
             </nav>
         
@@ -303,7 +410,7 @@
                 appKey: 'HA3J9tdvziBrLcSml8Kai0qH',
                 visitor: true,
                 enableQQ: false,
-                path: '/2021/10/18/%E5%8A%9B%E6%89%A3%E6%AF%8F%E6%97%A5%E4%B8%80%E9%A2%9820211018/',
+                path: '/2022/01/13/LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0/',
 				avatar: ''
             });
         }
@@ -350,7 +457,7 @@
         <span class="toc-progress-bar"></span>
     </h4>
     <div class="textwidget">
-        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#90-%E5%AD%90%E9%9B%86II"><span class="toc-number">1.</span> <span class="toc-text">90. 子集II</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E6%80%9D%E8%B7%AF"><span class="toc-number">2.</span> <span class="toc-text">解题思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A7%A3%E9%A2%98%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">解题代码</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#LinkNet%E5%AD%A6%E4%B9%A0%E5%8F%8A%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.</span> <span class="toc-text">LinkNet学习及实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%E5%92%8C%E7%9B%B8%E5%85%B3%E5%B7%A5%E4%BD%9C"><span class="toc-number">1.1.</span> <span class="toc-text">引言和相关工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BB%93%E6%9E%84"><span class="toc-number">1.2.</span> <span class="toc-text">网络结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.3.</span> <span class="toc-text">代码实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.4.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol>
     </div>
 </aside>
                 
