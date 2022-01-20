@@ -24,7 +24,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.boluoboluobo.top/2021/11/03/pytorch%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95%E8%AE%B0%E5%BD%95/pytorch.jpg">
 <meta property="article:published_time" content="2021-11-03T07:19:07.000Z">
-<meta property="article:modified_time" content="2022-01-05T13:32:09.917Z">
+<meta property="article:modified_time" content="2022-01-20T08:50:32.530Z">
 <meta property="article:author" content="菠萝菠萝卜">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="pytorch">
@@ -255,7 +255,7 @@ mjx-container[display="true"] + br {
                         <i class="fa fa-edit"></i> 
                         
                         
-                            ~6.98K
+                            ~7.36K
                         
                         字
                     </li>
@@ -270,7 +270,7 @@ mjx-container[display="true"] + br {
             </header>
             <div class="kratos-post-content">
                 <div id="expire-alert" class="alert alert-warning hidden" role="alert">
-                    本文最后编辑于 <time datetime="1641389529917"></time> 前，其中的内容可能需要更新。
+                    本文最后编辑于 <time datetime="1642668632530"></time> 前，其中的内容可能需要更新。
                 </div>
                 
                     <div class="kratos-post-inner-toc">
@@ -372,6 +372,9 @@ y = max(0,x) + weight * min(0,x)</script><p>代码：</p>
 <p>官方推荐使用的是DistributedDataParallel，来替代nn.DataParallel。即便只有一块卡，也是推荐使用DistributedDataParallel。两个重要区别就是DataParallel用的是多线程，DistributedDataParallel使用的是多进程。使用multiprocessing，每个GPU都有自己的专用进程，避免了python解释器GIL带来的性能开销。</p>
 <p><strong>DataParallel使用方法：</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">net = Net()	<span class="comment"># 网络</span></span><br><span class="line">net = torch.nn.DataParallel(net, device_ids=[<span class="number">0</span>, <span class="number">1</span>]) <span class="comment"># 使用0,1号GPU</span></span><br><span class="line"><span class="comment"># 后面正常使用就可以了</span></span><br></pre></td></tr></table></figure>
+<p><strong>如果用DataParallel的方法训练，参数拿下来，想本地CPU跑怎么办呢</strong></p>
+<p>同样使用torch.load()加载参数，但是记得设定map_location=“cpu”转到CPU上的参数，然后将参数进行调整。代码如下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">check_point = torch.load(<span class="string">"./model/net_parm.pth"</span>, map_location=<span class="string">"cpu"</span>)</span><br><span class="line">dicts = collections.OrderedDict()</span><br><span class="line"><span class="keyword">for</span> k, value <span class="keyword">in</span> check_point.items():</span><br><span class="line">    <span class="keyword">if</span> <span class="string">"module"</span> <span class="keyword">in</span> k:</span><br><span class="line">        k = k.split(<span class="string">"."</span>)[<span class="number">1</span>:]</span><br><span class="line">        k = <span class="string">"."</span>.join(k)</span><br><span class="line">    dicts[k] = value</span><br><span class="line">net.load_state_dict(dicts)</span><br></pre></td></tr></table></figure>
 <p><strong>DistributedDataParallel使用方法：</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.distributed <span class="keyword">as</span> dist</span><br><span class="line"><span class="keyword">import</span> torch.multiprocessing <span class="keyword">as</span> mp</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.optim <span class="keyword">as</span> optim</span><br><span class="line"><span class="keyword">from</span> torch.nn.parallel <span class="keyword">import</span> DistributedDataParallel <span class="keyword">as</span> DDP</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">example</span>(<span class="params">rank, world_size</span>):</span></span><br><span class="line">    <span class="comment"># create default process group</span></span><br><span class="line">    dist.init_process_group(<span class="string">"gloo"</span>, rank=rank, world_size=world_size)</span><br><span class="line">    <span class="comment"># create local model</span></span><br><span class="line">    model = nn.Linear(<span class="number">10</span>, <span class="number">10</span>).to(rank)</span><br><span class="line">    <span class="comment"># construct DDP model</span></span><br><span class="line">    ddp_model = DDP(model, device_ids=[rank])</span><br><span class="line">    <span class="comment"># define loss function and optimizer</span></span><br><span class="line">    loss_fn = nn.MSELoss()</span><br><span class="line">    optimizer = optim.SGD(ddp_model.parameters(), lr=<span class="number">0.001</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># forward pass</span></span><br><span class="line">    outputs = ddp_model(torch.randn(<span class="number">20</span>, <span class="number">10</span>).to(rank))</span><br><span class="line">    labels = torch.randn(<span class="number">20</span>, <span class="number">10</span>).to(rank)</span><br><span class="line">    <span class="comment"># backward pass</span></span><br><span class="line">    loss_fn(outputs, labels).backward()</span><br><span class="line">    <span class="comment"># update parameters</span></span><br><span class="line">    optimizer.step()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span>():</span></span><br><span class="line">    world_size = <span class="number">2</span></span><br><span class="line">    mp.spawn(example,</span><br><span class="line">        args=(world_size,),</span><br><span class="line">        nprocs=world_size,</span><br><span class="line">        join=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__==<span class="string">"__main__"</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 <h3 id="net-train-eval"><a href="#net-train-eval" class="headerlink" title="net.train()/eval()"></a>net.train()/eval()</h3><p>对应修改的模型中的training属性，如果是train()方法，表示训练模式，training属性为True，可以在模型中控制在训练的时候，在模型中通过training属性进行判断，是否执行指定部分代码。如果调用eval()，表示是测试模式，training为False。</p>
@@ -473,7 +476,7 @@ E = -\sum_k t_klog(y_k)这...`;
                         <a class="tag-none-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-none-link" href="/tags/pytorch/" rel="tag">pytorch</a>
                     </div>
                     <div class="pull-date">
-                    <span>最后编辑：2022-01-05</span>
+                    <span>最后编辑：2022-01-20</span>
                     </div>
                 </div>
             </footer>
